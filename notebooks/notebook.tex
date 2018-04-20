@@ -283,14 +283,14 @@
     A simple frequency-based pairing heap:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{BangPatterns}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{BangPatterns}
         
         \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup}     \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Data.List.NonEmpty} \PY{p}{(}\PY{k+kt}{NonEmpty}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Data.Foldable}      \PY{p}{(}\PY{k+kt}{Foldable}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
         
         \PY{k+kr}{data} \PY{k+kt}{Heap} \PY{n}{a} \PY{o+ow}{=}
-            \PY{k+kt}{Node} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int}
+            \PY{k+kt}{Heap} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int}
                  \PY{o}{!}\PY{n}{a}
                  \PY{p}{(}\PY{k+kt}{HeapList} \PY{n}{a}\PY{p}{)}
         
@@ -301,26 +301,26 @@
                    \PY{p}{(}\PY{k+kt}{HeapList} \PY{n}{a}\PY{p}{)}
         
         \PY{k+kr}{instance} \PY{k+kt}{Foldable} \PY{k+kt}{Heap} \PY{k+kr}{where}
-            \PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{p}{(}\PY{k+kt}{Node} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=} \PY{n}{f} \PY{n}{x} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{n}{xs}\PY{p}{)}
+            \PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{p}{(}\PY{k+kt}{Heap} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=} \PY{n}{f} \PY{n}{x} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{n}{xs}\PY{p}{)}
         
-            \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{o}{!}\PY{n}{b} \PY{p}{(}\PY{k+kt}{Node} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=}
+            \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{o}{!}\PY{n}{b} \PY{p}{(}\PY{k+kt}{Heap} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=}
                 \PY{k+kr}{case} \PY{n}{f} \PY{n}{b} \PY{n}{x} \PY{k+kr}{of}
                     \PY{o}{!}\PY{n}{b\PYZsq{}} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{n}{b\PYZsq{}} \PY{n}{xs}
         
         \PY{k+kr}{instance} \PY{k+kt}{Foldable} \PY{k+kt}{HeapList} \PY{k+kr}{where}
             \PY{n}{foldr} \PY{k+kr}{\PYZus{}} \PY{n}{b} \PY{k+kt}{Nil}                 \PY{o+ow}{=} \PY{n}{b}
-            \PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{p}{(}\PY{k+kt}{Node} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{=} \PY{n}{f} \PY{n}{x} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{n}{ys}\PY{p}{)} \PY{n}{xs}\PY{p}{)}
+            \PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{p}{(}\PY{k+kt}{Heap} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{=} \PY{n}{f} \PY{n}{x} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{p}{(}\PY{n}{foldr} \PY{n}{f} \PY{n}{b} \PY{n}{ys}\PY{p}{)} \PY{n}{xs}\PY{p}{)}
         
             \PY{n}{foldl\PYZsq{}} \PY{k+kr}{\PYZus{}} \PY{o}{!}\PY{n}{b} \PY{k+kt}{Nil} \PY{o+ow}{=} \PY{n}{b}
-            \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{o}{!}\PY{n}{b} \PY{p}{(}\PY{k+kt}{Node} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{=}
+            \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{o}{!}\PY{n}{b} \PY{p}{(}\PY{k+kt}{Heap} \PY{k+kr}{\PYZus{}} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{=}
                 \PY{k+kr}{case} \PY{n}{f} \PY{n}{b} \PY{n}{x} \PY{k+kr}{of}
                     \PY{o}{!}\PY{n}{b\PYZsq{}} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kr}{case} \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{n}{b\PYZsq{}} \PY{n}{xs} \PY{k+kr}{of}
                       \PY{o}{!}\PY{n}{b\PYZsq{}\PYZsq{}} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{foldl\PYZsq{}} \PY{n}{f} \PY{n}{b\PYZsq{}\PYZsq{}} \PY{n}{ys}
         
         \PY{k+kr}{instance} \PY{k+kt}{Semigroup} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
-            \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{n}{ys}\PY{p}{)}
-              \PY{o}{|} \PY{n}{i} \PY{o}{\PYZlt{}=} \PY{n}{j} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{n}{ys} \PY{k+kt}{:\PYZhy{}} \PY{n}{xs}\PY{p}{)}
-              \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)}
+            \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{n}{ys}\PY{p}{)}
+              \PY{o}{|} \PY{n}{i} \PY{o}{\PYZlt{}=} \PY{n}{j} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{n}{ys} \PY{k+kt}{:\PYZhy{}} \PY{n}{xs}\PY{p}{)}
+              \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{n}{xs} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)}
             \PY{n}{sconcat} \PY{p}{(}\PY{n}{ys} \PY{k+kt}{:|} \PY{k+kt}{[]}\PY{p}{)}        \PY{o+ow}{=} \PY{n}{ys}
             \PY{n}{sconcat} \PY{p}{(}\PY{n}{ys} \PY{k+kt}{:|} \PY{p}{[}\PY{n}{zs}\PY{p}{]}\PY{p}{)}      \PY{o+ow}{=} \PY{n}{ys} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{zs}
             \PY{n}{sconcat} \PY{p}{(}\PY{n}{ys} \PY{k+kt}{:|} \PY{p}{(}\PY{n}{z}\PY{k+kt}{:}\PY{n}{zz}\PY{k+kt}{:}\PY{n}{zs}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{p}{(}\PY{n}{ys} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{z}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{sconcat} \PY{p}{(}\PY{n}{zz} \PY{k+kt}{:|} \PY{n}{zs}\PY{p}{)}
@@ -331,57 +331,68 @@
         \PY{n+nf}{mergeHeaps} \PY{n}{t1} \PY{p}{(}\PY{n}{t2} \PY{k+kt}{:\PYZhy{}} \PY{n}{t3} \PY{k+kt}{:\PYZhy{}} \PY{n}{ts}\PY{p}{)} \PY{o+ow}{=} \PY{p}{(}\PY{n}{t1} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{t2}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{mergeHeaps} \PY{n}{t3} \PY{n}{ts}
         
         \PY{n+nf}{singleton} \PY{o+ow}{::} \PY{k+kt}{Int} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{n}{a}
-        \PY{n+nf}{singleton} \PY{n}{i} \PY{n}{x} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil}
+        \PY{n+nf}{singleton} \PY{n}{i} \PY{n}{x} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil}
         
         \PY{n+nf}{insert} \PY{o+ow}{::} \PY{k+kt}{Int} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{n}{a}
-        \PY{n+nf}{insert} \PY{o}{!}\PY{n}{i} \PY{o}{!}\PY{n}{x} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{n}{ys}\PY{p}{)}
-          \PY{o}{|} \PY{n}{i} \PY{o}{\PYZlt{}=} \PY{n}{j} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{n}{ys} \PY{k+kt}{:\PYZhy{}} \PY{k+kt}{Nil}\PY{p}{)}
-          \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{j} \PY{n}{y} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)}
+        \PY{n+nf}{insert} \PY{o}{!}\PY{n}{i} \PY{o}{!}\PY{n}{x} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{n}{ys}\PY{p}{)}
+          \PY{o}{|} \PY{n}{i} \PY{o}{\PYZlt{}=} \PY{n}{j} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{n}{ys} \PY{k+kt}{:\PYZhy{}} \PY{k+kt}{Nil}\PY{p}{)}
+          \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{j} \PY{n}{y} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)}
         
         \PY{n+nf}{insertList} \PY{o+ow}{::} \PY{k+kt}{Int} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{HeapList} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{n}{a}
-        \PY{n+nf}{insertList} \PY{o}{!}\PY{n}{i} \PY{o}{!}\PY{n}{x} \PY{k+kt}{Nil} \PY{o+ow}{=} \PY{k+kt}{Node} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil}
+        \PY{n+nf}{insertList} \PY{o}{!}\PY{n}{i} \PY{o}{!}\PY{n}{x} \PY{k+kt}{Nil} \PY{o+ow}{=} \PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{k+kt}{Nil}
         \PY{n+nf}{insertList} \PY{o}{!}\PY{n}{i} \PY{o}{!}\PY{n}{x} \PY{p}{(}\PY{n}{y} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{=} \PY{n}{insert} \PY{n}{i} \PY{n}{x} \PY{p}{(}\PY{n}{mergeHeaps} \PY{n}{y} \PY{n}{ys}\PY{p}{)}
+        
+        \PY{n+nf}{fromList} \PY{o+ow}{::} \PY{p}{[}\PY{p}{(}\PY{k+kt}{Int}\PY{p}{,}\PY{n}{a}\PY{p}{)}\PY{p}{]} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{n}{a}
+        \PY{n+nf}{fromList} \PY{k+kt}{[]} \PY{o+ow}{=} \PY{n+ne}{error} \PY{l+s}{\PYZdq{}}\PY{l+s}{fromList: Empty list}\PY{l+s}{\PYZdq{}}
+        \PY{n+nf}{fromList} \PY{p}{(}\PY{n}{x}\PY{k+kt}{:}\PY{n}{xs}\PY{p}{)} \PY{o+ow}{=} \PY{n}{sconcat} \PY{p}{(}\PY{n}{fmap} \PY{p}{(}\PY{n}{uncurry} \PY{n}{singleton}\PY{p}{)} \PY{p}{(}\PY{n}{x} \PY{k+kt}{:|} \PY{n}{xs}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n+nf}{minView} \PY{o+ow}{::} \PY{k+kt}{Heap} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{p}{(}\PY{k+kt}{Int}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Maybe} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{a}\PY{p}{)}\PY{p}{)}
+        \PY{n+nf}{minView} \PY{p}{(}\PY{k+kt}{Heap} \PY{n}{i} \PY{n}{x} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=} \PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{k+kr}{case} \PY{n}{xs} \PY{k+kr}{of}
+          \PY{k+kt}{Nil} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Nothing}
+          \PY{n}{y} \PY{k+kt}{:\PYZhy{}} \PY{n}{ys} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Just} \PY{p}{(}\PY{n}{mergeHeaps} \PY{n}{y} \PY{n}{ys}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     A function to count the frequencies of some elements:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}36}]:} \PY{k+kr}{import}           \PY{n+nn}{Data.Map.Strict} \PY{p}{(}\PY{k+kt}{Map}\PY{p}{)}
-         \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Map.Strict} \PY{k}{as} \PY{n}{Map}
-         
-         \PY{k+kr}{newtype} \PY{k+kt}{Frequencies} \PY{n}{a}
-             \PY{o+ow}{=} \PY{k+kt}{Frequencies}
-             \PY{p}{\PYZob{}} \PY{n}{getFrequencies} \PY{o+ow}{::} \PY{k+kt}{Map} \PY{n}{a} \PY{k+kt}{Int}
-             \PY{p}{\PYZcb{}}
-         
-         \PY{n+nf}{frequencies} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Foldable} \PY{n}{f}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{n}{f} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Frequencies} \PY{n}{a}
-         \PY{n+nf}{frequencies} \PY{o+ow}{=} \PY{k+kt}{Frequencies} \PY{o}{.} \PY{n}{foldl\PYZsq{}} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{m} \PY{n}{x} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{insertWith} \PY{p}{(}\PY{o}{+}\PY{p}{)} \PY{n}{x} \PY{l+m+mi}{1} \PY{n}{m}\PY{p}{)} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{empty}
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kr}{import}           \PY{n+nn}{Data.Map.Strict} \PY{p}{(}\PY{k+kt}{Map}\PY{p}{)}
+        \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Map.Strict} \PY{k}{as} \PY{n}{Map}
+        
+        \PY{k+kr}{newtype} \PY{k+kt}{Frequencies} \PY{n}{a}
+            \PY{o+ow}{=} \PY{k+kt}{Frequencies}
+            \PY{p}{\PYZob{}} \PY{n}{getFrequencies} \PY{o+ow}{::} \PY{k+kt}{Map} \PY{n}{a} \PY{k+kt}{Int}
+            \PY{p}{\PYZcb{}}
+        
+        \PY{n+nf}{frequencies} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Foldable} \PY{n}{f}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{n}{f} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Frequencies} \PY{n}{a}
+        \PY{n+nf}{frequencies} \PY{o+ow}{=} \PY{k+kt}{Frequencies} \PY{o}{.} \PY{n}{foldl\PYZsq{}} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{m} \PY{n}{x} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{insertWith} \PY{p}{(}\PY{o}{+}\PY{p}{)} \PY{n}{x} \PY{l+m+mi}{1} \PY{n}{m}\PY{p}{)} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{empty}
 \end{Verbatim}
 
 
     And a way to show frequencies
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}51}]:} \PY{k+kr}{import} \PY{n+nn}{Graphics.Rendering.Chart}
-         \PY{k+kr}{import} \PY{n+nn}{Data.Default.Class}
-         \PY{k+kr}{import} \PY{n+nn}{Control.Lens}
-         \PY{k+kr}{import} \PY{n+nn}{IHaskell.Display}
-         
-         \PY{k+kr}{instance} \PY{k+kt}{Show} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
-             \PY{n}{display} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{values}\PY{p}{)}
-                 \PY{o+ow}{=} \PY{n}{display}
-                 \PY{o}{\PYZdl{}} \PY{n}{toRenderable}
-                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}x\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}generate} \PY{o}{.\PYZti{}} \PY{n}{autoIndexAxis} \PY{p}{(}\PY{n}{map} \PY{n}{show} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{keys} \PY{n}{values}\PY{p}{)}\PY{p}{)}
-                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}y\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}title} \PY{o}{.\PYZti{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Frequency}\PY{l+s}{\PYZdq{}}
-                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}plots} \PY{o}{.\PYZti{}} \PY{p}{[} \PY{n}{plotBars}
-                                   \PY{o}{\PYZdl{}} \PY{n}{plot\PYZus{}bars\PYZus{}values} \PY{o}{.\PYZti{}} \PY{n}{addIndexes} \PY{p}{(}\PY{n}{map} \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{elems} \PY{n}{values}\PY{p}{)}\PY{p}{)}
-                                   \PY{o}{\PYZdl{}} \PY{n}{def} \PY{p}{]}
-                 \PY{o}{\PYZdl{}} \PY{n}{def}
-         
-         \PY{k+kt}{:}\PY{n}{opt} \PY{n}{svg}
-         
-         \PY{n+nf}{frequencies} \PY{l+s}{\PYZdq{}}\PY{l+s}{aaabioubd}\PY{l+s}{\PYZdq{}}
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kr}{import} \PY{n+nn}{Graphics.Rendering.Chart} \PY{p}{(}\PY{n+nf}{layout\PYZus{}x\PYZus{}axis}\PY{p}{,}\PY{n+nf}{laxis\PYZus{}generate}\PY{p}{,}\PY{n+nf}{layout\PYZus{}y\PYZus{}axis}
+                                        \PY{p}{,}\PY{n+nf}{toRenderable}\PY{p}{,}\PY{n+nf}{autoIndexAxis}\PY{p}{,}\PY{n+nf}{laxis\PYZus{}title}\PY{p}{,}\PY{n+nf}{layout\PYZus{}plots}
+                                        \PY{p}{,}\PY{n+nf}{plotBars}\PY{p}{,}\PY{n+nf}{plot\PYZus{}bars\PYZus{}values}\PY{p}{,}\PY{n+nf}{addIndexes}\PY{p}{)}
+        \PY{k+kr}{import} \PY{n+nn}{Data.Default.Class}       \PY{p}{(}\PY{n+nf}{def}\PY{p}{)}
+        \PY{k+kr}{import} \PY{n+nn}{Control.Lens}             \PY{p}{(}\PY{p}{(}\PY{o}{.\PYZti{}}\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{import} \PY{n+nn}{IHaskell.Display}         \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k+kr}{instance} \PY{k+kt}{Show} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{n}{display} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{values}\PY{p}{)}
+                \PY{o+ow}{=} \PY{n}{display}
+                \PY{o}{\PYZdl{}} \PY{n}{toRenderable}
+                \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}x\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}generate} \PY{o}{.\PYZti{}} \PY{n}{autoIndexAxis} \PY{p}{(}\PY{n}{map} \PY{n}{show} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{keys} \PY{n}{values}\PY{p}{)}\PY{p}{)}
+                \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}y\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}title} \PY{o}{.\PYZti{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Frequency}\PY{l+s}{\PYZdq{}}
+                \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}plots} \PY{o}{.\PYZti{}} \PY{p}{[} \PY{n}{plotBars}
+                                  \PY{o}{\PYZdl{}} \PY{n}{plot\PYZus{}bars\PYZus{}values} \PY{o}{.\PYZti{}} \PY{n}{addIndexes} \PY{p}{(}\PY{n}{map} \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{elems} \PY{n}{values}\PY{p}{)}\PY{p}{)}
+                                  \PY{o}{\PYZdl{}} \PY{n}{def} \PY{p}{]}
+                \PY{o}{\PYZdl{}} \PY{n}{def}
+        
+        \PY{k+kt}{:}\PY{n}{opt} \PY{n}{svg}
+        
+        \PY{n+nf}{frequencies} \PY{l+s}{\PYZdq{}}\PY{l+s}{aaabioubd}\PY{l+s}{\PYZdq{}}
 \end{Verbatim}
 
 
@@ -393,12 +404,212 @@
     A Huffman tree:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}37}]:} \PY{k+kr}{data} \PY{k+kt}{Tree} \PY{n}{a}
-             \PY{o+ow}{=} \PY{k+kt}{Leaf} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int} \PY{n}{a}
-             \PY{o}{|} \PY{k+kt}{Node}
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{DeriveFoldable}
+        
+        \PY{k+kr}{data} \PY{k+kt}{Tree} \PY{n}{a}
+            \PY{o+ow}{=} \PY{k+kt}{Leaf} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int} \PY{n}{a}
+            \PY{o}{|} \PY{k+kt}{Node} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int} \PY{p}{(}\PY{k+kt}{Tree} \PY{n}{a}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Tree} \PY{n}{a}\PY{p}{)}
+            \PY{k+kr}{deriving} \PY{k+kt}{Foldable}
 \end{Verbatim}
 
 
+    And a way to display that
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{FlexibleContexts}
+        
+        \PY{k+kr}{import}           \PY{n+nn}{Diagrams.TwoD.Layout.Tree} \PY{p}{(}\PY{n+nf}{renderTree}\PY{p}{,}\PY{n+nf}{symmLayout}\PY{p}{)}
+        \PY{k+kr}{import}           \PY{n+nn}{Diagrams.Prelude}          \PY{p}{(}\PY{n+nf}{text}\PY{p}{,}\PY{n+nf}{fontSizeL}\PY{p}{,}\PY{n+nf}{circle}\PY{p}{,}\PY{n+nf}{fc}
+                                                   \PY{p}{,}\PY{n+nf}{lc}\PY{p}{,}\PY{n+nf}{white}\PY{p}{,}\PY{n+nf}{pad}\PY{p}{,}\PY{n+nf}{centerXY}\PY{p}{,}\PY{p}{(}\PY{o}{\PYZsh{}}\PY{p}{)}
+                                                   \PY{p}{,}\PY{p}{(}\PY{o}{\PYZti{}\PYZti{}}\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{import}           \PY{n+nn}{IHaskell.Display}          \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Tree}                 \PY{k}{as} \PY{n}{Tree}
+        
+        \PY{k+kr}{instance} \PY{k+kt}{Show} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{Tree} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{n}{display} \PY{o+ow}{=} \PY{n}{display} \PY{o}{.} \PY{n}{diagram} \PY{o}{.} \PY{n}{fblEx} \PY{o}{.} \PY{n}{toTree}
+              \PY{k+kr}{where}
+                \PY{n}{toTree} \PY{p}{(}\PY{k+kt}{Leaf} \PY{n}{i} \PY{n}{x}\PY{p}{)} \PY{o+ow}{=} \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{show} \PY{n}{i}\PY{p}{)} \PY{p}{[}\PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{show} \PY{n}{x}\PY{p}{)} \PY{k+kt}{[]}\PY{p}{]}
+                \PY{n}{toTree} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{l} \PY{n}{r}\PY{p}{)} \PY{o+ow}{=} \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{show} \PY{n}{i}\PY{p}{)} \PY{p}{[}\PY{n}{toTree} \PY{n}{l}\PY{p}{,} \PY{n}{toTree} \PY{n}{r}\PY{p}{]}
+                \PY{n}{fblEx} \PY{n}{t\PYZsq{}} \PY{o+ow}{=}
+                    \PY{n}{renderTree} 
+                        \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{n} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{text} \PY{n}{n} \PY{o}{\PYZsh{}} \PY{n}{fontSizeL} \PY{l+m+mf}{0.2}
+                            \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{circle} \PY{l+m+mf}{0.2} \PY{o}{\PYZsh{}} \PY{n}{fc} \PY{n}{white} \PY{o}{\PYZsh{}} \PY{n}{lc} \PY{n}{white}\PY{p}{)}
+                        \PY{p}{(}\PY{o}{\PYZti{}\PYZti{}}\PY{p}{)}
+                        \PY{p}{(}\PY{n}{symmLayout} \PY{n}{t\PYZsq{}}\PY{p}{)} \PY{o}{\PYZsh{}} \PY{n}{centerXY} \PY{o}{\PYZsh{}} \PY{n}{pad} \PY{l+m+mf}{1.1}
+            
+        \PY{k+kt}{Node} \PY{l+m+mi}{5} \PY{p}{(}\PY{k+kt}{Leaf} \PY{l+m+mi}{2} \PY{l+s+sc}{\PYZsq{}a\PYZsq{}}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Leaf} \PY{l+m+mi}{3} \PY{l+s+sc}{\PYZsq{}b\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Building a tree is then easy:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n+nf}{buildHuffman} \PY{o+ow}{::} \PY{k+kt}{Heap} \PY{p}{(}\PY{k+kt}{Tree} \PY{n}{a}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Tree} \PY{n}{a}
+        \PY{n+nf}{buildHuffman} \PY{n}{hp} \PY{o+ow}{=} \PY{k+kr}{case} \PY{n}{minView} \PY{n}{hp} \PY{k+kr}{of}
+              \PY{p}{(}\PY{k+kr}{\PYZus{}}\PY{p}{,}\PY{n}{x}\PY{p}{,}\PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{x}
+              \PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{x}\PY{p}{,}\PY{k+kt}{Just} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kr}{case} \PY{n}{minView} \PY{n}{xs} \PY{k+kr}{of}
+                \PY{p}{(}\PY{n}{j}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Node} \PY{p}{(}\PY{n}{i}\PY{o}{+}\PY{n}{j}\PY{p}{)} \PY{n}{x} \PY{n}{y}
+                \PY{p}{(}\PY{n}{j}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{k+kt}{Just} \PY{n}{ys}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{buildHuffman} \PY{p}{(}\PY{n}{insert} \PY{p}{(}\PY{n}{i}\PY{o}{+}\PY{n}{j}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i}\PY{o}{+}\PY{n}{j}\PY{p}{)} \PY{n}{x} \PY{n}{y}\PY{p}{)} \PY{n}{ys}\PY{p}{)}
+        
+        \PY{n+nf}{fromFrequencies} \PY{o+ow}{::} \PY{k+kt}{Frequencies} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Heap} \PY{p}{(}\PY{k+kt}{Tree} \PY{n}{a}\PY{p}{)}
+        \PY{n+nf}{fromFrequencies} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{freqs}\PY{p}{)} \PY{o+ow}{=} 
+            \PY{n}{fromList} \PY{p}{[} \PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{k+kt}{Leaf} \PY{n}{i} \PY{n}{v}\PY{p}{)} \PY{o}{|} \PY{p}{(}\PY{n}{v}\PY{p}{,}\PY{n}{i}\PY{p}{)} \PY{o+ow}{\PYZlt{}\PYZhy{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{toList} \PY{n}{freqs} \PY{p}{]}
+        
+        \PY{n+nf}{huffmanTree} \PY{o+ow}{::} \PY{k+kt}{Ord} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{p}{[}\PY{n}{a}\PY{p}{]} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Tree} \PY{n}{a}
+        \PY{n+nf}{huffmanTree} \PY{o+ow}{=} \PY{n}{buildHuffman} \PY{o}{.} \PY{n}{fromFrequencies} \PY{o}{.} \PY{n}{frequencies}
+        
+        \PY{n+nf}{huffmanTree} \PY{l+s}{\PYZdq{}}\PY{l+s}{abkjbdkjbabsbsbbab}\PY{l+s}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Some ranges:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k+kr}{import} \PY{n+nn}{IHaskell.Display} \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}\PY{p}{,}\PY{n+nf}{latex}\PY{p}{,}\PY{k+kt}{Display}\PY{p}{)}
+        \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup}   \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{k+kt}{Min}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{k+kt}{Max}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{k+kt}{Option}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k+kr}{data} \PY{k+kt}{Range} \PY{n}{a}
+            \PY{o+ow}{=} \PY{k+kt}{Range}
+            \PY{p}{\PYZob{}} \PY{n}{lowerBound} \PY{o+ow}{::} \PY{k+kt}{Maybe} \PY{n}{a}
+            \PY{p}{,} \PY{n}{upperBound} \PY{o+ow}{::} \PY{k+kt}{Maybe} \PY{n}{a}
+            \PY{p}{\PYZcb{}} \PY{k+kr}{deriving} \PY{p}{(}\PY{k+kt}{Eq}\PY{p}{,}\PY{k+kt}{Ord}\PY{p}{)}
+            
+        \PY{k+kr}{instance} \PY{k+kt}{Show} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Show} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{n}{showsPrec} \PY{k+kr}{\PYZus{}} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{}[\PYZsq{}}
+                                                  \PY{o}{.} \PY{n}{shows} \PY{n}{l}
+                                                  \PY{o}{.} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{},\PYZsq{}}
+                                                  \PY{o}{.} \PY{n}{shows} \PY{n}{u}
+                                                  \PY{o}{.} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{})\PYZsq{}}
+            \PY{n}{showsPrec} \PY{k+kr}{\PYZus{}} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{n}{shows} \PY{n}{l}
+                                                 \PY{o}{.} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{}≤\PYZsq{}}
+            \PY{n}{showsPrec} \PY{k+kr}{\PYZus{}} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{}\PYZlt{}\PYZsq{}}
+                                                 \PY{o}{.} \PY{n}{shows} \PY{n}{u}
+            \PY{n}{showsPrec} \PY{k+kr}{\PYZus{}} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{n}{showChar} \PY{l+s+sc}{\PYZsq{}U\PYZsq{}}
+        
+        \PY{k+kr}{instance} \PY{p}{(}\PY{k+kt}{Show} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Ord} \PY{n}{a}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{n}{display} \PY{n}{r} \PY{o+ow}{=} \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Display} \PY{p}{[}\PY{n}{latex} \PY{p}{(}\PY{n}{lr} \PY{n}{r}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+              \PY{k+kr}{where}
+                \PY{n}{lr} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}[}\PY{l+s}{\PYZdq{}} \PY{o}{++} \PY{n}{show} \PY{n}{l} \PY{o}{++} \PY{l+s}{\PYZdq{}}\PY{l+s}{,}\PY{l+s}{\PYZdq{}} \PY{o}{++} \PY{n}{show} \PY{n}{u} \PY{o}{++} \PY{l+s}{\PYZdq{}}\PY{l+s}{)\PYZdl{}}\PY{l+s}{\PYZdq{}}
+                \PY{n}{lr} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}}\PY{l+s}{\PYZdq{}} \PY{o}{++} \PY{n}{show} \PY{n}{l} \PY{o}{++} \PY{l+s}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}}\PY{l+s+se}{\PYZbs{}}\PY{l+s}{lte \PYZdl{}}\PY{l+s}{\PYZdq{}}
+                \PY{n}{lr} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}\PYZlt{}}\PY{l+s}{\PYZdq{}} \PY{o}{++} \PY{n}{show} \PY{n}{u} \PY{o}{++} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}}\PY{l+s}{\PYZdq{}}
+                \PY{n}{lr} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}}\PY{l+s+se}{\PYZbs{}}\PY{l+s+se}{\PYZbs{}}\PY{l+s}{mathbb\PYZob{}U\PYZcb{}\PYZdl{}}\PY{l+s}{\PYZdq{}}
+        
+        \PY{k+kr}{instance} \PY{k+kt}{Ord} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Semigroup} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{k+kt}{Range} \PY{n}{xl} \PY{n}{xu} \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{yl} \PY{n}{yu} \PY{o+ow}{=}
+                \PY{k+kt}{Range}
+                    \PY{p}{(}\PY{n}{getOption} \PY{p}{(}\PY{n}{fmap} \PY{n}{getMax} \PY{p}{(}\PY{k+kt}{Option} \PY{p}{(}\PY{n}{fmap} \PY{k+kt}{Max} \PY{n}{xl}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Option} \PY{p}{(}\PY{n}{fmap} \PY{k+kt}{Max} \PY{n}{yl}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n}{getOption} \PY{p}{(}\PY{n}{fmap} \PY{n}{getMin} \PY{p}{(}\PY{k+kt}{Option} \PY{p}{(}\PY{n}{fmap} \PY{k+kt}{Min} \PY{n}{xu}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Option} \PY{p}{(}\PY{n}{fmap} \PY{k+kt}{Min} \PY{n}{yu}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k+kr}{instance} \PY{k+kt}{Ord} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Monoid} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+            \PY{n}{mappend} \PY{o+ow}{=} \PY{p}{(}\PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)}
+            \PY{n}{mempty} \PY{o+ow}{=} \PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{k+kt}{Nothing}
+                    
+        \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{0}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{10}\PY{p}{)} \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{15}\PY{p}{)}
+        \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{0}\PY{p}{)} \PY{k+kt}{Nothing}   \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{15}\PY{p}{)}
+\end{Verbatim}
+
+
+    $[5,10)$
+
+    
+    $[5,15)$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n+nf}{ages} \PY{o+ow}{=} \PY{k+kt}{Frequencies} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{fromList}
+            \PY{p}{[} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{10}\PY{p}{)}  \PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{10}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{20}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{20}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{30}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{40}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{40}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{50}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{60}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{p}{,} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{l+m+mi}{60}\PY{p}{)} \PY{k+kt}{Nothing}  \PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+            \PY{p}{]}\PY{p}{)}
+        
+        \PY{n+nf}{ages}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n+nf}{buildHuffman} \PY{p}{(}\PY{n}{fromFrequencies} \PY{n}{ages}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k+kr}{import}           \PY{n+nn}{Diagrams.TwoD.Layout.Tree} \PY{p}{(}\PY{n+nf}{renderTree\PYZsq{}}\PY{p}{,}\PY{n+nf}{symmLayout}\PY{p}{)}
+         \PY{k+kr}{import}           \PY{n+nn}{Diagrams.Prelude}          \PY{p}{(}\PY{n+nf}{text}\PY{p}{,}\PY{n+nf}{fontSizeL}\PY{p}{,}\PY{n+nf}{circle}\PY{p}{,}\PY{n+nf}{fc}
+                                                    \PY{p}{,}\PY{n+nf}{lc}\PY{p}{,}\PY{n+nf}{white}\PY{p}{,}\PY{n+nf}{pad}\PY{p}{,}\PY{n+nf}{centerXY}\PY{p}{,}\PY{p}{(}\PY{o}{\PYZsh{}}\PY{p}{)}
+                                                    \PY{p}{,}\PY{p}{(}\PY{o}{\PYZti{}\PYZti{}}\PY{p}{)}\PY{p}{,}\PY{n+nf}{opacity}\PY{p}{,}\PY{n+nf}{bg}\PY{p}{)}
+         \PY{k+kr}{import}           \PY{n+nn}{IHaskell.Display}          \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}
+                                                    \PY{p}{,}\PY{n+nf}{latex}\PY{p}{,}\PY{k+kt}{Display}\PY{p}{(}\PY{k+kt}{ManyDisplay}\PY{p}{)}\PY{p}{)}
+         \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Tree}                 \PY{k}{as} \PY{n}{Tree}
+         \PY{k+kr}{import}           \PY{n+nn}{Data.Semigroup}            \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
+         \PY{k+kr}{import}           \PY{n+nn}{Data.Foldable}             \PY{p}{(}\PY{n+nf}{fold}\PY{p}{)}
+         
+         \PY{k+kr}{data} \PY{k+kt}{PrivateHuffman} \PY{n}{a}
+             \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman}
+             \PY{p}{\PYZob{}} \PY{n}{kval} \PY{o+ow}{::} \PY{k+kt}{Int}
+             \PY{p}{,} \PY{n}{tree} \PY{o+ow}{::} \PY{k+kt}{Tree} \PY{n}{a}
+             \PY{p}{\PYZcb{}}
+         
+         \PY{k+kr}{instance} \PY{p}{(}\PY{k+kt}{Show} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Monoid} \PY{n}{a}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{PrivateHuffman} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+             \PY{n}{display} \PY{p}{(}\PY{k+kt}{PrivateHuffman} \PY{n}{k} \PY{n}{tr}\PY{p}{)} \PY{o+ow}{=} 
+                 \PY{n}{fmap} \PY{p}{(}\PY{k+kt}{Display} \PY{p}{[} \PY{n}{latex} \PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}k = }\PY{l+s}{\PYZdq{}} \PY{o}{++} \PY{n}{show} \PY{n}{k} \PY{o}{++} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdl{}}\PY{l+s}{\PYZdq{}}\PY{p}{)} \PY{p}{]} \PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)}
+                             \PY{p}{(}\PY{p}{(}\PY{n}{display} \PY{o}{.} \PY{n}{diagram} \PY{o}{.} \PY{n}{bg} \PY{n}{white} \PY{o}{.} \PY{n}{fblEx} \PY{o}{.} \PY{n}{toTree} \PY{k+kt}{False}\PY{p}{)} \PY{n}{tr}\PY{p}{)}
+               \PY{k+kr}{where}
+                 \PY{n}{size} \PY{p}{(}\PY{k+kt}{Leaf} \PY{n}{i} \PY{k+kr}{\PYZus{}}\PY{p}{)} \PY{o+ow}{=} \PY{n}{i}
+                 \PY{n}{size} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{k+kr}{\PYZus{}} \PY{k+kr}{\PYZus{}}\PY{p}{)} \PY{o+ow}{=} \PY{n}{i}
+                 \PY{n}{toTree} \PY{k+kr}{\PYZus{}} \PY{p}{(}\PY{k+kt}{Leaf} \PY{n}{i} \PY{n}{x}\PY{p}{)} \PY{o+ow}{=} \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{k}\PY{p}{,} \PY{n}{show} \PY{n}{i}\PY{p}{)} \PY{p}{[}\PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{k}\PY{p}{,} \PY{n}{show} \PY{n}{x}\PY{p}{)} \PY{k+kt}{[]}\PY{p}{]}
+                 \PY{n}{toTree} \PY{k+kt}{False} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{l} \PY{n}{r}\PY{p}{)}
+                   \PY{o}{|} \PY{n}{size} \PY{n}{l} \PY{o}{\PYZgt{}=} \PY{n}{k} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{size} \PY{n}{r} \PY{o}{\PYZgt{}=} \PY{n}{k} \PY{o+ow}{=}
+                        \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{k}\PY{p}{,} \PY{n}{show} \PY{n}{i}\PY{p}{)} \PY{p}{[}\PY{n}{toTree} \PY{k+kt}{False} \PY{n}{l}\PY{p}{,} \PY{n}{toTree} \PY{k+kt}{False} \PY{n}{r}\PY{p}{]}
+                   \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=}
+                       \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{k}\PY{p}{,} \PY{n}{show} \PY{n}{i}\PY{p}{)}
+                           \PY{p}{[} \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{k}\PY{p}{,} \PY{n}{show} \PY{p}{(}\PY{n}{fold} \PY{n}{l} \PY{p}{`}\PY{n}{mappend}\PY{p}{`} \PY{n}{fold} \PY{n}{r}\PY{p}{)}\PY{p}{)}
+                                 \PY{p}{[} \PY{n}{toTree} \PY{k+kt}{True} \PY{n}{l}\PY{p}{,} \PY{n}{toTree} \PY{k+kt}{True} \PY{n}{r} \PY{p}{]} \PY{p}{]}
+                 \PY{n}{toTree} \PY{k+kt}{True} \PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{l} \PY{n}{r}\PY{p}{)} \PY{o+ow}{=} \PY{k+kt}{Tree}\PY{o}{.}\PY{k+kt}{Node} \PY{p}{(}\PY{k+kt}{True}\PY{p}{,}\PY{n}{show} \PY{n}{i}\PY{p}{)} \PY{p}{[}\PY{n}{toTree} \PY{k+kt}{True} \PY{n}{l}\PY{p}{,} \PY{n}{toTree} \PY{k+kt}{True} \PY{n}{r}\PY{p}{]}
+                                 
+                 \PY{n}{fblEx} \PY{n}{t\PYZsq{}} \PY{o+ow}{=}
+                     \PY{n}{renderTree\PYZsq{}}
+                         \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{text} \PY{n}{n} \PY{o}{\PYZsh{}} \PY{n}{fontSizeL} \PY{l+m+mf}{0.2} \PY{o}{\PYZsh{}} \PY{n}{maybeOp} \PY{n}{b}
+                                 \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{circle} \PY{l+m+mf}{0.2} \PY{o}{\PYZsh{}} \PY{n}{fc} \PY{n}{white} \PY{o}{\PYZsh{}} \PY{n}{lc} \PY{n}{white}\PY{p}{)}
+                         \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{p}{(}\PY{p}{(}\PY{n}{lb}\PY{p}{,}\PY{k+kr}{\PYZus{}}\PY{p}{)}\PY{p}{,}\PY{n}{ll}\PY{p}{)} \PY{p}{(}\PY{p}{(}\PY{n}{rb}\PY{p}{,}\PY{k+kr}{\PYZus{}}\PY{p}{)}\PY{p}{,}\PY{n}{rr}\PY{p}{)} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{maybeOp} \PY{p}{(}\PY{n}{lb}\PY{o}{||}\PY{n}{rb}\PY{p}{)} \PY{p}{(}\PY{n}{ll} \PY{o}{\PYZti{}\PYZti{}} \PY{n}{rr}\PY{p}{)}\PY{p}{)}
+                         \PY{p}{(}\PY{n}{symmLayout} \PY{n}{t\PYZsq{}}\PY{p}{)} \PY{o}{\PYZsh{}} \PY{n}{centerXY} \PY{o}{\PYZsh{}} \PY{n}{pad} \PY{l+m+mf}{1.1}
+                 \PY{n}{maybeOp} \PY{k+kt}{False} \PY{o+ow}{=} \PY{n}{id}
+                 \PY{n}{maybeOp} \PY{k+kt}{True}  \PY{o+ow}{=} \PY{n}{opacity} \PY{l+m+mf}{0.5}
+         
+         \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{p}{(}\PY{n}{buildHuffman} \PY{p}{(}\PY{n}{fromFrequencies} \PY{n}{ages}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    $k = 2$
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
 
     % Add a bibliography block to the postdoc
     
