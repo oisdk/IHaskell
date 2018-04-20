@@ -283,7 +283,7 @@
     A simple frequency-based pairing heap:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{BangPatterns}
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kt}{:}\PY{n}{ext} \PY{k+kt}{BangPatterns}
         
         \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup}     \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Data.List.NonEmpty} \PY{p}{(}\PY{k+kt}{NonEmpty}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
@@ -347,22 +347,58 @@
     A function to count the frequencies of some elements:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kr}{import}           \PY{n+nn}{Data.Map.Strict} \PY{p}{(}\PY{k+kt}{Map}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}36}]:} \PY{k+kr}{import}           \PY{n+nn}{Data.Map.Strict} \PY{p}{(}\PY{k+kt}{Map}\PY{p}{)}
          \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Map.Strict} \PY{k}{as} \PY{n}{Map}
          
-         \PY{n+nf}{frequencies} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Foldable} \PY{n}{f}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{n}{f} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map} \PY{n}{a} \PY{k+kt}{Int}
-         \PY{n+nf}{frequencies} \PY{o+ow}{=} \PY{n}{foldl\PYZsq{}} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{m} \PY{n}{x} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{insertWith} \PY{p}{(}\PY{o}{+}\PY{p}{)} \PY{n}{x} \PY{l+m+mi}{1} \PY{n}{m}\PY{p}{)} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{empty}
+         \PY{k+kr}{newtype} \PY{k+kt}{Frequencies} \PY{n}{a}
+             \PY{o+ow}{=} \PY{k+kt}{Frequencies}
+             \PY{p}{\PYZob{}} \PY{n}{getFrequencies} \PY{o+ow}{::} \PY{k+kt}{Map} \PY{n}{a} \PY{k+kt}{Int}
+             \PY{p}{\PYZcb{}}
          
-         \PY{n+nf}{frequencies} \PY{l+s}{\PYZdq{}}\PY{l+s}{aaabcba}\PY{l+s}{\PYZdq{}}
+         \PY{n+nf}{frequencies} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Foldable} \PY{n}{f}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{n}{f} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Frequencies} \PY{n}{a}
+         \PY{n+nf}{frequencies} \PY{o+ow}{=} \PY{k+kt}{Frequencies} \PY{o}{.} \PY{n}{foldl\PYZsq{}} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{m} \PY{n}{x} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{insertWith} \PY{p}{(}\PY{o}{+}\PY{p}{)} \PY{n}{x} \PY{l+m+mi}{1} \PY{n}{m}\PY{p}{)} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{empty}
 \end{Verbatim}
 
 
-    
-    \begin{verbatim}
-fromList [('a',4),('b',2),('c',1)]
-    \end{verbatim}
+    And a way to show frequencies
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{k+kr}{import} \PY{n+nn}{Graphics.Rendering.Chart}
+         \PY{k+kr}{import} \PY{n+nn}{Data.Default.Class}
+         \PY{k+kr}{import} \PY{n+nn}{Control.Lens}
+         \PY{k+kr}{import} \PY{n+nn}{IHaskell.Display}
+         
+         \PY{k+kr}{instance} \PY{k+kt}{Show} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+             \PY{n}{display} \PY{p}{(}\PY{k+kt}{Frequencies} \PY{n}{values}\PY{p}{)}
+                 \PY{o+ow}{=} \PY{n}{display}
+                 \PY{o}{\PYZdl{}} \PY{n}{toRenderable}
+                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}x\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}generate} \PY{o}{.\PYZti{}} \PY{n}{autoIndexAxis} \PY{p}{(}\PY{n}{map} \PY{n}{show} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{keys} \PY{n}{values}\PY{p}{)}\PY{p}{)}
+                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}y\PYZus{}axis} \PY{o}{.} \PY{n}{laxis\PYZus{}title} \PY{o}{.\PYZti{}} \PY{l+s}{\PYZdq{}}\PY{l+s}{Frequency}\PY{l+s}{\PYZdq{}}
+                 \PY{o}{\PYZdl{}} \PY{n}{layout\PYZus{}plots} \PY{o}{.\PYZti{}} \PY{p}{[} \PY{n}{plotBars}
+                                   \PY{o}{\PYZdl{}} \PY{n}{plot\PYZus{}bars\PYZus{}values} \PY{o}{.\PYZti{}} \PY{n}{addIndexes} \PY{p}{(}\PY{n}{map} \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Map}\PY{o}{.}\PY{n}{elems} \PY{n}{values}\PY{p}{)}\PY{p}{)}
+                                   \PY{o}{\PYZdl{}} \PY{n}{def} \PY{p}{]}
+                 \PY{o}{\PYZdl{}} \PY{n}{def}
+         
+         \PY{k+kt}{:}\PY{n}{opt} \PY{n}{svg}
+         
+         \PY{n+nf}{frequencies} \PY{l+s}{\PYZdq{}}\PY{l+s}{aaabioubd}\PY{l+s}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
     
+    A Huffman tree:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{k+kr}{data} \PY{k+kt}{Tree} \PY{n}{a}
+             \PY{o+ow}{=} \PY{k+kt}{Leaf} \PY{c+cm}{\PYZob{}\PYZhy{}}\PY{c+cm}{\PYZsh{} UNPACK \PYZsh{}}\PY{c+cm}{\PYZhy{}\PYZcb{}} \PY{o}{!}\PY{k+kt}{Int} \PY{n}{a}
+             \PY{o}{|} \PY{k+kt}{Node}
+\end{Verbatim}
+
+
 
     % Add a bibliography block to the postdoc
     
