@@ -288,9 +288,9 @@ to achieve privacy.
 
 Huffman compression is the first example of compression for anonymity:
 it has a ready analogue in the form of \(k\)-anonymity
-\cite{sweeney_k-anonymity:_2002}. By truncating the output of the
-Huffman compression, rows which occur fewer than \(k\) times are not
-specified: instead, a prefix (which could correspond to some \(n\) rows,
+\cite{2201627/S5ZJQFX5}. By truncating the output of the Huffman
+compression, rows which occur fewer than \(k\) times are not specified:
+instead, a prefix (which could correspond to some \(n\) rows,
 \(n \geq k\)) is provided.
 
 Taken from a different perspective, we build a Huffman tree from the
@@ -308,11 +308,11 @@ building the tree.
     \hypertarget{a-priority-queue}{%
 \section{A Priority Queue}\label{a-priority-queue}}
 
-A pairing heap \cite{fredman_pairing_1986} is simple to implement, and
-works well as a priority queue. Both the
-\texttt{\textless{}\textgreater{}} and \texttt{insertHeap} functions
-below are amortized \(\mathcal{O}(1)\), and \texttt{minView} is
-amortized \(\mathcal{O}(\log n)\).
+A pairing heap \cite{2201627/9H95638W} is simple to implement, and works
+well as a priority queue. Both the \texttt{\textless{}\textgreater{}}
+and \texttt{insertHeap} functions below are amortized
+\(\mathcal{O}(1)\), and \texttt{minView} is amortized
+\(\mathcal{O}(\log n)\).
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}1}]:} \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup} \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{p}{(}\PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)}\PY{p}{)}\PY{p}{)}
@@ -517,10 +517,7 @@ node will be represented by a \emph{summary} of all of its elements.
 First, for data, let's use ages:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}7}]:} \PY{k+kr}{default} \PY{p}{(}\PY{k+kt}{Int}\PY{p}{,}\PY{k+kt}{Double}\PY{p}{)}
-        
-        \PY{n+nf}{ages} \PY{o+ow}{::} \PY{p}{[}\PY{k+kt}{Int}\PY{p}{]}
-        \PY{n+nf}{ages} \PY{o+ow}{=} \PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{,}\PY{l+m+mi}{22}\PY{p}{,}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{33}\PY{p}{,}\PY{l+m+mi}{33}\PY{p}{,}\PY{l+m+mi}{39}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{,}\PY{l+m+mi}{44}\PY{p}{,}\PY{l+m+mi}{41}\PY{p}{,}\PY{l+m+mi}{42}\PY{p}{,}\PY{l+m+mi}{48}\PY{p}{,}\PY{l+m+mi}{55}\PY{p}{,}\PY{l+m+mi}{59}\PY{p}{,}\PY{l+m+mi}{70}\PY{p}{]}
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n+nf}{ages} \PY{o+ow}{=} \PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{19}\PY{p}{,}\PY{l+m+mi}{22}\PY{p}{,}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{33}\PY{p}{,}\PY{l+m+mi}{33}\PY{p}{,}\PY{l+m+mi}{39}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{,}\PY{l+m+mi}{44}\PY{p}{,}\PY{l+m+mi}{41}\PY{p}{,}\PY{l+m+mi}{42}\PY{p}{,}\PY{l+m+mi}{48}\PY{p}{,}\PY{l+m+mi}{55}\PY{p}{,}\PY{l+m+mi}{59}\PY{p}{,}\PY{l+m+mi}{70}\PY{p}{]}
         
         \PY{n+nf}{buildHuffman} \PY{p}{(}\PY{n}{buildHeap} \PY{p}{(}\PY{n}{frequencies} \PY{n}{ages}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
@@ -546,6 +543,7 @@ First, for data, let's use ages:
         \PY{k+kr}{import} \PY{n+nn}{Data.Colour.Names}                       \PY{p}{(}\PY{n+nf}{cornflowerblue}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Data.Default.Class}                      \PY{p}{(}\PY{n+nf}{def}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Control.Lens}                            \PY{p}{(}\PY{p}{(}\PY{o}{.\PYZti{}}\PY{p}{)}\PY{p}{)}
+        \PY{k+kr}{import} \PY{n+nn}{IHaskell.Display}                        \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}\PY{p}{)}
         
         \PY{n+nf}{histogram} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{RealFrac} \PY{n}{a}\PY{p}{,} \PY{k+kt}{PlotValue} \PY{n}{a}\PY{p}{)}
                   \PY{o+ow}{=\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{p}{[}\PY{n}{a}\PY{p}{]} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Renderable} \PY{n+nb}{()}
@@ -564,7 +562,7 @@ First, for data, let's use ages:
           \PY{k+kr}{where}
             \PY{n}{bins} \PY{o+ow}{=} \PY{n}{ceiling} \PY{p}{(}\PY{p}{(}\PY{n}{maximum} \PY{n}{values} \PY{o}{\PYZhy{}} \PY{n}{lowerBound}\PY{p}{)} \PY{o}{/} \PY{n}{binSize}\PY{p}{)}
         
-        \PY{n+nf}{histogram} \PY{l+m+mi}{10} \PY{l+m+mi}{0} \PY{p}{(}\PY{n}{map} \PY{n}{toEnum} \PY{n}{ages}\PY{p}{)}
+        \PY{n+nf}{histogram} \PY{l+m+mi}{10} \PY{l+m+mi}{0} \PY{n}{ages}
 \end{Verbatim}
 
 
@@ -579,7 +577,6 @@ First, for data, let's use ages:
 {\color{incolor}In [{\color{incolor}9}]:} \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup}      \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Control.Applicative} \PY{p}{(}\PY{n+nf}{liftA2}\PY{p}{)}
         \PY{k+kr}{import} \PY{n+nn}{Text.Printf}         \PY{p}{(}\PY{n+nf}{printf}\PY{p}{,}\PY{k+kt}{PrintfArg}\PY{p}{)}
-        \PY{k+kr}{import} \PY{n+nn}{Data.Maybe}          \PY{p}{(}\PY{n+nf}{fromMaybe}\PY{p}{,}\PY{n+nf}{fromJust}\PY{p}{)}
         
         \PY{k+kr}{data} \PY{k+kt}{Range} \PY{n}{a}
             \PY{o+ow}{=} \PY{k+kt}{Range}
@@ -587,14 +584,14 @@ First, for data, let's use ages:
             \PY{p}{,} \PY{n}{upperBound} \PY{o+ow}{::} \PY{k+kt}{Maybe} \PY{n}{a}
             \PY{p}{\PYZcb{}} \PY{k+kr}{deriving} \PY{p}{(}\PY{k+kt}{Eq}\PY{p}{,}\PY{k+kt}{Ord}\PY{p}{)}
         
-        \PY{k+kr}{instance} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Enum} \PY{n}{a}\PY{p}{,} \PY{k+kt}{PrintfArg} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Bounded} \PY{n}{a}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Show} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
+        \PY{k+kr}{instance} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Enum} \PY{n}{a}\PY{p}{,} \PY{k+kt}{PrintfArg} \PY{n}{a}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Show} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
             \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)}
               \PY{o}{|} \PY{n}{succ} \PY{n}{l} \PY{o}{==} \PY{n}{u} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZpc{}v}\PY{l+s}{\PYZdq{}} \PY{n}{l}
-              \PY{o}{|} \PY{n}{l} \PY{o}{\PYZgt{}=} \PY{n}{u} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{∅}\PY{l+s}{\PYZdq{}}
-            \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{l} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{[\PYZpc{}v,\PYZpc{}v)}\PY{l+s}{\PYZdq{}} \PY{p}{(}\PY{n}{fromMaybe} \PY{n}{minBound} \PY{n}{l}\PY{p}{)} \PY{n}{u}
-            \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{l} \PY{k+kt}{Nothing}\PY{p}{)}
-              \PY{o}{|} \PY{n}{l} \PY{o}{==} \PY{k+kt}{Just} \PY{n}{maxBound} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZpc{}v}\PY{l+s}{\PYZdq{}} \PY{p}{(}\PY{n}{maxBound} \PY{p}{`}\PY{n}{asTypeOf}\PY{p}{`} \PY{n}{fromJust} \PY{n}{l}\PY{p}{)}
-              \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{[\PYZpc{}v,\PYZpc{}v]}\PY{l+s}{\PYZdq{}} \PY{p}{(}\PY{n}{fromMaybe} \PY{n}{minBound} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{n}{maxBound} \PY{p}{`}\PY{n}{asTypeOf}\PY{p}{`} \PY{n}{fromJust} \PY{n}{l}\PY{p}{)}
+              \PY{o}{|} \PY{n}{l} \PY{o}{\PYZlt{}} \PY{n}{u} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{[\PYZpc{}v,\PYZpc{}v)}\PY{l+s}{\PYZdq{}} \PY{n}{l} \PY{n}{u}
+              \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{∅}\PY{l+s}{\PYZdq{}}
+            \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{l}\PY{p}{)} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZpc{}v≤}\PY{l+s}{\PYZdq{}} \PY{n}{l}
+            \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{u}\PY{p}{)}\PY{p}{)} \PY{o+ow}{=} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZlt{}\PYZpc{}v}\PY{l+s}{\PYZdq{}} \PY{n}{u}
+            \PY{n}{show} \PY{p}{(}\PY{k+kt}{Range} \PY{k+kt}{Nothing} \PY{k+kt}{Nothing}\PY{p}{)} \PY{o+ow}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{U}\PY{l+s}{\PYZdq{}}
         
         \PY{k+kr}{instance} \PY{k+kt}{Ord} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Semigroup} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{a}\PY{p}{)} \PY{k+kr}{where}
             \PY{k+kt}{Range} \PY{n}{xl} \PY{n}{xu} \PY{o}{\PYZlt{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{yl} \PY{n}{yu} \PY{o+ow}{=}
@@ -602,10 +599,8 @@ First, for data, let's use ages:
                     \PY{p}{(}\PY{n}{liftA2} \PY{n}{min} \PY{n}{xl} \PY{n}{yl}\PY{p}{)}
                     \PY{p}{(}\PY{n}{liftA2} \PY{n}{max} \PY{n}{xu} \PY{n}{yu}\PY{p}{)}
         
-        \PY{n+nf}{singletonRange} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Enum} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Bounded} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Eq} \PY{n}{a}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{a}
-        \PY{n+nf}{singletonRange} \PY{n}{x}
-          \PY{o}{|} \PY{n}{x} \PY{o}{==} \PY{n}{maxBound} \PY{o+ow}{=} \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{x}\PY{p}{)} \PY{k+kt}{Nothing}
-          \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=} \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{p}{(}\PY{n}{succ} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+        \PY{n+nf}{singletonRange} \PY{o+ow}{::} \PY{k+kt}{Enum} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{a}
+        \PY{n+nf}{singletonRange} \PY{n}{x} \PY{o+ow}{=} \PY{k+kt}{Range} \PY{p}{(}\PY{k+kt}{Just} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Just} \PY{p}{(}\PY{n}{succ} \PY{n}{x}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -669,10 +664,8 @@ First, for data, let's use ages:
 anonymity:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n+nf}{k2ages} \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange}
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange}
              \PY{p}{(}\PY{n}{buildHuffman} \PY{p}{(}\PY{n}{buildHeap} \PY{p}{(}\PY{n}{frequencies} \PY{n}{ages}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n+nf}{k2ages}
 \end{Verbatim}
 
 
@@ -685,58 +678,13 @@ anonymity:
     { \hspace*{\fill} \\}
     
     Ages are grouped together with values that are unrelated, yielding
-unsatisfactory generalizations. The anonymization produced is as
-follows:
+unsatisfactory generalizations.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}12}]:} \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Map.Strict}         \PY{k}{as} \PY{n}{Map}
-         \PY{k+kr}{import}           \PY{n+nn}{Data.Semigroup}          \PY{p}{(}\PY{k+kt}{Semigroup}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
-         \PY{k+kr}{import}           \PY{n+nn}{Data.Semigroup.Foldable} \PY{p}{(}\PY{n+nf}{foldMap1}\PY{p}{)}
-         \PY{k+kr}{import}           \PY{n+nn}{Data.Foldable}           \PY{p}{(}\PY{n+nf}{foldl\PYZsq{}}\PY{p}{)}
-         \PY{k+kr}{import}           \PY{n+nn}{IHaskell.Display}        \PY{p}{(}\PY{k+kt}{IHaskellDisplay}\PY{p}{(}\PY{n+nf}{display}\PY{p}{)}
-                                                  \PY{p}{,}\PY{n+nf}{html}\PY{p}{,}\PY{k+kt}{Display}\PY{p}{)}
-         \PY{k+kr}{import}           \PY{n+nn}{Text.Printf}             \PY{p}{(}\PY{n+nf}{printf}\PY{p}{)}
-         
-         \PY{k+kr}{newtype} \PY{k+kt}{AnonTable} \PY{n}{a} \PY{n}{b}
-             \PY{o+ow}{=} \PY{k+kt}{AnonTable}
-             \PY{p}{\PYZob{}} \PY{n}{getAnonTable} \PY{o+ow}{::} \PY{p}{[}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{]}
-             \PY{p}{\PYZcb{}}
-         
-         \PY{n+nf}{buildAnonTable} \PY{o+ow}{::} \PY{p}{(}\PY{k+kt}{Ord} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Semigroup} \PY{n}{b}\PY{p}{)}
-                        \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{PrivateHuffman} \PY{n}{a} \PY{n}{b} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{p}{[}\PY{n}{a}\PY{p}{]} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{AnonTable} \PY{n}{a} \PY{n}{b}
-         \PY{n+nf}{buildAnonTable} \PY{p}{(}\PY{k+kt}{PrivateHuffman} \PY{n}{k} \PY{n}{f} \PY{n}{xs}\PY{p}{)}
-             \PY{o+ow}{=} \PY{k+kt}{AnonTable} \PY{o}{.} \PY{n}{map} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{x} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m} \PY{k+kt}{Map}\PY{o}{.!} \PY{n}{x}\PY{p}{)}\PY{p}{)}
-           \PY{k+kr}{where}
-             \PY{n}{m} \PY{o+ow}{=} \PY{n}{go} \PY{n}{xs}
-             \PY{n}{go} \PY{p}{(}\PY{k+kt}{Leaf} \PY{k+kr}{\PYZus{}} \PY{n}{x}\PY{p}{)} \PY{o+ow}{=} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{singleton} \PY{n}{x} \PY{p}{(}\PY{n}{f} \PY{n}{x}\PY{p}{)}
-             \PY{n}{go} \PY{n}{nd}\PY{o}{@}\PY{p}{(}\PY{k+kt}{Node} \PY{n}{i} \PY{n}{l} \PY{n}{r}\PY{p}{)}
-               \PY{o}{|} \PY{n}{size} \PY{n}{l} \PY{o}{\PYZgt{}=} \PY{n}{k} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{size} \PY{n}{r} \PY{o}{\PYZgt{}=} \PY{n}{k} \PY{o+ow}{=} \PY{n}{go} \PY{n}{l} \PY{o}{\PYZlt{}\PYZgt{}} \PY{n}{go} \PY{n}{r}
-               \PY{o}{|} \PY{n}{otherwise} \PY{o+ow}{=}
-                   \PY{n}{foldl\PYZsq{}} \PY{p}{(}\PY{n+nf}{\PYZbs{}}\PY{n}{mp} \PY{n}{v} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{insert} \PY{n}{v} \PY{n}{summary} \PY{n}{mp}\PY{p}{)} \PY{k+kt}{Map}\PY{o}{.}\PY{n}{empty} \PY{n}{nd}
-               \PY{k+kr}{where} \PY{n}{summary} \PY{o+ow}{=} \PY{n}{foldMap1} \PY{n}{f} \PY{n}{nd}
-         
-         \PY{k+kr}{instance} \PY{p}{(}\PY{k+kt}{Show} \PY{n}{a}\PY{p}{,} \PY{k+kt}{Show} \PY{n}{b}\PY{p}{)} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{IHaskellDisplay} \PY{p}{(}\PY{k+kt}{AnonTable} \PY{n}{a} \PY{n}{b}\PY{p}{)} \PY{k+kr}{where}
-             \PY{n}{display} \PY{p}{(}\PY{k+kt}{AnonTable} \PY{n}{xs}\PY{p}{)} \PY{o+ow}{=} \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Display} \PY{p}{[}\PY{n}{html} \PY{p}{(}\PY{n}{go} \PY{n}{xs}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-               \PY{k+kr}{where}
-                 \PY{n}{go} \PY{n}{tb}
-                     \PY{o+ow}{=} \PY{n}{unlines} \PY{o}{\PYZdl{}}
-                     \PY{p}{[} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZlt{}table\PYZgt{}}\PY{l+s}{\PYZdq{}}
-                     \PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZlt{}tr\PYZgt{}\PYZlt{}th\PYZgt{}Original\PYZlt{}/th\PYZgt{}\PYZlt{}th\PYZgt{}Anonymized\PYZlt{}/th\PYZgt{}\PYZlt{}/tr\PYZgt{}}\PY{l+s}{\PYZdq{}} \PY{p}{]} \PY{o}{++}
-                     \PY{p}{[} \PY{n}{printf} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZlt{}tr\PYZgt{}\PYZlt{}td\PYZgt{}\PYZpc{}s\PYZlt{}/td\PYZgt{}\PYZlt{}td\PYZgt{}\PYZpc{}s\PYZlt{}/td\PYZgt{}\PYZlt{}/tr\PYZgt{}}\PY{l+s}{\PYZdq{}} \PY{p}{(}\PY{n}{show} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{show} \PY{n}{y}\PY{p}{)}
-                     \PY{o}{|} \PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)} \PY{o+ow}{\PYZlt{}\PYZhy{}} \PY{n}{tb} \PY{p}{]} \PY{o}{++}
-                     \PY{p}{[} \PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZlt{}/table\PYZgt{}}\PY{l+s}{\PYZdq{}} \PY{p}{]}
-         
-         \PY{n+nf}{buildAnonTable} \PY{n}{k2ages} \PY{n}{ages}
-\end{Verbatim}
-
-
-    
-    
-    Better generalizations can be achieved by building an \emph{alphabetic}
+Better generalizations can be achieved by building an \emph{alphabetic}
 Huffman tree \cite{2201627/M35JL7I9}.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kr}{import}           \PY{n+nn}{Control.Monad.State}
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k+kr}{import}           \PY{n+nn}{Control.Monad.State}
          \PY{k+kr}{import} \PY{k}{qualified} \PY{n+nn}{Data.Map.Strict}     \PY{k}{as} \PY{n}{Map}
          \PY{k+kr}{import}           \PY{n+nn}{Data.Foldable}       \PY{p}{(}\PY{k+kt}{Foldable}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{)}
          
@@ -756,9 +704,7 @@ Huffman tree \cite{2201627/M35JL7I9}.
                    \PY{n}{rs} \PY{o+ow}{\PYZlt{}\PYZhy{}} \PY{n}{go} \PY{p}{(}\PY{n}{n} \PY{o}{\PYZhy{}} \PY{n}{size} \PY{n}{ls}\PY{p}{)}
                    \PY{n}{pure} \PY{p}{(}\PY{k+kt}{Node} \PY{p}{(}\PY{n}{size} \PY{n}{ls} \PY{o}{+} \PY{n}{size} \PY{n}{rs}\PY{p}{)} \PY{n}{ls} \PY{n}{rs}\PY{p}{)}
          
-         \PY{n+nf}{k2agesAlph} \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange} \PY{p}{(}\PY{n}{buildAlphHuffman} \PY{p}{(}\PY{n}{frequencies} \PY{n}{ages}\PY{p}{)}\PY{p}{)}
-         \PY{n+nf}{k2agesAlph}
-         \PY{n+nf}{buildAnonTable} \PY{n}{k2agesAlph} \PY{n}{ages}
+         \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange} \PY{p}{(}\PY{n}{buildAlphHuffman} \PY{p}{(}\PY{n}{frequencies} \PY{n}{ages}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -766,11 +712,9 @@ Huffman tree \cite{2201627/M35JL7I9}.
 
     
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_1.png}
     \end{center}
     { \hspace*{\fill} \\}
-    
-    
     
     \hypertarget{arithmetic-coding-for-privacy}{%
 \section{Arithmetic Coding for
@@ -820,7 +764,7 @@ As a simple way to demonstrate the algorithm, we will use a perfect
 binary tree to count the cumulative frequencies:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}14}]:} \PY{k+kr}{import} \PY{n+nn}{Data.Bits}
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kr}{import} \PY{n+nn}{Data.Bits}
          
          \PY{k+kr}{data} \PY{k+kt}{Perfect} \PY{n}{a}
              \PY{o+ow}{=} \PY{k+kt}{Perfect} \PY{o}{!}\PY{n}{a}
@@ -872,7 +816,7 @@ binary tree to count the cumulative frequencies:
 until} the point where \(k\) is no longer satisfied:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}15}]:} \PY{n+nf}{follow} \PY{o+ow}{::} \PY{k+kt}{Int} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Word} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Perfect} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Span}
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n+nf}{follow} \PY{o+ow}{::} \PY{k+kt}{Int} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Word} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Perfect} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Span}
          \PY{n+nf}{follow} \PY{n}{k\PYZsq{}} \PY{n}{i} \PY{n}{tr} \PY{o+ow}{=} \PY{n}{foldPerfect} \PY{n}{go} \PY{p}{(}\PY{n}{const} \PY{k+kt}{Span}\PY{p}{)} \PY{n}{tr} \PY{l+m+mi}{0} \PY{n}{k}
            \PY{k+kr}{where}
              \PY{n}{k} \PY{o+ow}{=} \PY{n}{toEnum} \PY{n}{k\PYZsq{}}
@@ -888,7 +832,7 @@ incrementally. Take, for instance, this small list of values between
 \(0\) and \(4\):
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{n+nf}{smallVals} \PY{o+ow}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n+nf}{smallVals} \PY{o+ow}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}
          
          \PY{k+kr}{import} \PY{n+nn}{Data.Traversable} \PY{p}{(}\PY{n+nf}{mapAccumL}\PY{p}{)}
          \PY{k+kr}{import} \PY{n+nn}{Data.List}        \PY{p}{(}\PY{n+nf}{inits}\PY{p}{)}
@@ -923,120 +867,6 @@ incrementally. Take, for instance, this small list of values between
     \end{verbatim}
 
     
-    \hypertarget{incremental-anonymity}{%
-\section{Incremental Anonymity}\label{incremental-anonymity}}
-
-Incrementally anonymizing a database can potentially leak private data
-\cite{2201627/HWXFFBRT}. For instance, take the following values:
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}17}]:} \PY{n+nf}{incrementalTree} \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange} \PY{p}{(}\PY{n}{buildAlphHuffman} \PY{p}{(}\PY{n}{frequencies} \PY{p}{[}\PY{l+m+mi}{1}\PY{o}{..}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-         \PY{n+nf}{incrementalTable} \PY{o+ow}{=} \PY{n}{buildAnonTable} \PY{n}{incrementalTree} \PY{p}{[}\PY{l+m+mi}{1}\PY{o}{..}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n+nf}{incrementalTable}
-\end{Verbatim}
-
-
-    
-    
-    If another \(3\) is added to the database:
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}18}]:} \PY{n+nf}{nextTree} \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{n}{singletonRange} \PY{p}{(}\PY{n}{buildAlphHuffman} \PY{p}{(}\PY{n}{frequencies} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-         \PY{n+nf}{nextTable} \PY{o+ow}{=} \PY{n}{buildAnonTable} \PY{n}{nextTree} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}
-         \PY{n+nf}{nextTable}
-\end{Verbatim}
-
-
-    
-    
-    If both of these anonymizations are released, we could take their
-row-wise intersection, thereby revealing much more information than we
-intended.
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}19}]:} \PY{k+kr}{import} \PY{n+nn}{Data.Semigroup} \PY{p}{(}\PY{k+kt}{Max}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{k+kt}{Min}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{k+kt}{Option}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{p}{(}\PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)}\PY{p}{)}
-         \PY{k+kr}{import} \PY{n+nn}{Data.Function}  \PY{p}{(}\PY{n+nf}{on}\PY{p}{)}
-         
-         \PY{n+nf}{intersection} \PY{o+ow}{::} \PY{k+kt}{Ord} \PY{n}{a} \PY{o+ow}{=\PYZgt{}} \PY{k+kt}{Range} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{a} \PY{o+ow}{\PYZhy{}\PYZgt{}} \PY{k+kt}{Range} \PY{n}{a}
-         \PY{n+nf}{intersection} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{lx} \PY{n}{ux}\PY{p}{)} \PY{p}{(}\PY{k+kt}{Range} \PY{n}{ly} \PY{n}{uy}\PY{p}{)}
-             \PY{o+ow}{=} \PY{k+kt}{Range}
-                 \PY{p}{(}\PY{p}{(}\PY{n}{fmap} \PY{n}{getMax} \PY{o}{.} \PY{n}{getOption}\PY{p}{)} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)} \PY{p}{`}\PY{n}{on}\PY{p}{`} \PY{p}{(}\PY{k+kt}{Option} \PY{o}{.} \PY{n}{fmap} \PY{k+kt}{Max}\PY{p}{)}\PY{p}{)} \PY{n}{lx} \PY{n}{ly}\PY{p}{)}\PY{p}{)}
-                 \PY{p}{(}\PY{p}{(}\PY{n}{fmap} \PY{n}{getMin} \PY{o}{.} \PY{n}{getOption}\PY{p}{)} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{o}{\PYZlt{}\PYZgt{}}\PY{p}{)} \PY{p}{`}\PY{n}{on}\PY{p}{`} \PY{p}{(}\PY{k+kt}{Option} \PY{o}{.} \PY{n}{fmap} \PY{k+kt}{Min}\PY{p}{)}\PY{p}{)} \PY{n}{ux} \PY{n}{uy}\PY{p}{)}\PY{p}{)}
-         
-         \PY{k+kt}{AnonTable} \PY{p}{(}\PY{n}{zip} \PY{p}{[}\PY{l+m+mi}{1}\PY{o}{..}\PY{p}{]} \PY{p}{(}\PY{p}{(}\PY{n}{zipWith} \PY{p}{(}\PY{n}{intersection} \PY{p}{`}\PY{n}{on}\PY{p}{`} \PY{n}{snd}\PY{p}{)} \PY{p}{`}\PY{n}{on}\PY{p}{`} \PY{n}{getAnonTable}\PY{p}{)} \PY{n}{incrementalTable} \PY{n}{nextTable}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
-
-
-    
-    
-    The solution might seem simple: just don't change the anonymization of
-previous entries. But this is actually sub-optimal, leaving earlier more
-conservative than they need to be.
-
-The problem is related to \emph{tree-balancing}. For search trees, we
-want to balance to reduce search cost, but reduce the frequency of
-balancing to reduce insertion cost: here, we want to balance to increase
-information gain, but reduce frequency of balancing to avoid revealing
-private internal structure.
-
-It's worth noting that we're not concerned with the overall frequency of
-balances, rather the rebalancing per release. After all, if we only
-release one copy of the anonymized data set, we need not be concerned
-with incremental privacy at all.
-
-    \hypertarget{generalized-balance}{%
-\section{Generalized Balance}\label{generalized-balance}}
-
-In the previous section, we saw that we could generalize the ``cost of
-rebalancing'' to describe incremental anonymity. Other notions from the
-theory of search trees can be generalized similarly, in particular
-\emph{balance}.
-
-One generalization applies to \(l\)-diversity \cite{2201627/E9354EJL}.
-
-Let's take a database with a sensitive row, perhaps voting preference:
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}20}]:} \PY{k+kr}{import} \PY{n+nn}{Control.Arrow} \PY{p}{(}\PY{p}{(}\PY{o}{***}\PY{p}{)}\PY{p}{)}
-         \PY{k+kr}{import} \PY{n+nn}{Text.Printf}   \PY{p}{(}\PY{k+kt}{PrintfArg}\PY{p}{(}\PY{o}{..}\PY{p}{)}\PY{p}{,}\PY{n+nf}{formatChar}\PY{p}{)}
-         
-         \PY{k+kr}{data} \PY{k+kt}{VotingPref}
-             \PY{o+ow}{=} \PY{k+kt}{D}
-             \PY{o}{|} \PY{k+kt}{R}
-             \PY{k+kr}{deriving} \PY{p}{(}\PY{k+kt}{Show}\PY{p}{,}\PY{k+kt}{Eq}\PY{p}{,}\PY{k+kt}{Ord}\PY{p}{,}\PY{k+kt}{Enum}\PY{p}{,}\PY{k+kt}{Bounded}\PY{p}{)}
-         
-         \PY{k+kr}{instance} \PY{k+kt}{PrintfArg} \PY{k+kt}{VotingPref} \PY{k+kr}{where}
-             \PY{n}{formatArg} \PY{k+kt}{D} \PY{o+ow}{=} \PY{n}{formatChar} \PY{l+s+sc}{\PYZsq{}D\PYZsq{}}
-             \PY{n}{formatArg} \PY{k+kt}{R} \PY{o+ow}{=} \PY{n}{formatChar} \PY{l+s+sc}{\PYZsq{}R\PYZsq{}}
-         
-         \PY{n+nf}{agesAndVotes} \PY{o+ow}{=} \PY{n}{zip} \PY{n}{ages} \PY{p}{[}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{R}\PY{p}{,}\PY{k+kt}{D}\PY{p}{,}\PY{k+kt}{D}\PY{p}{]}
-         \PY{n+nf}{agesAndVotesTree} \PY{o+ow}{=} \PY{k+kt}{PrivateHuffman} \PY{l+m+mi}{2} \PY{p}{(}\PY{n}{singletonRange} \PY{o}{***} \PY{n}{singletonRange}\PY{p}{)} \PY{p}{(}\PY{n}{buildAlphHuffman} \PY{p}{(}\PY{n}{frequencies} \PY{n}{agesAndVotes}\PY{p}{)}\PY{p}{)}
-         \PY{n+nf}{agesAndVotesTable} \PY{o+ow}{=} \PY{n}{buildAnonTable} \PY{n}{agesAndVotesTree} \PY{n}{agesAndVotes}
-         \PY{n+nf}{agesAndVotesTree}
-         \PY{n+nf}{agesAndVotesTable}
-\end{Verbatim}
-
-
-    $k = 2$
-
-    
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    
-    
-    As you can see, while \(k\)-anonymity has indeed been preserved, most
-rows in the table have had their voting preference revealed. To
-counteract that, we can balance the voting preference when building the
-tree:
-((*- extends 'latex_article.tplx' -*))
-
-((* block bibliography *))
-\bibliographystyle{unsrt}
-\bibliography{biblio}
-((* endblock bibliography *))
 
     % Add a bibliography block to the postdoc
     
