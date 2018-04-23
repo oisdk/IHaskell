@@ -30,6 +30,7 @@ extra-deps:
 - cubicbezier-0.6.0.5
 - mfsolve-0.3.2.0
 - fast-math-1.0.2
+- statistics-0.14.0.2
 
 docker:
   repo: "ihaskell-dev:latest"
