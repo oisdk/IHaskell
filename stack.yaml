@@ -14,6 +14,7 @@ packages:
     - ./ihaskell-display/ihaskell-plot
     - ./ihaskell-display/ihaskell-static-canvas
     - ./ihaskell-display/ihaskell-widgets
+    - ./notebook-libraries/privacy
 resolver: lts-11.5
 allow-newer: true
 extra-deps:
