@@ -27,13 +27,40 @@ import           Graphics.Rendering.Chart                (BarsPlotValue (..),
                                                           layout_x_axis,
                                                           layout_y_axis,
                                                           plotBars,
-                                                          plot_bars_item_styles,
+                                                         plot_bars_item_styles,
                                                           plot_bars_values,
                                                           toRenderable)
 import           IHaskell.Display                        (IHaskellDisplay (display))
 import           IHaskell.Display.Charts                 ()
 
 import           Graphics.Rendering.Chart.Plot.Instances ()
+
+newtype Histogram a b
+    = Histogram
+    { getMeasures :: Map b a
+    } deriving (Eq, Ord)
+
+instance (Semirig a, Ord b)
+        => Semirig (Histogram a b) where
+    (+) = Map.unionWith (+) `ala` getMeasures
+    (*) = Map.intersectionWith (*) `ala` getMeasures
+    zer = Histogram Map.empty
+
+type instance Domain (Histogram a b) = b
+
+instance (Information a, Ord b, Domain a ~ b) =>
+         Information (Histogram a b) where
+    information x = Histogram (Map.singleton x (information x))
+
+instance Integral a => Foldable (Histogram a) where
+    foldMap f (Histogram xs) =
+        Map.foldMapWithKey (rep . f) xs
+      where
+        rep x 1 = x
+        rep x n
+          | even n = mappend y y
+          | otherwise = mappend x (mappend y y)
+          where y = rep x (n `div` 2)
 
 instance (Show b, Ord a, BarsPlotValue a)
         => IHaskellDisplay (Histogram a b) where
@@ -51,28 +78,5 @@ instance (Show b, Ord a, BarsPlotValue a)
       where
         (keys,vals) = unzip [ (show k, [v]) | (k,v) <- Map.toList freqs ]
 
-newtype Histogram a b
-    = Histogram
-    { getMeasures :: Map b a
-    } deriving (Eq, Ord)
-
-instance (Semirig a, Ord b)
-        => Semirig (Histogram a b) where
-    (+) = Map.unionWith (+) `ala` getMeasures
-    (*) = Map.intersectionWith (*) `ala` getMeasures
-    zer = Histogram Map.empty
-
-instance (Information a, Ord b, Domain a ~ b) =>
-         Information (Histogram a b) where
-    type Domain (Histogram a b) = b
-    information x = Histogram (Map.singleton x (information x))
-
-instance Integral a => Foldable (Histogram a) where
-    foldMap f (Histogram xs) =
-        Map.foldMapWithKey (rep . f) xs
-      where
-        rep x 1 = x
-        rep x n
-          | even n = mappend y y
-          | otherwise = mappend x (mappend y y)
-          where y = rep x (n `div` 2)
+(!) :: (Semirig a, Ord b) => Histogram a b -> b -> a
+(!) (Histogram xs) y = Map.findWithDefault zer y xs

@@ -11,11 +11,18 @@ import           Algebra.Rig
 import           Data.Semigroup
 import           Data.Functor.Identity
 import           Data.Functor.Const
+import           Data.Ord
 
 import           Data.Coerce.Utilities
 
+type family Domain (information :: *) :: *
+
+type instance Domain (a,b) = (Domain a, Domain b)
+type instance Domain (Const a b) = b
+type instance Domain (Identity a) = Domain a
+type instance Domain (Down a) = Domain a
+
 class (Ord a, Semirig a) => Information a where
-    type Domain a
     {-# MINIMAL information | generalize #-}
     information :: Domain a -> a
     information = generalize .# Identity
@@ -24,7 +31,6 @@ class (Ord a, Semirig a) => Information a where
     generalize = getGeneralization #. foldMap (Generalization #. information)
 
 instance (Information a, Information b) => Information (a,b) where
-    type Domain (a,b) = (Domain a, Domain b)
     information (x,y) = (information x, information y)
 
 newtype Generalization a
@@ -40,5 +46,10 @@ instance Semirig a => Monoid (Generalization a) where
     mempty = zer
 
 instance (Ord a, Rig a) => Information (Const a b) where
-    type Domain (Const a b) = b
     information = const one
+
+instance Information a => Information (Identity a) where
+    information = Identity #. information
+
+instance Information a => Information (Down a) where
+    information = Down #. information
