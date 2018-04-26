@@ -1,6 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE TypeFamilies               #-}
-
 module Algebra.Information where
 
 import           Prelude                 hiding (Num (..))
@@ -11,27 +8,21 @@ import           Algebra.Rig
 import           Data.Semigroup
 import           Data.Functor.Identity
 import           Data.Functor.Const
-import           Data.Ord
+import           GHC.Generics
 
 import           Data.Coerce.Utilities
 
-type family Domain (information :: *) :: *
 
-type instance Domain (a,b) = (Domain a, Domain b)
-type instance Domain (Const a b) = b
-type instance Domain (Identity a) = Domain a
-type instance Domain (Down a) = Domain a
-
-class (Ord a, Semirig a) => Information a where
+class (Ord (f a), Semirig (f a)) => Information f a where
     {-# MINIMAL information | generalize #-}
-    information :: Domain a -> a
+    information :: a -> f a
     information = generalize .# Identity
 
-    generalize :: Foldable f => f (Domain a) -> a
+    generalize :: Foldable t => t a -> f a
     generalize = getGeneralization #. foldMap (Generalization #. information)
 
-instance (Information a, Information b) => Information (a,b) where
-    information (x,y) = (information x, information y)
+instance (Information f a, Information g a) => Information (f :*: g) a where
+    information x = information x :*: information x
 
 newtype Generalization a
     = Generalization
@@ -45,11 +36,5 @@ instance Semirig a => Monoid (Generalization a) where
     mappend = (<>)
     mempty = zer
 
-instance (Ord a, Rig a) => Information (Const a b) where
+instance (Ord a, Rig a) => Information (Const a) b where
     information = const one
-
-instance Information a => Information (Identity a) where
-    information = Identity #. information
-
-instance Information a => Information (Down a) where
-    information = Down #. information

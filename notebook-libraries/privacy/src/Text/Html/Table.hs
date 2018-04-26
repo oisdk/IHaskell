@@ -1,20 +1,7 @@
-{-# LANGUAGE DataKinds              #-}
-{-# LANGUAGE GADTs                  #-}
-{-# LANGUAGE TypeOperators          #-}
-{-# LANGUAGE KindSignatures         #-}
 {-# LANGUAGE TypeInType             #-}
-{-# LANGUAGE TypeFamilies           #-}
-{-# LANGUAGE TypeFamilyDependencies #-}
-{-# LANGUAGE StandaloneDeriving     #-}
-{-# LANGUAGE DeriveFunctor          #-}
-{-# LANGUAGE DeriveFoldable         #-}
 {-# LANGUAGE UndecidableInstances   #-}
-{-# LANGUAGE RankNTypes             #-}
-{-# LANGUAGE ConstraintKinds        #-}
 {-# LANGUAGE TypeApplications       #-}
-{-# LANGUAGE ScopedTypeVariables    #-}
 {-# LANGUAGE AllowAmbiguousTypes    #-}
-{-# LANGUAGE UnicodeSyntax          #-}
 
 module Text.Html.Table
   (Table(..)

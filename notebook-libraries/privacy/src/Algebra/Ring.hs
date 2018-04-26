@@ -1,6 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE StandaloneDeriving         #-}
-
 module Algebra.Ring where
 
 import           Algebra.Rig
@@ -15,6 +12,7 @@ import           Data.Ratio
 import           Data.Functor.Const
 import           Data.Functor.Identity
 import           Data.Ord
+import           GHC.Generics
 
 class Rig a => Ring a where
     {-# MINIMAL negate | (-) #-}
@@ -75,3 +73,7 @@ instance Ring a =>
 instance (Ring a, Ring b) => Ring (a,b) where
     negate (x,y) = (negate x, negate y)
     (xl,yl) - (xr,yr) = (xl-xr,yl-yr)
+
+instance (Ring (f a), Ring (g a)) => Ring ((f :*: g) a) where
+    negate (x :*: y) = negate x :*: negate y
+    (xl :*: yl) - (xr :*: yr) = (xl-xr) :*: (yl-yr)

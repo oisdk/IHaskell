@@ -1,5 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
-
 module Graphics.Rendering.Chart.Axis.Iso where
 
 import           Control.Lens             (Iso', dimapping, firsting, from, iso,

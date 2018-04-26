@@ -1,6 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE StandaloneDeriving         #-}
-
 module Algebra.Semirig where
 
 import           Prelude hiding (Num (..))
@@ -14,6 +11,7 @@ import           Data.Word
 import           Data.Functor.Const
 import           Data.Functor.Identity
 import           Data.Ord
+import           GHC.Generics
 
 class Semirig a where
     zer :: a
@@ -123,3 +121,9 @@ instance (Semirig a, Semirig b) => Semirig (a,b) where
     zer = (zer,zer)
     (xl,yl) + (xr,yr) = (xl+xr,yl+yr)
     (xl,yl) * (xr,yr) = (xl*xr,yl*yr)
+
+instance (Semirig (f a), Semirig (g a)) => Semirig ((f :*: g) a) where
+    zer = zer :*: zer
+    (xl :*: yl) + (xr :*: yr) = (xl+xr) :*: (yl+yr)
+    (xl :*: yl) * (xr :*: yr) = (xl*xr) :*: (yl*yr)
+

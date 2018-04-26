@@ -10,6 +10,7 @@ import           Data.Ratio
 import           Data.Functor.Identity
 import           Data.Functor.Const
 import           Data.Ord
+import           GHC.Generics
 
 class Semirig a => Rig a where
     one :: a
@@ -50,3 +51,6 @@ instance Rig a => Rig [a] where
 
 instance (Rig a, Rig b) => Rig (a,b) where
     one = (one, one)
+
+instance (Rig (f a), Rig (g a)) => Rig ((f :*: g) a) where
+    one = one :*: one
