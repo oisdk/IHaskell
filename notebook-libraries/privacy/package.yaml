@@ -1,5 +1,5 @@
 name:                privacy
-version:             0.1.0.29
+version:             0.1.0.34
 github:              "oisdk/privacy"
 license:             MIT
 author:              "Donnacha Oisín Kidney"
@@ -48,6 +48,7 @@ dependencies:
 - profunctors
 - blaze-markup
 - blaze-html
+- groups
 
 default-extensions:
 - TypeOperators

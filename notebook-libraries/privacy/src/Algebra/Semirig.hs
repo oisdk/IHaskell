@@ -18,8 +18,8 @@ import           Data.Semigroup
 
 import           Data.Coerce.Utilities
 
-import qualified Data.Set as Set
-import           Data.Set (Set)
+-- import qualified Data.Set as Set
+-- import           Data.Set (Set)
 
 import qualified Data.Map.Strict as Map
 import           Data.Map.Strict (Map)
@@ -126,9 +126,9 @@ instance Ord a => Semirig (Min a) where
     (+) = (<>)
     (*) = max
 
-instance Ord a => Semirig (Set a) where
-    (+) = Set.union
-    (*) = Set.intersection
+-- instance Ord a => Semirig (Set a) where
+--     (+) = Set.union
+--     (*) = Set.intersection
 
 instance (Ord a, Semirig b) => Semirig (Map a b) where
     (+) = Map.unionWith (+)

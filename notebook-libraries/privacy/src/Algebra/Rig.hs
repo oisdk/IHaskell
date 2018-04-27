@@ -16,8 +16,8 @@ import           Data.Ord
 import           GHC.Generics
 import           Data.Semigroup
 
-import qualified Data.Set as Set
-import           Data.Set (Set)
+-- import qualified Data.Set as Set
+-- import           Data.Set (Set)
 
 import qualified Data.Map.Strict as Map
 import           Data.Map.Strict (Map)
@@ -75,8 +75,8 @@ instance MaxBound a => RigZ (Min a) where
 instance (Ord a, Semirig b) => RigZ (Map a b) where
     zer = Map.empty
 
-instance Ord a => RigZ (Set a) where
-    zer = Set.empty
+-- instance Ord a => RigZ (Set a) where
+--     zer = Set.empty
 
 instance Rig1 Bool where
     one = True

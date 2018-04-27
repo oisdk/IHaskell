@@ -2,8 +2,6 @@
 
 module Algebra.Information.Tree where
 
-import           Algebra.Information
-
 import           Data.Semigroup            (Semigroup((<>)))
 import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
 
