@@ -5,12 +5,14 @@ import           Prelude                                 hiding (Num (..))
 import           Data.Map.Strict                         (Map)
 import qualified Data.Map.Strict                         as Map
 
-import           Algebra.Information
+import           Data.Semigroup
+
+import           Algebra.Rig
 import           Algebra.Semirig
 
+import           Data.Coerce.Utilities
 import           Control.Lens                            (each, (.~), _1)
 
-import           Data.Coerce.Utilities
 import           Data.Colour                             (withOpacity)
 import           Data.Colour.Names                       (cornflowerblue)
 import           Data.Default.Class                      (def)
@@ -32,23 +34,26 @@ import           IHaskell.Display.Charts                 ()
 
 import           Graphics.Rendering.Chart.Plot.Instances ()
 
-newtype Histogram f a
-    = Histogram
-    { getMeasures :: Map a (f a)
+newtype Histogram a b = Histogram
+    { getHistogram :: Map b a
     } deriving (Eq, Ord)
 
-instance (Semirig (f a), Ord a)
-        => Semirig (Histogram f a) where
-    (+) = Map.unionWith (+) `ala` getMeasures
-    (*) = Map.intersectionWith (*) `ala` getMeasures
+instance (Semigroup a, Ord b) => Semigroup (Histogram a b) where
+    (<>) = Map.unionWith (<>) `ala` getHistogram
+
+instance (Monoid a, Ord b) => Monoid (Histogram a b) where
+    mappend = Map.unionWith mappend `ala` getHistogram
+    mempty = Histogram Map.empty
+
+instance (Semirig a, Ord b) => Semirig (Histogram a b) where
+    (+) = Map.unionWith (+) `ala` getHistogram
+    (*) = Map.intersectionWith (*) `ala` getHistogram
+
+instance (Semirig a, Ord b) => RigZ (Histogram a b) where
     zer = Histogram Map.empty
 
-instance (Information f a, Ord a) =>
-         Information (Histogram f) a where
-    information x = Histogram (Map.singleton x (information x))
-
-instance (Show a, BarsPlotValue (f a))
-        => IHaskellDisplay (Histogram f a) where
+instance (Show b, BarsPlotValue a)
+        => IHaskellDisplay (Histogram a b) where
     display (Histogram freqs)
         = display
         $ toRenderable
@@ -63,5 +68,5 @@ instance (Show a, BarsPlotValue (f a))
       where
         (keys,vals) = unzip [ (show k, [v]) | (k,v) <- Map.toList freqs ]
 
-(!) :: (Semirig (f a), Ord a) => Histogram f a -> a -> f a
-(!) (Histogram xs) y = Map.findWithDefault zer y xs
+histogramOf :: (a -> b) -> a -> Histogram b a
+histogramOf f x = Histogram (Map.singleton x (f x))

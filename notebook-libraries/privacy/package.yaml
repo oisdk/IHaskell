@@ -1,5 +1,5 @@
 name:                privacy
-version:             0.1.0.25
+version:             0.1.0.29
 github:              "oisdk/privacy"
 license:             MIT
 author:              "Donnacha Oisín Kidney"
@@ -49,27 +49,28 @@ dependencies:
 - blaze-markup
 - blaze-html
 
+default-extensions:
+- TypeOperators
+- GeneralizedNewtypeDeriving
+- StandaloneDeriving
+- MultiParamTypeClasses
+- FlexibleContexts
+- FlexibleInstances
+- GADTs
+- TypeFamilies
+- TypeFamilyDependencies
+- FunctionalDependencies
+- RankNTypes
+- UnicodeSyntax
+- DeriveFoldable
+- DeriveFunctor
+- ConstraintKinds
+- ScopedTypeVariables
+- KindSignatures
+- DataKinds
+
 library:
   source-dirs: src
-  default-extensions:
-  - TypeOperators
-  - GeneralizedNewtypeDeriving
-  - StandaloneDeriving
-  - MultiParamTypeClasses
-  - FlexibleContexts
-  - FlexibleInstances
-  - GADTs
-  - TypeFamilies
-  - TypeFamilyDependencies
-  - FunctionalDependencies
-  - RankNTypes
-  - UnicodeSyntax
-  - DeriveFoldable
-  - DeriveFunctor
-  - ConstraintKinds
-  - ScopedTypeVariables
-  - KindSignatures
-  - DataKinds
 
 ghc-options:
 - -Wall

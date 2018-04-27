@@ -15,9 +15,10 @@ import           Graphics.Rendering.Chart.Plot.Histogram (histToPlot,
                                                           plot_hist_range,
                                                           plot_hist_values)
 
-histogram :: (RealFrac a, PlotValue a)
-          => a -> a -> [a] -> Renderable ()
-histogram binSize lowerBound values =
+contHist
+    :: (RealFrac a, PlotValue a)
+    => a -> a -> [a] -> Renderable ()
+contHist binSize lowerBound values =
     toRenderable
   $ layout_plots .~ [ histToPlot
                     $ plot_hist_values .~ values

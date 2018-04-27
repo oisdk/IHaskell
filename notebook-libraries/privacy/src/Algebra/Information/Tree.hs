@@ -4,7 +4,7 @@ module Algebra.Information.Tree where
 
 import           Algebra.Information
 
-import           Data.Semigroup            ((<>))
+import           Data.Semigroup            (Semigroup((<>)))
 import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
 
 import qualified Data.Tree                 as Rose
@@ -19,14 +19,14 @@ import           Diagrams.TwoD.Layout.Tree (renderTree', symmLayout)
 import           IHaskell.Display          (IHaskellDisplay (display))
 import           IHaskell.Display.Diagrams (diagram)
 
-data Tree f a
-    = Leaf { measure :: f a
+data Tree b a
+    = Leaf { measure :: b
            , val     :: a }
-    | Node { measure :: f a
-           , lchild  :: Tree f a
-           , rchild  :: Tree f a }
+    | Node { measure :: b
+           , lchild  :: Tree b a
+           , rchild  :: Tree b a }
 
-instance Foldable (Tree f) where
+instance Foldable (Tree a) where
     foldMap f (Leaf _ x) = f x
     foldMap f (Node _ l r) = mappend (foldMap f l) (foldMap f r)
 
@@ -34,7 +34,7 @@ instance Foldable1 (Tree a) where
     foldMap1 f (Leaf _ x)   = f x
     foldMap1 f (Node _ l r) = foldMap1 f l <> foldMap1 f r
 
-instance (Show a, Show (f a)) => IHaskellDisplay (Tree f a) where
+instance (Show a, Show b) => IHaskellDisplay (Tree a b) where
     display = display . diagram . drawTree . toTree
       where
         toTree (Leaf i x)
@@ -54,10 +54,8 @@ instance (Show a, Show (f a)) => IHaskellDisplay (Tree f a) where
             . symmLayout
 
 privateTree
-    :: forall g a f.
-       (Information g a, Show (g a), Show a, Show (f a))
-    => (f a -> Bool) -> Tree f a -> Diagram Cairo
-privateTree reveal tree = diagram $ bg white $ drawTree $ toTree tree
+    :: (Semigroup c, Show c, Show a, Show b) => (b -> Bool) -> (a -> c) -> Tree b a -> Diagram Cairo
+privateTree reveal generalize tree = diagram $ bg white $ drawTree $ toTree tree
   where
     toTree (Leaf i x) =
         Rose.Node (reveal i, show i) [Rose.Node (reveal i, show x) []]
@@ -68,7 +66,7 @@ privateTree reveal tree = diagram $ bg white $ drawTree $ toTree tree
           Rose.Node
               (reveal i, show i)
               [ Rose.Node
-                    (reveal i, show (generalize nd :: g a))
+                    (reveal i, show (foldMap1 generalize nd))
                     [toHiddenTree l, toHiddenTree r]]
     toHiddenTree (Node i l r) =
         Rose.Node (False, show i) [toHiddenTree l, toHiddenTree r]

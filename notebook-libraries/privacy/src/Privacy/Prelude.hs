@@ -3,6 +3,8 @@ module Privacy.Prelude
   ,ifThenElse)
   where
 
+import           Algebra.Bounded                         as PrivacyPrelude
+import           Algebra.Group                           as PrivacyPrelude
 import           Algebra.Rig                             as PrivacyPrelude
 import           Algebra.Ring                            as PrivacyPrelude
 import           Algebra.Semirig                         as PrivacyPrelude
@@ -22,7 +24,8 @@ import           Graphics.Rendering.Chart.Plot.Instances as PrivacyPrelude ()
 import           Numeric.Literals                        as PrivacyPrelude
 import           Numeric.Natural                         as PrivacyPrelude
 import           Prelude                                 as PrivacyPrelude hiding
-                                                                            (Num (..),
+                                                                            (Bounded (..),
+                                                                            Num (..),
                                                                             fromRational)
 
 ifThenElse :: Bool -> a -> a -> a

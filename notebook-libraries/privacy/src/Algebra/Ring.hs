@@ -14,66 +14,69 @@ import           Data.Functor.Identity
 import           Data.Ord
 import           GHC.Generics
 
-class Rig a => Ring a where
-    {-# MINIMAL negate | (-) #-}
+class Semirig a => Semiring a where
+    {-# MINIMAL negate #-}
     negate :: a -> a
-    negate = (-) zer
 
     infixl 6 -
     (-) :: a -> a -> a
     (-) x = (+) x . negate
 
-instance Ring Int where
+instance Semiring Int where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Integer where
+instance Semiring Integer where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Int8 where
+instance Semiring Int8 where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Int16 where
+instance Semiring Int16 where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Int32 where
+instance Semiring Int32 where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Int64 where
+instance Semiring Int64 where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Double where
+instance Semiring Double where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Ring Float where
+instance Semiring Float where
     negate = Num.negate
     (-) = (Num.-)
 
-instance Integral a => Ring (Ratio a) where
+instance Integral a => Semiring (Ratio a) where
     negate = Num.negate
     (-) = (Num.-)
 
-deriving instance Ring a => Ring (Identity a)
-deriving instance Ring a => Ring (Const a b)
-deriving instance Ring a => Ring (Down a)
+deriving instance Semiring a => Semiring (Identity a)
+deriving instance Semiring a => Semiring (Const a b)
+deriving instance Semiring a => Semiring (Down a)
 
-instance Ring a =>
-         Ring [a] where
+instance Semiring a =>
+         Semiring [a] where
     negate = map negate
     [] - ys = map negate ys
     xs - [] = xs
     (x:xs) - (y:ys) = x - y : xs - ys
 
-instance (Ring a, Ring b) => Ring (a,b) where
+instance (Semiring a, Semiring b) => Semiring (a,b) where
     negate (x,y) = (negate x, negate y)
     (xl,yl) - (xr,yr) = (xl-xr,yl-yr)
 
-instance (Ring (f a), Ring (g a)) => Ring ((f :*: g) a) where
+instance (Semiring (f a), Semiring (g a)) => Semiring ((f :*: g) a) where
     negate (x :*: y) = negate x :*: negate y
     (xl :*: yl) - (xr :*: yr) = (xl-xr) :*: (yl-yr)
+
+type RingZ a = (Semiring a, RigZ a)
+type Ring1 a = (Semiring a, Rig1 a)
+type Ring a = (Semiring a, RigZ a, Rig1 a)
