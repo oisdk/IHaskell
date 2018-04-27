@@ -4,7 +4,7 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
 module Data.String.NonEmpty
-  (nonEmpty)
+  (nonEmptyString)
   where
 
 import qualified Data.List.NonEmpty as List
@@ -15,7 +15,7 @@ type family NonEmpty (n :: Symbol) :: Constraint where
     NonEmpty "" = TypeError ('Text "String isn't empty")
     NonEmpty _ = ()
 
-nonEmpty :: forall n. (NonEmpty n, KnownSymbol n) => List.NonEmpty Char
-nonEmpty = case symbolVal (undefined :: proxy n) of
+nonEmptyString :: forall n. (NonEmpty n, KnownSymbol n) => List.NonEmpty Char
+nonEmptyString = case symbolVal (undefined :: proxy n) of
   [] -> error "Data.String.NonEmpty: bug!"
   (x:xs) -> x List.:| xs

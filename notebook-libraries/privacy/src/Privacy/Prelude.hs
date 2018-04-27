@@ -21,6 +21,7 @@ import           Data.Semigroup                          as PrivacyPrelude
 import           Data.Semigroup.Foldable                 as PrivacyPrelude
 import           Data.Traversable                        as PrivacyPrelude
 import           Data.String.NonEmpty                    as PrivacyPrelude
+import           Data.List.NonEmpty.Static               as PrivacyPrelude
 import           Graphics.Rendering.Chart.Plot.Instances as PrivacyPrelude ()
 import           Numeric.Literals                        as PrivacyPrelude
 import           Numeric.Natural                         as PrivacyPrelude
