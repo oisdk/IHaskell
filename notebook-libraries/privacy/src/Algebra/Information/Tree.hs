@@ -1,9 +1,12 @@
-{-# LANGUAGE AllowAmbiguousTypes #-}
-
 module Algebra.Information.Tree where
 
-import           Data.Semigroup            (Semigroup((<>)))
+import           Data.Bool                 (bool)
+import           Data.Coerce.Utilities
+import           Data.Semigroup            (Semigroup ((<>)))
 import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
+
+import           Data.Map.Strict           (Map)
+import qualified Data.Map.Strict           as Map
 
 import qualified Data.Tree                 as Rose
 
@@ -14,7 +17,10 @@ import           Diagrams.Prelude          (Diagram, bg, centerXY, circle,
                                             (~~))
 import           Diagrams.TwoD.Layout.Tree (renderTree', symmLayout)
 
+import qualified Text.Blaze.Html5          as Blaze
+
 import           IHaskell.Display          (IHaskellDisplay (display))
+import           IHaskell.Display.Blaze    ()
 import           IHaskell.Display.Diagrams (diagram)
 
 data Tree b a
@@ -22,10 +28,11 @@ data Tree b a
            , val     :: a }
     | Node { measure :: b
            , lchild  :: Tree b a
-           , rchild  :: Tree b a }
+           , rchild  :: Tree b a}
+    deriving (Functor)
 
 instance Foldable (Tree a) where
-    foldMap f (Leaf _ x) = f x
+    foldMap f (Leaf _ x)   = f x
     foldMap f (Node _ l r) = mappend (foldMap f l) (foldMap f r)
 
 instance Foldable1 (Tree a) where
@@ -52,8 +59,10 @@ instance (Show a, Show b) => IHaskellDisplay (Tree a b) where
             . symmLayout
 
 privateTree
-    :: (Semigroup c, Show c, Show a, Show b) => (b -> Bool) -> (a -> c) -> Tree b a -> Diagram Cairo
-privateTree reveal generalize tree = diagram $ bg white $ drawTree $ toTree tree
+    :: (Semigroup c, Show c, Show a, Show b)
+    => (b -> Bool) -> (a -> c) -> Tree b a -> Diagram Cairo
+privateTree reveal generalize tree =
+    diagram $ bg white $ drawTree $ toTree tree
   where
     toTree (Leaf i x) =
         Rose.Node (reveal i, show i) [Rose.Node (reveal i, show x) []]
@@ -70,7 +79,6 @@ privateTree reveal generalize tree = diagram $ bg white $ drawTree $ toTree tree
         Rose.Node (False, show i) [toHiddenTree l, toHiddenTree r]
     toHiddenTree (Leaf i x) =
         Rose.Node (False, show i) [Rose.Node (False, show x) []]
-
     drawTree =
         pad 1.1 .
         centerXY .
@@ -81,5 +89,27 @@ privateTree reveal generalize tree = diagram $ bg white $ drawTree $ toTree tree
             (\((lb,_),ll) ((rb,_),rr) ->
                   maybeOp (lb && rb) (ll ~~ rr)) .
         symmLayout
-    maybeOp True = id
+    maybeOp True  = id
     maybeOp False = opacity 0.5
+
+newtype Path = Path { getPath :: [Bool] }
+
+instance Blaze.ToMarkup Path where
+    toMarkup = Blaze.pre . Blaze.toMarkup . map (bool '0' '1') .# getPath
+
+instance Show Path where
+    showsPrec _ = flip (foldr ((:) . bool '0' '1')) .# getPath
+
+instance IHaskellDisplay Path where
+    display = display . Blaze.toMarkup
+
+foldMapWithPath :: Semigroup m => (Path -> b -> m) -> Tree a b -> m
+foldMapWithPath = go .# (. Path)
+  where
+    go f (Leaf _ x) = f [] x
+    go f (Node _ xs ys) =
+        go (f . (:) False) xs <> go (f . (:) True) ys
+
+codeBook :: Ord b => Tree a b -> Map b Path
+codeBook = foldMapWithPath (flip Map.singleton)
+

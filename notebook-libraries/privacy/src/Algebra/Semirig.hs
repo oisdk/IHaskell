@@ -18,8 +18,8 @@ import           Data.Semigroup
 
 import           Data.Coerce.Utilities
 
--- import qualified Data.Set as Set
--- import           Data.Set (Set)
+import qualified Data.Set as Set
+import           Data.Set (Set)
 
 import qualified Data.Map.Strict as Map
 import           Data.Map.Strict (Map)
@@ -126,9 +126,9 @@ instance Ord a => Semirig (Min a) where
     (+) = (<>)
     (*) = max
 
--- instance Ord a => Semirig (Set a) where
---     (+) = Set.union
---     (*) = Set.intersection
+instance Ord a => Semirig (Set a) where
+    (+) = Set.union
+    (*) = Set.intersection
 
 instance (Ord a, Semirig b) => Semirig (Map a b) where
     (+) = Map.unionWith (+)
@@ -141,11 +141,11 @@ newtype Generalization a = Generalization
 instance Semirig a => Semigroup (Generalization a) where
     (<>) = (+) `ala` getGeneralization
 
-generalize :: (Foldable1 f, Semirig a) => f a -> a
-generalize = getGeneralization #. foldMap1 Generalization
+generalize :: (Foldable1 f, Semigroup a) => f a -> a
+generalize = fold1
 
-generalizeTo :: (Foldable1 f, Semirig b) => (a -> b) -> f a -> b
-generalizeTo f = getGeneralization #. foldMap1 (Generalization #. f)
+generalizeTo :: (Foldable1 f, Semigroup b) => (a -> b) -> f a -> b
+generalizeTo = foldMap1
 
 newtype Refinement a = Refinement
     { getRefinement :: a
@@ -159,3 +159,11 @@ refine = getRefinement #. foldMap1 Refinement
 
 refineTo :: (Foldable1 f, Semirig b) => (a -> b) -> f a -> b
 refineTo f = getRefinement #. foldMap1 (Refinement #. f)
+
+instance Semirig a => Semirig (Maybe a) where
+    Nothing + ys = ys
+    xs + Nothing = xs
+    Just x + Just y = Just (x + y)
+    Nothing * _ = Nothing
+    _ * Nothing = Nothing
+    Just x * Just y = Just (x * y)
