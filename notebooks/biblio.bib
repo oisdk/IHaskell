@@ -990,7 +990,7 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   author = {Hall, Rob and Rinaldo, Alessandro and Wasserman, Larry},
   month = dec,
   year = {2011},
-  keywords = {Computer Science - Cryptography and Security,Computer Science - Learning,Statistics - Methodology},
+  keywords = {Computer Science - Learning,Statistics - Methodology,Computer Science - Cryptography and Security},
   file = {/Users/doisinkidney/Zotero/storage/847QG4BF/Hall et al. - 2011 - Random Differential Privacy.pdf;/Users/doisinkidney/Zotero/storage/TFLYF3NG/1112.html}
 }
 
@@ -1006,7 +1006,7 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   month = dec,
   year = {1977},
   pages = {622-642},
-  file = {/Users/doisinkidney/Zotero/storage/WH2HVVMB/0206045.html}
+  file = {/Users/doisinkidney/Zotero/storage/KJTYZMQD/Garsia and Wachs - 1977 - A New Algorithm for Minimum Cost Binary Trees.pdf;/Users/doisinkidney/Zotero/storage/WH2HVVMB/0206045.html}
 }
 
 @article{hu_binary_1979,
@@ -1018,7 +1018,8 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   journal = {SIAM Journal on Applied Mathematics},
   author = {Hu, T. C. and Kleitman, Daniel J. and Tamaki, Jeanne K.},
   year = {1979},
-  pages = {246-256}
+  pages = {246-256},
+  file = {/Users/doisinkidney/Zotero/storage/BACADURA/Hu et al. - 1979 - Binary Trees Optimum Under Various Criteria.pdf}
 }
 
 @article{hu_optimum_,
@@ -1028,6 +1029,169 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   author = {Hu, T C and Morgenthaler, J D},
   pages = {10},
   file = {/Users/doisinkidney/Zotero/storage/JJBJDKAY/Hu and Morgenthaler - Optimum Alphabetic Binary Trees.pdf}
+}
+
+@article{rastogi_boundary_,
+  title = {The {{Boundary Between Privacy}} and {{Utility}} in {{Data Publishing}}${_\ast}$},
+  abstract = {We consider the privacy problem in data publishing: given a database instance containing sensitive information ``anonymize'' it to obtain a view such that, on one hand attackers cannot learn any sensitive information from the view, and on the other hand legitimate users can use it to compute useful statistics. These are conflicting goals. In this paper we prove an almost crisp separation of the case when a useful anonymization algorithm is possible from when it is not, based on the attacker's prior knowledge. Our definition of privacy is derived from existing literature and relates the attacker's prior belief for a given tuple t, with the posterior belief for the same tuple. Our definition of utility is based on the error bound on the estimates of counting queries. The main result has two parts. First we show that if the prior beliefs for some tuples are large then there exists no useful anonymization algorithm. Second, we show that when the prior is bounded for all tuples then there exists an anonymization algorithm that is both private and useful. The anonymization algorithm that forms our positive result is novel, and improves the privacy/utility tradeoff of previously known algorithms with privacy/utility guarantees such as FRAPP.},
+  language = {en},
+  author = {Rastogi, Vibhor and Suciu, Dan and Hong, Sungho},
+  pages = {12},
+  file = {/Users/doisinkidney/Zotero/storage/3ENVSRBB/Rastogi et al. - The Boundary Between Privacy and Utility in Data P.pdf}
+}
+
+@inproceedings{dwork_calibrating_2006,
+  address = {Berlin, Heidelberg},
+  series = {TCC'06},
+  title = {Calibrating {{Noise}} to {{Sensitivity}} in {{Private Data Analysis}}},
+  isbn = {978-3-540-32731-8},
+  doi = {10.1007/11681878_14},
+  abstract = {We continue a line of research initiated in [10,11]on privacy-preserving statistical databases. Consider a trusted server that holds a database of sensitive information. Given a query function f mapping databases to reals, the so-called true answer is the result of applying f to the database. To protect privacy, the true answer is perturbed by the addition of random noise generated according to a carefully chosen distribution, and this response, the true answer plus noise, is returned to the user. Previous work focused on the case of noisy sums, in which f = $\sum$ig(xi), where xi denotes the ith row of the database and g maps database rows to [0,1]. We extend the study to general functions f, proving that privacy can be preserved by calibrating the standard deviation of the noise according to the sensitivity of the function f. Roughly speaking, this is the amount that any single argument to f can change its output. The new analysis shows that for several particular applications substantially less noise is needed than was previously understood to be the case. The first step is a very clean characterization of privacy in terms of indistinguishability of transcripts. Additionally, we obtain separation results showing the increased value of interactive sanitization mechanisms over non-interactive.},
+  booktitle = {Proceedings of the {{Third Conference}} on {{Theory}} of {{Cryptography}}},
+  publisher = {{Springer-Verlag}},
+  author = {Dwork, Cynthia and McSherry, Frank and Nissim, Kobbi and Smith, Adam},
+  year = {2006},
+  pages = {265--284}
+}
+
+@inproceedings{xu_differentially_2012,
+  title = {Differentially {{Private Histogram Publication}}},
+  doi = {10.1109/ICDE.2012.48},
+  abstract = {Differential privacy (DP) is a promising scheme for releasing the results of statistical queries on sensitive data, with strong privacy guarantees against adversaries with arbitrary background knowledge. Existing studies on DP mostly focus on simple aggregations such as counts. This paper investigates the publication of DP-compliant histograms, which is an important analytical tool for showing the distribution of a random variable, e.g., hospital bill size for certain patients. Compared to simple aggregations whose results are purely numerical, a histogram query is inherently more complex, since it must also determine its structure, i.e., the ranges of the bins. As we demonstrate in the paper, a DP-compliant histogram with finer bins may actually lead to significantly lower accuracy than a coarser one, since the former requires stronger perturbations in order to satisfy DP. Moreover, the histogram structure itself may reveal sensitive information, which further complicates the problem. Motivated by this, we propose two novel algorithms, namely Noise First and Structure First, for computing DP-compliant histograms. Their main difference lies in the relative order of the noise injection and the histogram structure computation steps. Noise First has the additional benefit that it can improve the accuracy of an already published DP-complaint histogram computed using a naiive method. Going one step further, we extend both solutions to answer arbitrary range queries. Extensive experiments, using several real data sets, confirm that the proposed methods output highly accurate query answers, and consistently outperform existing competitors.},
+  booktitle = {2012 {{IEEE}} 28th {{International Conference}} on {{Data Engineering}}},
+  author = {Xu, J. and Zhang, Z. and Xiao, X. and Yang, Y. and Yu, G.},
+  month = apr,
+  year = {2012},
+  keywords = {data privacy,differential privacy,Privacy,Databases,arbitrary background knowledge,differentially private histogram publication,DP-compliant histograms,Heuristic algorithms,histogram query,histogram structure computation steps,Histograms,Noise,noise first algorithm,noise injection,Noise measurement,query processing,random variable distribution,sensitive data,Sensitivity,statistical databases,statistical queries,structure first algorithm},
+  pages = {32-43},
+  file = {/Users/doisinkidney/Zotero/storage/BQ7DIW9I/6228070.html}
+}
+
+@article{xu_differentially_2013,
+  title = {Differentially {{Private Histogram Publication}}},
+  volume = {22},
+  issn = {1066-8888},
+  doi = {10.1007/s00778-013-0309-y},
+  abstract = {Differential privacy (DP) is a promising scheme for releasing the results of statistical queries on sensitive data, with strong privacy guarantees against adversaries with arbitrary background knowledge. Existing studies on differential privacy mostly focus on simple aggregations such as counts. This paper investigates the publication of DP-compliant histograms, which is an important analytical tool for showing the distribution of a random variable, e.g., hospital bill size for certain patients. Compared to simple aggregations whose results are purely numerical, a histogram query is inherently more complex, since it must also determine its structure, i.e., the ranges of the bins. As we demonstrate in the paper, a DP-compliant histogram with finer bins may actually lead to significantly lower accuracy than a coarser one, since the former requires stronger perturbations in order to satisfy DP. Moreover, the histogram structure itself may reveal sensitive information, which further complicates the problem. Motivated by this, we propose two novel mechanisms, namely NoiseFirst and StructureFirst, for computing DP-compliant histograms. Their main difference lies in the relative order of the noise injection and the histogram structure computation steps. NoiseFirst has the additional benefit that it can improve the accuracy of an already published DP-compliant histogram computed using a naive method. For each of proposed mechanisms, we design algorithms for computing the optimal histogram structure with two different objectives: minimizing the mean square error and the mean absolute error, respectively. Going one step further, we extend both mechanisms to answer arbitrary range queries. Extensive experiments, using several real datasets, confirm that our two proposals output highly accurate query answers and consistently outperform existing competitors.},
+  number = {6},
+  journal = {The VLDB Journal},
+  author = {Xu, Jia and Zhang, Zhenjie and Xiao, Xiaokui and Yang, Yin and Yu, Ge and Winslett, Marianne},
+  month = dec,
+  year = {2013},
+  keywords = {Database query processing,Differential privacy,Histogram},
+  pages = {797--822},
+  file = {/Users/doisinkidney/Zotero/storage/Q7K3BF9E/Xu et al. - 2013 - Differentially Private Histogram Publication.pdf}
+}
+
+@misc{_optimal_,
+  title = {Optimal Choice of Discriminators in a Balanced K-d Binary Search Tree - {{ScienceDirect}}},
+  howpublished = {https://www.sciencedirect.com/science/article/pii/002001908190034X},
+  file = {/Users/doisinkidney/Zotero/storage/BXC2HKX7/002001908190034X.html}
+}
+
+@article{ji_differential_2013,
+  title = {Differential Privacy Based on Importance Weighting},
+  volume = {93},
+  issn = {0885-6125},
+  doi = {10.1007/s10994-013-5396-x},
+  abstract = {This paper analyzes a novel method for publishing data while still protecting privacy. The method is based on computing weights that make an existing dataset, for which there are no confidentiality issues, analogous to the dataset that must be kept private. The existing dataset may be genuine but public already, or it may be synthetic. The weights are importance sampling weights, but to protect privacy, they are regularized and have noise added. The weights allow statistical queries to be answered approximately while provably guaranteeing differential privacy. We derive an expression for the asymptotic variance of the approximate answers. Experiments show that the new mechanism performs well even when the privacy budget is small, and when the public and private datasets are drawn from different populations.},
+  number = {1},
+  journal = {Machine learning},
+  author = {Ji, Zhanglong and Elkan, Charles},
+  month = oct,
+  year = {2013},
+  pages = {163-183},
+  file = {/Users/doisinkidney/Zotero/storage/7NWAVG7M/Ji and Elkan - 2013 - Differential privacy based on importance weighting.pdf},
+  pmid = {24482559},
+  pmcid = {PMC3904646}
+}
+
+@inproceedings{ebadi_sampling_2016,
+  title = {Sampling and Partitioning for Differential Privacy},
+  isbn = {978-1-5090-4379-8},
+  doi = {10.1109/PST.2016.7906954},
+  abstract = {Differential privacy enjoys increasing popularity thanks to both a precise semantics for privacy and effective enforcement mechanisms. Many tools have been proposed to spread its use and ease the task of the concerned data scientist. The most promising among them completely discharge the user of the privacy concerns by transparently taking care of the privacy budget. However, their implementation proves to be delicate, and introduce flaws by falsifying some of the theoretical assumptions made to guarantee differential privacy. Moreover, such tools rely on assumptions leading to overapproximations which artificially reduce utility. In this paper we focus on a key mechanism that tools do not support well: sampling. We demonstrate an attack on PINQ (McSherry, SIGMOD 2009), one of these tools, relying on the difference between its internal mechanics and the formal theory for the sampling operation, and study a range of sampling methods and show how they can be correctly implemented in a system for differential privacy.},
+  language = {en},
+  publisher = {{IEEE}},
+  author = {Ebadi, Hamid and Antignac, Thibaud and Sands, David},
+  month = dec,
+  year = {2016},
+  pages = {664-673},
+  file = {/Users/doisinkidney/Zotero/storage/XBIW8SM9/Ebadi et al. - 2016 - Sampling and partitioning for differential privacy.pdf}
+}
+
+@incollection{hutchison_differentially_2010,
+  address = {Berlin, Heidelberg},
+  title = {Differentially {{Private Data Release}} through {{Multidimensional Partitioning}}},
+  volume = {6358},
+  isbn = {978-3-642-15545-1 978-3-642-15546-8},
+  abstract = {Differential privacy is a strong notion for protecting individual privacy in privacy preserving data analysis or publishing. In this paper, we study the problem of differentially private histogram release based on an interactive differential privacy interface. We propose two multidimensional partitioning strategies including a baseline cell-based partitioning and an innovative kd-tree based partitioning. In addition to providing formal proofs for differential privacy and usefulness guarantees for linear distributive queries , we also present a set of experimental results and demonstrate the feasibility and performance of our method.},
+  language = {en},
+  booktitle = {Secure {{Data Management}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Xiao, Yonghui and Xiong, Li and Yuan, Chun},
+  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Doug and Vardi, Moshe Y. and Weikum, Gerhard and Jonker, Willem and Petkovi{\'c}, Milan},
+  year = {2010},
+  pages = {150-168},
+  file = {/Users/doisinkidney/Zotero/storage/GBWH237F/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf},
+  doi = {10.1007/978-3-642-15546-8_11}
+}
+
+@incollection{hutchison_differentially_2010-1,
+  address = {Berlin, Heidelberg},
+  title = {Differentially {{Private Data Release}} through {{Multidimensional Partitioning}}},
+  volume = {6358},
+  isbn = {978-3-642-15545-1 978-3-642-15546-8},
+  abstract = {Differential privacy is a strong notion for protecting individual privacy in privacy preserving data analysis or publishing. In this paper, we study the problem of differentially private histogram release based on an interactive differential privacy interface. We propose two multidimensional partitioning strategies including a baseline cell-based partitioning and an innovative kd-tree based partitioning. In addition to providing formal proofs for differential privacy and usefulness guarantees for linear distributive queries , we also present a set of experimental results and demonstrate the feasibility and performance of our method.},
+  language = {en},
+  booktitle = {Secure {{Data Management}}},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Xiao, Yonghui and Xiong, Li and Yuan, Chun},
+  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Doug and Vardi, Moshe Y. and Weikum, Gerhard and Jonker, Willem and Petkovi{\'c}, Milan},
+  year = {2010},
+  pages = {150-168},
+  file = {/Users/doisinkidney/Zotero/storage/EEEXPEFM/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf},
+  doi = {10.1007/978-3-642-15546-8_11}
+}
+
+@inproceedings{muthukrishnan_rectangular_1999,
+  address = {London, UK, UK},
+  series = {ICDT '99},
+  title = {On {{Rectangular Partitionings}} in {{Two Dimensions}}: {{Algorithms}}, {{Complexity}}, and {{Applications}}},
+  isbn = {978-3-540-65452-0},
+  shorttitle = {On {{Rectangular Partitionings}} in {{Two Dimensions}}},
+  abstract = {Partitioning a multi-dimensional data set into rectangular partitions subject to certain constraints is an important problem that arises in many database applications, including histogram-based selectivity estimation, load-balancing, and construction of index structures. While provably optimal and efficient algorithms exist for partitioning one-dimensional data, the multi-dimensional problem has received less attention, except for a few special cases. As a result, the heuristic partitioning techniques that are used in practice are not well understood, and come with no guarantees on the quality of the solution. In this paper, we present algorithmic and complexity-theoretic results for the fundamental problem of partitioning a two-dimensional array into rectangular tiles of arbitrary size in a way that minimizes the number of tiles required to satisfy a given constraint. Our main results are approximation algorithms for several partitioning problems that provably approximate the optimal solutions within small constant factors, and that run in linear or close to linear time. We also establish the NP-hardness of several partitioning problems, therefore it is unlikely that there are efficient, i.e., polynomial time, algorithms for solving these problems exactly. We also discuss a few applications in which partitioning problems arise. One of the applications is the problem of constructing multi-dimensional histograms. Our results, for example, give an efficient algorithm to construct the V-Optimal histograms which are known to be the most accurate histograms in several selectivity estimation problems. Our algorithms are the first to provide guaranteed bounds on the quality of the solution.},
+  booktitle = {Proceedings of the 7th {{International Conference}} on {{Database Theory}}},
+  publisher = {{Springer-Verlag}},
+  author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
+  year = {1999},
+  pages = {236--256}
+}
+
+@inproceedings{muthukrishnan_rectangular_1999-1,
+  series = {Lecture Notes in Computer Science},
+  title = {On {{Rectangular Partitionings}} in {{Two Dimensions}}: {{Algorithms}}, {{Complexity}} and {{Applications}}},
+  isbn = {978-3-540-65452-0 978-3-540-49257-3},
+  shorttitle = {On {{Rectangular Partitionings}} in {{Two Dimensions}}},
+  doi = {10.1007/3-540-49257-7_16},
+  abstract = {Partitioning a multi-dimensional data set into rectangular partitions subject to certain constraints is an important problem that arises in many database applications, including histogram-based selectivity estimation, load-balancing, and construction of index structures. While provably optimal and efficient algorithms exist for partitioning one-dimensional data, the multi-dimensional problem has received less attention, except for a few special cases. As a result, the heuristic partitioning techniques that are used in practice are not well understood, and come with no guarantees on the quality of the solution. In this paper, we present algorithmic and complexity-theoretic results for the fundamental problem of partitioning a two-dimensional array into rectangular tiles of arbitrary size in a way that minimizes the number of tiles required to satisfy a given constraint. Our main results are approximation algorithms for several partitioning problems that provably approximate the optimal solutions within small constant factors, and that run in linear or close to linear time. We also establish the NP-hardness of several partitioning problems, therefore it is unlikely that there are efficient, i.e., polynomial time, algorithms for solving these problems exactly.We also discuss a few applications in which partitioning problems arise. One of the applications is the problem of constructing multi-dimensional histograms. Our results, for example, give an efficient algorithm to construct the V-Optimal histograms which are known to be the most accurate histograms in several selectivity estimation problems. Our algorithms are the first to provide guaranteed bounds on the quality of the solution.},
+  language = {en},
+  booktitle = {Database {{Theory}} \textemdash{} {{ICDT}}'99},
+  publisher = {{Springer, Berlin, Heidelberg}},
+  author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
+  month = jan,
+  year = {1999},
+  pages = {236-256},
+  file = {/Users/doisinkidney/Zotero/storage/TRTGER37/10.html}
+}
+
+@techreport{muthukrishnan_rectangular_1998,
+  title = {On Rectangular Partitionings in Two Dimensions: Algorithms, Complexity and Applications},
+  shorttitle = {On Rectangular Partitionings in Two Dimensions},
+  abstract = {Abstract. Partitioning a multi-dimensional data set into rectangular partitions subject to certain constraints is an important problem that arises in many database applications, including histogram-based selec-tivity estimation, load-balancing, and construction of index structures. While provably optimal and ecient algorithms exist for partitioning one-dimensional data, the multi-dimensional problem has received less attention, except for a few special cases. As a result, the heuristic parti-tioning techniques that are used in practice are not well understood, and come with no guarantees on the quality of the solution. In this paper, we present algorithmic and complexity-theoretic results for the fundamental problem of partitioning a two-dimensional array into rectangular tiles of arbitrary size in a way that minimizes the number of tiles required to sat-isfy a given constraint. Our main results are approximation algorithms for several partitioning problems that provably approximate the optimal solutions within small constant factors, and that run in linear or close to linear time. We also establish the NP-hardness of several partitioning problems, therefore it is unlikely that there are ecient, i.e., polynomial time, algorithms for solving these problems exactly. We also discuss a few applications in which partitioning problems arise. One of the applications is the problem of constructing multi-dimensional histograms. Our results, for example, give an ecient algorithm to con-struct the V-Optimal histograms which are known to be the most ac-curate histograms in several selectivity estimation problems. Our algo-rithms are the rst to provide guaranteed bounds on the quality of the solution. 1},
+  author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
+  year = {1998},
+  file = {/Users/doisinkidney/Zotero/storage/8A7359PN/Muthukrishnan et al. - 1998 - On rectangular partitionings in two dimensions al.pdf;/Users/doisinkidney/Zotero/storage/F26UBX29/summary.html}
 }
 
 

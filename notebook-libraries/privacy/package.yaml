@@ -65,10 +65,12 @@ default-extensions:
 - UnicodeSyntax
 - DeriveFoldable
 - DeriveFunctor
+- DeriveTraversable
 - ConstraintKinds
 - ScopedTypeVariables
 - KindSignatures
 - DataKinds
+- BangPatterns
 
 library:
   source-dirs: src

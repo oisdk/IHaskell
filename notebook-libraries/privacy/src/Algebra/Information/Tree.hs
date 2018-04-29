@@ -1,4 +1,11 @@
-module Algebra.Information.Tree where
+module Algebra.Information.Tree
+  (Tree(..)
+  ,privateTree
+  ,Path(..)
+  ,foldMapWithPath
+  ,codeBook
+  ,followPath)
+  where
 
 import           Data.Bool                 (bool)
 import           Data.Coerce.Utilities
@@ -29,11 +36,7 @@ data Tree b a
     | Node { measure :: b
            , lchild  :: Tree b a
            , rchild  :: Tree b a}
-    deriving (Functor)
-
-instance Foldable (Tree a) where
-    foldMap f (Leaf _ x)   = f x
-    foldMap f (Node _ l r) = mappend (foldMap f l) (foldMap f r)
+    deriving (Functor, Foldable, Traversable)
 
 instance Foldable1 (Tree a) where
     foldMap1 f (Leaf _ x)   = f x
@@ -58,6 +61,16 @@ instance (Show a, Show b) => IHaskellDisplay (Tree a b) where
             . renderTree' (renderNode . snd) renderBranch
             . symmLayout
 
+data ShowNode a
+    = ShowNode { revealed :: Bool
+               , _count :: a}
+    | Terminal { revealed :: Bool
+               , _val :: String}
+
+showVal :: Show a => ShowNode a -> String
+showVal (ShowNode _ c) = show c
+showVal (Terminal _ s) = s
+
 privateTree
     :: (Semigroup c, Show c, Show a, Show b)
     => (b -> Bool) -> (a -> c) -> Tree b a -> Diagram Cairo
@@ -65,32 +78,35 @@ privateTree reveal generalize tree =
     diagram $ bg white $ drawTree $ toTree tree
   where
     toTree (Leaf i x) =
-        Rose.Node (reveal i, show i) [Rose.Node (reveal i, show x) []]
+        Rose.Node
+            (ShowNode (reveal i) i)
+            [Rose.Node (Terminal (reveal i) (show x)) []]
     toTree nd@(Node i l r)
       | reveal (measure l) && reveal (measure r) =
-          Rose.Node (reveal i, show i) [toTree l, toTree r]
+          Rose.Node (ShowNode (reveal i) i) [toTree l, toTree r]
       | otherwise =
           Rose.Node
-              (reveal i, show i)
+              (ShowNode (reveal i) i)
               [ Rose.Node
-                    (reveal i, show (foldMap1 generalize nd))
+                    (Terminal (reveal i) (show (foldMap1 generalize nd)))
                     [toHiddenTree l, toHiddenTree r]]
     toHiddenTree (Node i l r) =
-        Rose.Node (False, show i) [toHiddenTree l, toHiddenTree r]
+        Rose.Node (ShowNode False i) [toHiddenTree l, toHiddenTree r]
     toHiddenTree (Leaf i x) =
-        Rose.Node (False, show i) [Rose.Node (False, show x) []]
+        Rose.Node (ShowNode False i) [Rose.Node (Terminal False (show x)) []]
     drawTree =
-        pad 1.1 .
-        centerXY .
-        renderTree'
-            (\(b,n) ->
-                  text n # fontSizeL 0.2 # maybeOp b <> circle 0.2 # fc white #
-                  lc white)
-            (\((lb,_),ll) ((rb,_),rr) ->
-                  maybeOp (lb && rb) (ll ~~ rr)) .
-        symmLayout
-    maybeOp True  = id
+        pad 1.1 . centerXY . renderTree' renderNode renderBranch . symmLayout
+    maybeOp True = id
     maybeOp False = opacity 0.5
+    renderNode nd =
+        text (showVal nd) # fontSizeL 0.2 # maybeOp (revealed nd) <> circle 0.2 #
+        fc white #
+        lc white
+    renderBranch (lb,ll) (rb,rr) =
+        maybeOp (revealed lb && revealed rb) (ll ~~ rr) #
+        case rb of
+            ShowNode{} -> id
+            Terminal{} -> dashingG [0.05, 0.05] 0
 
 newtype Path = Path { getPath :: [Bool] }
 
@@ -113,3 +129,7 @@ foldMapWithPath = go .# (. Path)
 codeBook :: Ord b => Tree a b -> Map b Path
 codeBook = foldMapWithPath (flip Map.singleton)
 
+followPath :: Path -> Tree a b -> Either (Tree a b) b
+followPath = foldr f Left .# getPath where
+  f _ _ (Leaf _ x)     = Right x
+  f d k (Node _ ls rs) = k (bool ls rs d)
