@@ -5,11 +5,12 @@ import GHC.Base (oneShot)
 
 import qualified Data.Set as Set
 import qualified Data.Map as Map
-import           Data.Maybe
-import           Data.List.Indexed
-import           Data.List.NonEmpty (NonEmpty(..), nonEmpty)
 import           Data.Foldable
-import           Data.Traversable
+import           Control.Applicative.Backwards
+import           Control.Monad.State
+import           Data.Functor.Compose
+import           Control.Applicative
+import           Data.Coerce.Utilities
 
 cmpSlide
     :: Ord a
@@ -27,24 +28,22 @@ cmpSlide xs' ys' = snd (foldr g b (zipWith compare xs' ys') EQ)
     {-# INLINE b #-}
 {-# INLINABLE cmpSlide #-}
 
-{-# ANN sortCycles "HLint: ignore Too strict maybe" #-}
+data Tree a = Leaf a | Tree a :*: Tree a deriving Foldable
+
 sortCycles
-    :: Ord a
-    => [List n a] -> [List n Int]
-sortCycles = maybe [] (untranspose . snd . flip g Nothing . transpose) . nonEmpty
+    :: (Ord a, Traversable f, Applicative f)
+    => [f a] -> [f Int]
+sortCycles = getZipList #. knot . getCompose . forwards . getCompose . traverse f . sequenceA
   where
-    b a = (fromJust a, Nil)
-
-    g :: forall n a. Ord a => List n (NonEmpty a) -> Maybe [Int] -> ([Int], List n [Int])
-    g Nil = b
-    g (x :- xs) = f (toList x) (g xs)
-
-    f x xs a = (map (`Map.findIndex` z) zipped, foldMap ($ []) z :- ys)
+    f x = Compose (Backwards (Compose (Endo fw, state go)))
       where
-        (y,ys) = xs . Just $ maybe (sortInds x) (sortInds . flip zip x) a
-        zipped = zip x y
-        z = Map.fromListWith (flip (.)) (zipWith (\e i -> (e, (:) i)) zipped [0 ..])
-
-    sortInds xs = map (`Set.findIndex` ys) xs
+        fw = sortInds . flip zip x
+        go y = (ZipList (toList (Compose zs)), bw)
+          where
+            xy = zip x y
+            zs = Map.fromListWith (:*:) (zipWith (\e -> (,) e . Leaf) xy [0..])
+            bw = fmap (`Map.findIndex` zs) xy
+    sortInds xs = fmap (`Set.findIndex` ys) xs
       where
         ys = Set.fromList xs
+    knot (s,t) = evalState t (appEndo s (repeat 0))

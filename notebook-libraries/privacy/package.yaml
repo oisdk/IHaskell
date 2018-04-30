@@ -49,6 +49,8 @@ dependencies:
 - blaze-markup
 - blaze-html
 - groups
+- mtl
+- transformers
 
 default-extensions:
 - TypeOperators
