@@ -27,4 +27,4 @@ benchAtSize n =
                    , bench "slow" $ nf slowSortCycles xs]]
 
 main :: IO ()
-main = defaultMain (map benchAtSize [1000])
+main = defaultMain (map benchAtSize [1000, 10000])

@@ -21,6 +21,7 @@ deriving instance Foldable (List n)
 deriving instance Traversable (List n)
 deriving instance Eq a => Eq (List n a)
 deriving instance Ord a => Ord (List n a)
+deriving instance Show a => Show (List n a)
 
 instance Apply (List n) where
     liftF2 _ Nil Nil = Nil
@@ -42,5 +43,5 @@ instance Decidable n => Applicative (List n) where
     (f :- fs) <*> (x :- xs) = case pre @ n of Dict -> f x :- (fs <*> xs)
     Nil <*> Nil = Nil
 
-instance Show a => Show (List n a) where
-    showsPrec n = showsPrec n . toList
+-- instance Show a => Show (List n a) where
+--     showsPrec n = showsPrec n . toList
