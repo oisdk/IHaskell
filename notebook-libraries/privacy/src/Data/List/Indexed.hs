@@ -1,3 +1,5 @@
+{-# LANGUAGE TypeApplications #-}
+
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
 module Data.List.Indexed where
@@ -5,6 +7,9 @@ module Data.List.Indexed where
 import Numeric.Peano
 import Data.Functor.Apply
 import Data.List.NonEmpty (NonEmpty(..))
+import Type.Flip
+import Data.Foldable
+import Data.Coerce.Utilities
 
 infixr 5 :-
 data List n a where
@@ -31,3 +36,11 @@ untranspose :: List n [a] -> [List n a]
 untranspose Nil = []
 untranspose (x :- Nil) = map (:- Nil) x
 untranspose (x :- xs) = zipWith (:-) x (untranspose xs)
+
+instance Decidable n => Applicative (List n) where
+    pure x = unFlip (ind (Flip #. (x:-) .# unFlip) (Flip Nil))
+    (f :- fs) <*> (x :- xs) = case pre @ n of Dict -> f x :- (fs <*> xs)
+    Nil <*> Nil = Nil
+
+instance Show a => Show (List n a) where
+    showsPrec n = showsPrec n . toList

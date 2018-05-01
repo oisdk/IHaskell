@@ -3,12 +3,11 @@ module Data.Sort.Cycles where
 import Data.Semigroup
 import GHC.Base (oneShot)
 
-import qualified Data.Set as Set
 import qualified Data.Map as Map
 import           Data.Foldable
 import           Control.Applicative.Backwards
 import           Control.Monad.State
-import           Data.Functor.Compose
+import           Type.Compose
 import           Control.Applicative
 import           Data.Coerce.Utilities
 import           Control.Lens
@@ -30,11 +29,31 @@ cmpSlide xs' ys' = snd (foldr g b (zipWith compare xs' ys') EQ)
     {-# INLINE b #-}
 {-# INLINABLE cmpSlide #-}
 
-data Tree a = Leaf a | Tree a :*: Tree a deriving Foldable
+data Tree :: * -> * where
+    Leaf :: {-# UNPACK #-} !Int -> Tree Int
+    (:*:) :: !(Tree a) -> !(Tree a) -> Tree a
+
+instance Foldable Tree where
+    foldr f = go
+      where
+        go b (Leaf x) = f x b
+        go b (xs :*: ys) = go (go b ys) xs
+    {-# INLINE foldr #-}
 
 -- |
--- >>> sortCycles input == expect
--- True
+-- >>> sortInds "aabcda"
+-- [0,1,3,4,5,2]
+sortInds :: Ord a => [a] -> [Int]
+sortInds xs = evalState (traverse g xs) ys
+  where
+    ys = snd
+       . Map.mapAccum f 0
+       . Map.fromListWith (+)
+       . map (flip (,) 1)
+       $ xs
+    f is i = (i + is, is)
+    g x = at x . unsafeSingular _Just <<+= 1
+
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f Int]
@@ -55,12 +74,23 @@ sortCycles = getZipList
             xy = zip x y
             zs = Map.fromListWith (:*:) (imap (\i e -> (e, Leaf i)) xy)
             bw = fmap (`Map.findIndex` zs) xy
-    sortInds xs = fmap (`Set.findIndex` ys) xs
-      where
-        ys = Set.fromList xs
     knot (s,t) = evalState t (s (repeat 0))
 
-
--- $setup
--- >>> let expect = map ZipList [[11,13,9],[13,4,6],[0,5,1],[10,9,7],[3,0,13],[1,6,0],[9,1,12],[5,7,10],[4,10,4],[7,12,5],[14,2,14],[6,11,2],[12,14,11],[2,8,8],[8,3,3]]
--- >>> let input = map ZipList [[2,3,3],[5,4,2],[9,6,7],[4,7,9],[8,1,5],[7,2,6],[9,4,1],[8,4,2],[9,7,8],[6,3,1],[3,4,5],[1,6,8],[9,5,3],[2,1,3],[8,7,6]]
+-- |
+-- >>> rotations "abcd"
+-- ["abcd","bcda","cdab","dabc"]
+rotations :: Traversable t => t a -> t [a]
+rotations = flip evalState id
+          . forwards
+         #. flip evalState id
+          . getCompose
+         #. traverse (Compose #. fmap Backwards #. f)
+  where
+    f x =
+        state $
+        \yl ->
+             flip (,) (yl . (:) x) $
+             state $
+             \yr ->
+                  let z = (:) x . yr
+                  in (z (yl []), z)
