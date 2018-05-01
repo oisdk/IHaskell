@@ -12,6 +12,8 @@ import           Control.Applicative
 import           Data.Coerce.Utilities
 import           Control.Lens
 import           Control.Arrow
+import qualified Data.Vector as Vector
+import Data.Tuple
 
 cmpSlide
     :: Ord a
@@ -44,15 +46,14 @@ instance Foldable Tree where
 -- >>> sortInds "aabcda"
 -- [0,1,3,4,5,2]
 sortInds :: Ord a => [a] -> [Int]
-sortInds xs = evalState (traverse g xs) ys
+sortInds xs = Vector.toList vs
   where
-    ys = snd
-       . Map.mapAccum f 0
-       . Map.fromListWith (+)
-       . map (flip (,) 1)
+    ys = itoListOf folded
+       . Compose
+       . Map.fromListWith (flip (:*:))
+       . imap (\i e -> (e, Leaf i))
        $ xs
-    f is i = (i + is, is)
-    g x = at x . unsafeSingular _Just <<+= 1
+    vs = Vector.replicate (length ys) 0 Vector.// map swap ys
 
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
