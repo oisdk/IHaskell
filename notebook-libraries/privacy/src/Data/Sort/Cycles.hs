@@ -3,7 +3,7 @@ module Data.Sort.Cycles where
 import Data.Semigroup
 import GHC.Base (oneShot)
 
-import qualified Data.Map as Map
+import qualified Data.Map.Strict as Map
 import           Data.Foldable
 import           Control.Applicative.Backwards
 import           Control.Monad.State
@@ -12,9 +12,8 @@ import           Control.Applicative
 import           Data.Coerce.Utilities
 import           Control.Lens
 import           Control.Arrow
-import Data.Tuple
 import qualified Data.Array.IArray as Array
-import Data.Functor.Reverse
+import           Data.Functor.Reverse
 
 cmpSlide
     :: Ord a
@@ -31,17 +30,6 @@ cmpSlide xs' ys' = snd (foldr g b (zipWith compare xs' ys') EQ)
     b a = (a, [])
     {-# INLINE b #-}
 {-# INLINABLE cmpSlide #-}
-
-data Tree :: * -> * where
-    Leaf :: {-# UNPACK #-} !Int -> Tree Int
-    (:*:) :: !(Tree a) -> !(Tree a) -> Tree a
-
-instance Foldable Tree where
-    foldr f = go
-      where
-        go b (Leaf x) = f x b
-        go b (xs :*: ys) = go (go b ys) xs
-    {-# INLINE foldr #-}
 
 sortPermuteInds :: Ord a => [a] -> (Int, [(Int,Int)])
 sortPermuteInds xs = (ln, ys)
