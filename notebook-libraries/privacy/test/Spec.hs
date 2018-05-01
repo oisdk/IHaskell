@@ -9,11 +9,8 @@
 
 module Main (main) where
 
-import           Control.Applicative
 import           Numeric.Peano
-import           Data.Coerce.Utilities
 
-import           Data.List                    (sortOn)
 import           Data.Sort.Cycles
 
 import           Hedgehog
@@ -23,10 +20,6 @@ import qualified Hedgehog.Range               as Range
 import           Privacy.Test.Generators.List
 import           Privacy.Test.Data
 
-slowSortCycles :: (Ord a, Traversable f, Applicative f) => [f a] -> [f Int]
-slowSortCycles = getZipList
-              #. traverse (ZipList #. map fst . sortOn snd . zip [0 ..])
-               . traverse rotations
 
 prop_sortCyclesSameAsSlow :: Property
 prop_sortCyclesSameAsSlow =

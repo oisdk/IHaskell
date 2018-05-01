@@ -13,7 +13,8 @@ import           Data.Coerce.Utilities
 import           Control.Lens
 import           Control.Arrow
 import qualified Data.Array.IArray as Array
-import           Data.Functor.Reverse
+import           Data.List (sortBy)
+import           Data.Ord
 
 cmpSlide
     :: Ord a
@@ -35,8 +36,12 @@ sortPermuteInds :: Ord a => [a] -> (Int, [(Int,Int)])
 sortPermuteInds xs = (ln, ys)
   where
     (ln,mp) = foldl' f (0, Map.empty) xs
-    f (i,m) x = (i + 1, Map.alter (Just . maybe [i] (i :)) x m)
-    ys = ifoldrOf folded (\i e zs -> (e, i) : zs) [] (Compose (Reverse <#$> mp))
+    f (!i, !m) x = (i + 1, Map.alter (Just . maybe [i] (i :)) x m)
+    {-# INLINE f #-}
+    ys = mp ^.. indexing (folded . backwards folded) . withIndex . swapped
+    -- ys = build (\c n -> foldr (\e zs -> foldl (\a e' -> oneShot (\ !i -> (e',i) `c` a (i+1))) zs e) (const n) mp 0)
+    {-# INLINE ys #-}
+{-# INLINE sortPermuteInds #-}
 
 -- |
 -- >>> sortInds "aabcda"
@@ -47,19 +52,19 @@ sortInds xs = Array.elems vs
     (ln,ys) = sortPermuteInds xs
     vs :: Array.Array Int Int
     vs = Array.array (0,ln - 1) ys
+{-# INLINE sortInds #-}
 
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f Int]
-sortCycles xs = getZipList
-             #. knot
-              . first (appEndo . getDual)
-             #. getCompose
-             #. forwards
-             #. getCompose
-             #. traverse (Compose #. fmap ZipList #. Backwards #. Compose #. first (Dual . Endo) #. f)
-              . sequenceA
-              $ xs
+sortCycles = getZipList
+          #. knot
+           . first (appEndo . getDual)
+          #. getCompose
+          #. forwards
+          #. getCompose
+          #. traverse (Compose #. fmap ZipList #. Backwards #. Compose #. first (Dual . Endo) #. f)
+           . sequenceA
   where
     f x = (fw, state go)
       where
@@ -70,6 +75,7 @@ sortCycles xs = getZipList
             bw :: Array.Array Int Int
             bw = Array.array (0, ln - 1) zs
     knot (s,t) = evalState t (s (repeat 0))
+{-# INLINE sortCycles #-}
 
 -- |
 -- >>> rotations "abcd"
@@ -89,3 +95,8 @@ rotations = flip evalState id
              \yr ->
                   let z = (:) x . yr
                   in (z (yl []), z)
+
+slowSortCycles :: (Ord a, Traversable f, Applicative f) => [f a] -> [f Int]
+slowSortCycles = getZipList
+              #. traverse (ZipList #. map fst . sortBy (comparing snd) . zip [0 ..])
+               . traverse rotations

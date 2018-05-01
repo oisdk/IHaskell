@@ -21,7 +21,10 @@ benchAtSize n =
                bench "rotations" $ nf rotations xs
         , env (replicateM n (listFive n)) $
           \xs ->
-               bench "sorts" $ nf sortCycles xs]
+               bgroup
+                   "sorts"
+                   [ bench "optimized" $ nf sortCycles xs
+                   , bench "slow" $ nf slowSortCycles xs]]
 
 main :: IO ()
-main = defaultMain (map benchAtSize [100])
+main = defaultMain (map benchAtSize [1000])
