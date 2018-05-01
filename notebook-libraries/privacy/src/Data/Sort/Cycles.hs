@@ -51,14 +51,15 @@ sortInds xs = Array.elems vs
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f Int]
-sortCycles = getZipList
-          #. knot
-           . first (appEndo . getDual)
-          #. getCompose
-          #. forwards
-          #. getCompose
-          #. traverse (Compose #. fmap ZipList #. Backwards #. Compose #. first (Dual . Endo) #. f)
-           . sequenceA
+sortCycles xs = getZipList
+             #. knot
+              . first (appEndo . getDual)
+             #. getCompose
+             #. forwards
+             #. getCompose
+             #. traverse (Compose #. fmap ZipList #. Backwards #. Compose #. first (Dual . Endo) #. f)
+              . sequenceA
+              $ xs
   where
     f x = (fw, state go)
       where
