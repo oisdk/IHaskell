@@ -12,8 +12,9 @@ import           Control.Applicative
 import           Data.Coerce.Utilities
 import           Control.Lens
 import           Control.Arrow
-import qualified Data.Vector as Vector
 import Data.Tuple
+import qualified Data.Array.IArray as Array
+import Data.Functor.Reverse
 
 cmpSlide
     :: Ord a
@@ -42,18 +43,22 @@ instance Foldable Tree where
         go b (xs :*: ys) = go (go b ys) xs
     {-# INLINE foldr #-}
 
+sortPermuteInds :: Ord a => [a] -> (Int, [(Int,Int)])
+sortPermuteInds xs = (ln, ys)
+  where
+    (ln,mp) = foldl' f (0, Map.empty) xs
+    f (i,m) x = (i + 1, Map.alter (Just . maybe [i] (i :)) x m)
+    ys = ifoldrOf folded (\i e zs -> (e, i) : zs) [] (Compose (Reverse <#$> mp))
+
 -- |
 -- >>> sortInds "aabcda"
 -- [0,1,3,4,5,2]
 sortInds :: Ord a => [a] -> [Int]
-sortInds xs = Vector.toList vs
+sortInds xs = Array.elems vs
   where
-    ys = itoListOf folded
-       . Compose
-       . Map.fromListWith (flip (:*:))
-       . imap (\i e -> (e, Leaf i))
-       $ xs
-    vs = Vector.replicate (length ys) 0 Vector.// map swap ys
+    (ln,ys) = sortPermuteInds xs
+    vs :: Array.Array Int Int
+    vs = Array.array (0,ln - 1) ys
 
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
@@ -70,11 +75,11 @@ sortCycles = getZipList
     f x = (fw, state go)
       where
         fw = sortInds . zip x
-        go y = (toList (Compose zs), bw)
+        go y = (map fst zs, Array.elems bw)
           where
-            xy = zip x y
-            zs = Map.fromListWith (:*:) (imap (\i e -> (e, Leaf i)) xy)
-            bw = fmap (`Map.findIndex` zs) xy
+            (ln,zs) = sortPermuteInds (zip x y)
+            bw :: Array.Array Int Int
+            bw = Array.array (0, ln - 1) zs
     knot (s,t) = evalState t (s (repeat 0))
 
 -- |

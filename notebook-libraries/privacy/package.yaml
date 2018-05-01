@@ -52,6 +52,7 @@ dependencies:
 - mtl
 - transformers
 - vector
+- array
 
 default-extensions:
 - TypeOperators
