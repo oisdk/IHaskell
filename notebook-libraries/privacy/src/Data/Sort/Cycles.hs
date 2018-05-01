@@ -21,7 +21,7 @@ vecArray i xs = Vector.replicate i undefined Vector.// xs
 {-# INLINE vecArray #-}
 
 uVecArray :: UnboxedVector.Unbox a => Int -> [(Int, a)] -> UnboxedVector.Vector a
-uVecArray i xs = UnboxedVector.create (MUnboxedVector.unsafeNew i) `UnboxedVector.unsafeUpd` xs
+uVecArray i = UnboxedVector.unsafeUpd (UnboxedVector.create (MUnboxedVector.unsafeNew i))
 {-# INLINE uVecArray #-}
 
 cmpSlide
@@ -60,7 +60,12 @@ sortInds = UnboxedVector.toList . uncurry uVecArray . sortPermuteInds
 sortCycles
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f Int]
-sortCycles xs = getZipList
+sortCycles = (map.fmap) fst . sortCyclesInds
+
+sortCyclesInds
+    :: (Ord a, Traversable f, Applicative f)
+    => [f a] -> [f (Int, Int)]
+sortCyclesInds xs = getZipList
              #. flip evalState ts
               . forwards
              #. getCompose
@@ -68,8 +73,8 @@ sortCycles xs = getZipList
               . sequenceA
               $ xs
   where
-    f 0 _ _ = (map fst hs, ts)
-    f _ x y = (map fst zs, UnboxedVector.toList bw)
+    f 0 _ _ = (hs, ts)
+    f _ x y = (zs, UnboxedVector.toList bw)
       where
         (ln,zs) = sortPermuteInds (zip x y)
         bw = uVecArray ln zs
