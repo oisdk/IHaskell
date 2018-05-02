@@ -928,13 +928,17 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   eprint = {1410.5420},
   primaryClass = {cs},
   title = {Building a {{Balanced}} K-d {{Tree}} in {{O}}(Kn Log n) {{Time}}},
+  volume = {4},
   abstract = {The original description of the k-d tree recognized that rebalancing techniques, such as are used to build an AVL tree or a red-black tree, are not applicable to a k-d tree. Hence, in order to build a balanced k-d tree, it is necessary to find the median of the data for each recursive subdivision of those data. The sort or selection that is used to find the median for each subdivision strongly influences the computational complexity of building a k-d tree. This paper discusses an alternative algorithm that builds a balanced k-d tree by presorting the data in each of k dimensions prior to building the tree. It then preserves the order of these k sorts during tree construction and thereby avoids the requirement for any further sorting. Moreover, this algorithm is amenable to parallel execution via multiple threads. Compared to an algorithm that finds the median for each recursive subdivision, this presorting algorithm has equivalent performance for four dimensions and better performance for three or fewer dimensions.},
+  language = {en},
+  number = {1},
   journal = {arXiv:1410.5420 [cs]},
   author = {Brown, Russell A.},
   month = oct,
   year = {2014},
   keywords = {Computer Science - Data Structures and Algorithms},
-  file = {/Users/doisinkidney/Zotero/storage/8DUXYIUX/Brown - 2014 - Building a Balanced k-d Tree in O(kn log n) Time.pdf;/Users/doisinkidney/Zotero/storage/LYJ89Z5V/1410.html},
+  pages = {19},
+  file = {/Users/doisinkidney/Zotero/storage/8DUXYIUX/Brown - 2014 - Building a Balanced k-d Tree in O(kn log n) Time.pdf;/Users/doisinkidney/Zotero/storage/SPSN744B/Brown - 2015 - Building a Balanced k-d Tree in O(kn log n) Time.pdf;/Users/doisinkidney/Zotero/storage/LYJ89Z5V/1410.html},
   annote = {Comment: 8 pages, 7 figures, published at http://jcgt.org/published/0004/01/03/}
 }
 
@@ -945,9 +949,9 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   booktitle = {[{{Proceedings}}] {{DCC}} `93: {{Data Compression Conference}}},
   author = {Arya, S. and Mount, D. M.},
   year = {1993},
-  keywords = {Computer science,performance,Tree graphs,search problems,Image coding,Application software,Educational institutions,Books,directed graph,directed graphs,fast vector quantization,Nearest neighbor searches,neighborhood graph search algorithm,Performance loss,running time,Speech,tree search algorithms,vector quantisation,Vector quantization},
+  keywords = {Application software,Books,Computer science,directed graph,directed graphs,Educational institutions,fast vector quantization,Image coding,Nearest neighbor searches,neighborhood graph search algorithm,performance,Performance loss,running time,search problems,Speech,Tree graphs,tree search algorithms,vector quantisation,Vector quantization},
   pages = {381-390},
-  file = {/Users/doisinkidney/Zotero/storage/RRTMGVRH/253111.html}
+  file = {/Users/doisinkidney/Zotero/storage/472Y935X/Arya and Mount - 1993 - Algorithms for fast vector quantization.pdf;/Users/doisinkidney/Zotero/storage/M7QJJ45P/253111.html;/Users/doisinkidney/Zotero/storage/RRTMGVRH/253111.html}
 }
 
 @inproceedings{scott_ebs_2003,
@@ -965,18 +969,6 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   year = {2003},
   pages = {467-477},
   file = {/Users/doisinkidney/Zotero/storage/QXRWWLSY/Scott and Shyu - 2003 - EBS k-d Tree An Entropy Balanced Statistical k-d .pdf;/Users/doisinkidney/Zotero/storage/TBR8K5IS/3-540-45113-7_46.html}
-}
-
-@inproceedings{arya_algorithms_1993-2,
-  title = {Algorithms for Fast Vector Quantization},
-  doi = {10.1109/DCC.1993.253111},
-  abstract = {This paper shows that if one is willing to relax the requirement of finding the true nearest neighbor, it is possible to achieve significant improvements in running time and at only a very small loss in the performance of the vector quantizer. The authors present three algorithms for nearest neighbor searching: standard and priority k -d tree search algorithms and a neighborhood graph search algorithm in which a directed graph is constructed for the point set and edges join neighboring points},
-  booktitle = {[{{Proceedings}}] {{DCC}} `93: {{Data Compression Conference}}},
-  author = {Arya, S. and Mount, D. M.},
-  year = {1993},
-  keywords = {Computer science,performance,Tree graphs,search problems,Image coding,Application software,Educational institutions,Books,directed graph,directed graphs,fast vector quantization,Nearest neighbor searches,neighborhood graph search algorithm,Performance loss,running time,Speech,tree search algorithms,vector quantisation,Vector quantization},
-  pages = {381-390},
-  file = {/Users/doisinkidney/Zotero/storage/472Y935X/Arya and Mount - 1993 - Algorithms for fast vector quantization.pdf;/Users/doisinkidney/Zotero/storage/M7QJJ45P/253111.html}
 }
 
 @article{hall_random_2011,
@@ -1054,19 +1046,6 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   pages = {265--284}
 }
 
-@inproceedings{xu_differentially_2012,
-  title = {Differentially {{Private Histogram Publication}}},
-  doi = {10.1109/ICDE.2012.48},
-  abstract = {Differential privacy (DP) is a promising scheme for releasing the results of statistical queries on sensitive data, with strong privacy guarantees against adversaries with arbitrary background knowledge. Existing studies on DP mostly focus on simple aggregations such as counts. This paper investigates the publication of DP-compliant histograms, which is an important analytical tool for showing the distribution of a random variable, e.g., hospital bill size for certain patients. Compared to simple aggregations whose results are purely numerical, a histogram query is inherently more complex, since it must also determine its structure, i.e., the ranges of the bins. As we demonstrate in the paper, a DP-compliant histogram with finer bins may actually lead to significantly lower accuracy than a coarser one, since the former requires stronger perturbations in order to satisfy DP. Moreover, the histogram structure itself may reveal sensitive information, which further complicates the problem. Motivated by this, we propose two novel algorithms, namely Noise First and Structure First, for computing DP-compliant histograms. Their main difference lies in the relative order of the noise injection and the histogram structure computation steps. Noise First has the additional benefit that it can improve the accuracy of an already published DP-complaint histogram computed using a naiive method. Going one step further, we extend both solutions to answer arbitrary range queries. Extensive experiments, using several real data sets, confirm that the proposed methods output highly accurate query answers, and consistently outperform existing competitors.},
-  booktitle = {2012 {{IEEE}} 28th {{International Conference}} on {{Data Engineering}}},
-  author = {Xu, J. and Zhang, Z. and Xiao, X. and Yang, Y. and Yu, G.},
-  month = apr,
-  year = {2012},
-  keywords = {data privacy,differential privacy,Privacy,Databases,arbitrary background knowledge,differentially private histogram publication,DP-compliant histograms,Heuristic algorithms,histogram query,histogram structure computation steps,Histograms,Noise,noise first algorithm,noise injection,Noise measurement,query processing,random variable distribution,sensitive data,Sensitivity,statistical databases,statistical queries,structure first algorithm},
-  pages = {32-43},
-  file = {/Users/doisinkidney/Zotero/storage/BQ7DIW9I/6228070.html}
-}
-
 @article{xu_differentially_2013,
   title = {Differentially {{Private Histogram Publication}}},
   volume = {22},
@@ -1080,7 +1059,7 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   year = {2013},
   keywords = {Database query processing,Differential privacy,Histogram},
   pages = {797--822},
-  file = {/Users/doisinkidney/Zotero/storage/Q7K3BF9E/Xu et al. - 2013 - Differentially Private Histogram Publication.pdf}
+  file = {/Users/doisinkidney/Zotero/storage/3C28CTY3/Xu et al. - Differentially Private Histogram Publication.pdf;/Users/doisinkidney/Zotero/storage/Q7K3BF9E/Xu et al. - 2013 - Differentially Private Histogram Publication.pdf}
 }
 
 @misc{_optimal_,
@@ -1133,24 +1112,7 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Doug and Vardi, Moshe Y. and Weikum, Gerhard and Jonker, Willem and Petkovi{\'c}, Milan},
   year = {2010},
   pages = {150-168},
-  file = {/Users/doisinkidney/Zotero/storage/GBWH237F/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf},
-  doi = {10.1007/978-3-642-15546-8_11}
-}
-
-@incollection{hutchison_differentially_2010-1,
-  address = {Berlin, Heidelberg},
-  title = {Differentially {{Private Data Release}} through {{Multidimensional Partitioning}}},
-  volume = {6358},
-  isbn = {978-3-642-15545-1 978-3-642-15546-8},
-  abstract = {Differential privacy is a strong notion for protecting individual privacy in privacy preserving data analysis or publishing. In this paper, we study the problem of differentially private histogram release based on an interactive differential privacy interface. We propose two multidimensional partitioning strategies including a baseline cell-based partitioning and an innovative kd-tree based partitioning. In addition to providing formal proofs for differential privacy and usefulness guarantees for linear distributive queries , we also present a set of experimental results and demonstrate the feasibility and performance of our method.},
-  language = {en},
-  booktitle = {Secure {{Data Management}}},
-  publisher = {{Springer Berlin Heidelberg}},
-  author = {Xiao, Yonghui and Xiong, Li and Yuan, Chun},
-  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Doug and Vardi, Moshe Y. and Weikum, Gerhard and Jonker, Willem and Petkovi{\'c}, Milan},
-  year = {2010},
-  pages = {150-168},
-  file = {/Users/doisinkidney/Zotero/storage/EEEXPEFM/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf},
+  file = {/Users/doisinkidney/Zotero/storage/EEEXPEFM/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf;/Users/doisinkidney/Zotero/storage/GBWH237F/Xiao et al. - 2010 - Differentially Private Data Release through Multid.pdf},
   doi = {10.1007/978-3-642-15546-8_11}
 }
 
@@ -1165,33 +1127,199 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   publisher = {{Springer-Verlag}},
   author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
   year = {1999},
-  pages = {236--256}
-}
-
-@inproceedings{muthukrishnan_rectangular_1999-1,
-  series = {Lecture Notes in Computer Science},
-  title = {On {{Rectangular Partitionings}} in {{Two Dimensions}}: {{Algorithms}}, {{Complexity}} and {{Applications}}},
-  isbn = {978-3-540-65452-0 978-3-540-49257-3},
-  shorttitle = {On {{Rectangular Partitionings}} in {{Two Dimensions}}},
-  doi = {10.1007/3-540-49257-7_16},
-  abstract = {Partitioning a multi-dimensional data set into rectangular partitions subject to certain constraints is an important problem that arises in many database applications, including histogram-based selectivity estimation, load-balancing, and construction of index structures. While provably optimal and efficient algorithms exist for partitioning one-dimensional data, the multi-dimensional problem has received less attention, except for a few special cases. As a result, the heuristic partitioning techniques that are used in practice are not well understood, and come with no guarantees on the quality of the solution. In this paper, we present algorithmic and complexity-theoretic results for the fundamental problem of partitioning a two-dimensional array into rectangular tiles of arbitrary size in a way that minimizes the number of tiles required to satisfy a given constraint. Our main results are approximation algorithms for several partitioning problems that provably approximate the optimal solutions within small constant factors, and that run in linear or close to linear time. We also establish the NP-hardness of several partitioning problems, therefore it is unlikely that there are efficient, i.e., polynomial time, algorithms for solving these problems exactly.We also discuss a few applications in which partitioning problems arise. One of the applications is the problem of constructing multi-dimensional histograms. Our results, for example, give an efficient algorithm to construct the V-Optimal histograms which are known to be the most accurate histograms in several selectivity estimation problems. Our algorithms are the first to provide guaranteed bounds on the quality of the solution.},
-  language = {en},
-  booktitle = {Database {{Theory}} \textemdash{} {{ICDT}}'99},
-  publisher = {{Springer, Berlin, Heidelberg}},
-  author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
-  month = jan,
-  year = {1999},
-  pages = {236-256},
+  pages = {236--256},
   file = {/Users/doisinkidney/Zotero/storage/TRTGER37/10.html}
 }
 
-@techreport{muthukrishnan_rectangular_1998,
-  title = {On Rectangular Partitionings in Two Dimensions: Algorithms, Complexity and Applications},
-  shorttitle = {On Rectangular Partitionings in Two Dimensions},
-  abstract = {Abstract. Partitioning a multi-dimensional data set into rectangular partitions subject to certain constraints is an important problem that arises in many database applications, including histogram-based selec-tivity estimation, load-balancing, and construction of index structures. While provably optimal and ecient algorithms exist for partitioning one-dimensional data, the multi-dimensional problem has received less attention, except for a few special cases. As a result, the heuristic parti-tioning techniques that are used in practice are not well understood, and come with no guarantees on the quality of the solution. In this paper, we present algorithmic and complexity-theoretic results for the fundamental problem of partitioning a two-dimensional array into rectangular tiles of arbitrary size in a way that minimizes the number of tiles required to sat-isfy a given constraint. Our main results are approximation algorithms for several partitioning problems that provably approximate the optimal solutions within small constant factors, and that run in linear or close to linear time. We also establish the NP-hardness of several partitioning problems, therefore it is unlikely that there are ecient, i.e., polynomial time, algorithms for solving these problems exactly. We also discuss a few applications in which partitioning problems arise. One of the applications is the problem of constructing multi-dimensional histograms. Our results, for example, give an ecient algorithm to con-struct the V-Optimal histograms which are known to be the most ac-curate histograms in several selectivity estimation problems. Our algo-rithms are the rst to provide guaranteed bounds on the quality of the solution. 1},
-  author = {Muthukrishnan, S. and Poosala, Viswanath and Suel, Torsten},
-  year = {1998},
-  file = {/Users/doisinkidney/Zotero/storage/8A7359PN/Muthukrishnan et al. - 1998 - On rectangular partitionings in two dimensions al.pdf;/Users/doisinkidney/Zotero/storage/F26UBX29/summary.html}
+@inproceedings{hu_optimal_2005,
+  series = {Lecture Notes in Computer Science},
+  title = {Optimal {{Integer Alphabetic Trees}} in {{Linear Time}}},
+  isbn = {978-3-540-29118-3 978-3-540-31951-1},
+  doi = {10.1007/11561071_22},
+  abstract = {We show that optimal alphabetic binary trees can be constructed in O(n) time if the elements of the initial sequence are drawn from a domain that can be sorted in linear time. We describe a [6] hybrid algorithm that combines the bottom-up approach of the original Hu-Tucker algorithm with the top-down approach of Larmore and Przytycka's Cartesian tree algorithms. The hybrid algorithm demonstrates the computational equivalence of sorting and level tree construction.},
+  language = {en},
+  booktitle = {Algorithms \textendash{} {{ESA}} 2005},
+  publisher = {{Springer, Berlin, Heidelberg}},
+  author = {Hu, T. C. and Larmore, Lawrence L. and Morgenthaler, J. David},
+  month = oct,
+  year = {2005},
+  pages = {226-237},
+  file = {/Users/doisinkidney/Zotero/storage/T8GQS8U6/10.html}
+}
+
+@incollection{hutchison_optimal_2005,
+  address = {Berlin, Heidelberg},
+  title = {Optimal {{Integer Alphabetic Trees}} in {{Linear Time}}},
+  volume = {3669},
+  isbn = {978-3-540-29118-3 978-3-540-31951-1},
+  abstract = {We show that optimal alphabetic binary trees can be constructed in O(n) time if the elements of the initial sequence are drawn from a domain that can be sorted in linear time. We describe a hybrid algorithm that combines the bottom-up approach of the original Hu-Tucker algorithm with the top-down approach of Larmore and Przytycka's Cartesian tree algorithms. The hybrid algorithm demonstrates the computational equivalence of sorting and level tree construction.},
+  language = {en},
+  booktitle = {Algorithms \textendash{} {{ESA}} 2005},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Hu, T. C. and Larmore, Lawrence L. and Morgenthaler, J. David},
+  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Dough and Vardi, Moshe Y. and Weikum, Gerhard and Brodal, Gerth St{\o}lting and Leonardi, Stefano},
+  year = {2005},
+  pages = {226-237},
+  file = {/Users/doisinkidney/Zotero/storage/QTXEDZPJ/Hu et al. - 2005 - Optimal Integer Alphabetic Trees in Linear Time.pdf},
+  doi = {10.1007/11561071_22}
+}
+
+@article{_optimal_1997,
+  title = {Optimal Binary Search Trees},
+  volume = {188},
+  issn = {0304-3975},
+  doi = {10.1016/S0304-3975(96)00320-9},
+  abstract = {We consider the problem of building optimal binary search trees. The binary search tree is a widely used data structure for information storage and re\ldots{}},
+  language = {en},
+  number = {1-2},
+  journal = {Theoretical Computer Science},
+  month = nov,
+  year = {1997},
+  pages = {1-44},
+  file = {/Users/doisinkidney/Zotero/storage/UE78YTYM/1997 - Optimal binary search trees.pdf;/Users/doisinkidney/Zotero/storage/K2DZ5PK3/S0304397596003209.html;/Users/doisinkidney/Zotero/storage/Z85MV953/S0304397596003209.html;/Users/doisinkidney/Zotero/storage/ZL3SQNBQ/S0304397596003209.html}
+}
+
+@article{_optimal_1981,
+  title = {Optimal Choice of Discriminators in a Balanced K-d Binary Search Tree},
+  volume = {13},
+  issn = {0020-0190},
+  doi = {10.1016/0020-0190(81)90034-X},
+  language = {en},
+  number = {2},
+  journal = {Information Processing Letters},
+  month = nov,
+  year = {1981},
+  pages = {67-70},
+  file = {/Users/doisinkidney/Zotero/storage/9WX8J337/002001908190034X.html}
+}
+
+@article{qardaji_understanding_2013,
+  title = {Understanding Hierarchical Methods for Differentially Private Histograms},
+  volume = {6},
+  issn = {21508097},
+  doi = {10.14778/2556549.2556576},
+  abstract = {In recent years, many approaches to differentially privately publish histograms have been proposed. Several approaches rely on constructing tree structures in order to decrease the error when answer large range queries. In this paper, we examine the factors affecting the accuracy of hierarchical approaches by studying the mean squared error (MSE) when answering range queries. We start with one-dimensional histograms, and analyze how the MSE changes with different branching factors, after employing constrained inference, and with different methods to allocate the privacy budget among hierarchy levels. Our analysis and experimental results show that combining the choice of a good branching factor with constrained inference outperform the current state of the art. Finally, we extend our analysis to multidimensional histograms. We show that the benefits from employing hierarchical methods beyond a single dimension are significantly diminished, and when there are 3 or more dimensions, it is almost always better to use the Flat method instead of a hierarchy.},
+  language = {en},
+  number = {14},
+  journal = {Proceedings of the VLDB Endowment},
+  author = {Qardaji, Wahbeh and Yang, Weining and Li, Ninghui},
+  month = sep,
+  year = {2013},
+  pages = {1954-1965},
+  file = {/Users/doisinkidney/Zotero/storage/8WHXNM89/Qardaji et al. - 2013 - Understanding hierarchical methods for differentia.pdf}
+}
+
+@inproceedings{acs_differentially_2012,
+  title = {Differentially {{Private Histogram Publishing}} through {{Lossy Compression}}},
+  isbn = {978-1-4673-4649-8 978-0-7695-4905-7},
+  doi = {10.1109/ICDM.2012.80},
+  abstract = {Differential privacy has emerged as one of the most promising privacy models for private data release. It can be used to release different types of data, and, in particular, histograms, which provide useful summaries of a dataset. Several differentially private histogram releasing schemes have been proposed recently. However, most of them directly add noise to the histogram counts, resulting in undesirable accuracy.},
+  language = {en},
+  publisher = {{IEEE}},
+  author = {Acs, Gergely and Castelluccia, Claude and Chen, Rui},
+  month = dec,
+  year = {2012},
+  pages = {1-10},
+  file = {/Users/doisinkidney/Zotero/storage/F729IQN3/Acs et al. - 2012 - Differentially Private Histogram Publishing throug.pdf;/Users/doisinkidney/Zotero/storage/P4XVGYGX/Acs et al. - 2012 - Differentially Private Histogram Publishing throug.pdf}
+}
+
+@article{meng_different_2017,
+  title = {Different Strategies for Differentially Private Histogram Publication},
+  volume = {2},
+  issn = {2096-1081, 2509-3312},
+  doi = {10.1007/s41650-017-0014-x},
+  abstract = {Differential privacy is a strong notion for protecting individual privacy in data analysis or publication, with strong privacy guaranteeing security against adversaries with arbitrary background knowledge. A histogram is a representative and popular tool for data publication and visualization tasks. Following the emergence and development of data analysis and increasing release demands, protecting the private data and preventing sensitive information from leakage has become one of the major challenges for histogram publication. In recent years, many approaches have been proposed for publishing histograms with differential privacy. This paper explores the problem of publishing histograms with differential privacy, and provides a systematical summarization of existing research efforts in this field, begining with a discussion of the basic principles and characteristics of the technology. Furthermore, we provide a comprehensive comparison of a series of state-of-the-art histogram publication schemes. Finally, we provide possible suggestions for further expansions of future work in this area.},
+  language = {en},
+  number = {3},
+  journal = {Journal of Communications and Information Networks},
+  author = {Meng, Xue and Li, Hui and Cui, Jiangtao},
+  month = sep,
+  year = {2017},
+  pages = {68-77},
+  file = {/Users/doisinkidney/Zotero/storage/8P4YTAT4/Meng et al. - 2017 - Different strategies for differentially private hi.pdf;/Users/doisinkidney/Zotero/storage/6XZEJMZK/s41650-017-0014-x.html}
+}
+
+@article{xiao_dpcube_2012,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {1202.5358},
+  primaryClass = {cs},
+  title = {{{DPCube}}: {{Differentially Private Histogram Release}} through {{Multidimensional Partitioning}}},
+  shorttitle = {{{DPCube}}},
+  abstract = {Differential privacy is a strong notion for protecting individual privacy in privacy preserving data analysis or publishing. In this paper, we study the problem of differentially private histogram release for random workloads. We study two multidimensional partitioning strategies including: 1) a baseline cell-based partitioning strategy for releasing an equi-width cell histogram, and 2) an innovative 2-phase kd-tree based partitioning strategy for releasing a v-optimal histogram. We formally analyze the utility of the released histograms and quantify the errors for answering linear queries such as counting queries. We formally characterize the property of the input data that will guarantee the optimality of the algorithm. Finally, we implement and experimentally evaluate several applications using the released histograms, including counting queries, classification, and blocking for record linkage and show the benefit of our approach.},
+  journal = {arXiv:1202.5358 [cs]},
+  author = {Xiao, Yonghui and Xiong, Li and Fan, Liyue and Goryczka, Slawomir},
+  month = feb,
+  year = {2012},
+  keywords = {Computer Science - Databases},
+  file = {/Users/doisinkidney/Zotero/storage/RHRQKHPG/Xiao et al. - 2012 - DPCube Differentially Private Histogram Release t.pdf;/Users/doisinkidney/Zotero/storage/TNDFT85K/Xiao et al. - 2012 - DPCube Differentially Private Histogram Release t.pdf;/Users/doisinkidney/Zotero/storage/GNZSXG58/1202.html;/Users/doisinkidney/Zotero/storage/NF68Q27A/1202.html},
+  annote = {Comment: 14 pages
+
+Comment: 14 pages}
+}
+
+@article{joy_differential_2017,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {1708.01884},
+  primaryClass = {cs},
+  title = {Differential {{Privacy By Sampling}}},
+  abstract = {In this paper we present the Sampling Privacy mechanism for privately releasing personal data. Sampling Privacy is a sampling based privacy mechanism that satisfies differential privacy.},
+  journal = {arXiv:1708.01884 [cs]},
+  author = {Joy, Josh and Gerla, Mario},
+  month = aug,
+  year = {2017},
+  keywords = {Computer Science - Cryptography and Security},
+  file = {/Users/doisinkidney/Zotero/storage/AKNQM834/Joy and Gerla - 2017 - Differential Privacy By Sampling.pdf;/Users/doisinkidney/Zotero/storage/VPFP3UFU/1708.html}
+}
+
+@article{li_sampling_2011,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {1101.2604},
+  primaryClass = {cs},
+  title = {On {{Sampling}}, {{Anonymization}}, and {{Differential Privacy}}: {{Or}}, k-{{Anonymization Meets Differential Privacy}}},
+  shorttitle = {On {{Sampling}}, {{Anonymization}}, and {{Differential Privacy}}},
+  abstract = {This paper aims at answering the following two questions in privacy-preserving data analysis and publishing: What formal privacy guarantee (if any) does \$k\$-anonymization provide? How to benefit from the adversary's uncertainty about the data? We have found that random sampling provides a connection that helps answer these two questions, as sampling can create uncertainty. The main result of the paper is that \$k\$-anonymization, when done "safely", and when preceded with a random sampling step, satisfies \$($\backslash$epsilon,$\backslash$delta)\$-differential privacy with reasonable parameters. This result illustrates that "hiding in a crowd of \$k\$" indeed offers some privacy guarantees. This result also suggests an alternative approach to output perturbation for satisfying differential privacy: namely, adding a random sampling step in the beginning and pruning results that are too sensitive to change of a single tuple. Regarding the second question, we provide both positive and negative results. On the positive side, we show that adding a random-sampling pre-processing step to a differentially-private algorithm can greatly amplify the level of privacy protection. Hence, when given a dataset resulted from sampling, one can utilize a much large privacy budget. On the negative side, any privacy notion that takes advantage of the adversary's uncertainty likely does not compose. We discuss what these results imply in practice.},
+  journal = {arXiv:1101.2604 [cs]},
+  author = {Li, Ninghui and Qardaji, Wahbeh and Su, Dong},
+  month = jan,
+  year = {2011},
+  keywords = {Computer Science - Cryptography and Security},
+  file = {/Users/doisinkidney/Zotero/storage/FKWWCDF3/Li et al. - 2011 - On Sampling, Anonymization, and Differential Priva.pdf;/Users/doisinkidney/Zotero/storage/BSFW9ZUL/1101.html}
+}
+
+@incollection{hutchison_when_2006,
+  address = {Berlin, Heidelberg},
+  title = {When {{Random Sampling Preserves Privacy}}},
+  volume = {4117},
+  isbn = {978-3-540-37432-9 978-3-540-37433-6},
+  abstract = {Many organizations such as the U.S. Census publicly release samples of data that they collect about private citizens. These datasets are first anonymized using various techniques and then a small sample is released so as to enable ``do-it-yourself'' calculations. This paper investigates the privacy of the second step of this process: sampling. We observe that rare values \textendash{} values that occur with low frequency in the table \textendash{} can be problematic from a privacy perspective. To our knowledge, this is the first work that quantitatively examines the relationship between the number of rare values in a table and the privacy in a released random sample. If we require -privacy (where the larger is, the worse the privacy guarantee) with probability at least 1 - $\delta$, we say that a value is rare if it occurs in at most O\texttildelow( 1 ) rows of the table (ignoring log factors). If there are no rare values, then we establish a direct connection between sample size that is safe to release and privacy. Specifically, if we select each row of the table with probability at most then the sample is O( )-private with high probability. In the case that there are t rare values, then the sample is O\texttildelow( $\delta$/t)-private with probability at least 1 - $\delta$.},
+  language = {en},
+  booktitle = {Advances in {{Cryptology}} - {{CRYPTO}} 2006},
+  publisher = {{Springer Berlin Heidelberg}},
+  author = {Chaudhuri, Kamalika and Mishra, Nina},
+  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Dough and Vardi, Moshe Y. and Weikum, Gerhard and Dwork, Cynthia},
+  year = {2006},
+  pages = {198-213},
+  file = {/Users/doisinkidney/Zotero/storage/KZ3QGKDU/Chaudhuri and Mishra - 2006 - When Random Sampling Preserves Privacy.pdf},
+  doi = {10.1007/11818175_12}
+}
+
+@article{kellaris_practical_2013,
+  title = {Practical Differential Privacy via Grouping and Smoothing},
+  volume = {6},
+  issn = {21508097},
+  doi = {10.14778/2535573.2488337},
+  abstract = {We address one-time publishing of non-overlapping counts with ǫ-differential privacy. These statistics are useful in a wide and important range of applications, including transactional, traffic and medical data analysis. Prior work on the topic publishes such statistics with prohibitively low utility in several practical scenarios. Towards this end, we present GS, a method that pre-processes the counts by elaborately grouping and smoothing them via averaging. This step acts as a form of preliminary perturbation that diminishes sensitivity, and enables GS to achieve ǫ-differential privacy through low Laplace noise injection. The grouping strategy is dictated by a sampling mechanism, which minimizes the smoothing perturbation. We demonstrate the superiority of GS over its competitors, and confirm its practicality, via extensive experiments on real datasets.},
+  language = {en},
+  number = {5},
+  journal = {Proceedings of the VLDB Endowment},
+  author = {Kellaris, Georgios and Papadopoulos, Stavros},
+  month = mar,
+  year = {2013},
+  pages = {301-312},
+  file = {/Users/doisinkidney/Zotero/storage/I5GVXMMU/Kellaris and Papadopoulos - 2013 - Practical differential privacy via grouping and sm.pdf}
 }
 
 

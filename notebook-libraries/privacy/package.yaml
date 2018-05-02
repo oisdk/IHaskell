@@ -53,6 +53,8 @@ dependencies:
 - transformers
 - vector
 - array
+- MonadRandom
+- random
 
 default-extensions:
 - TypeOperators

@@ -1,3 +1,6 @@
+{-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE ViewPatterns    #-}
+
 module Data.Heap.Pairing where
 
 import Data.Foldable
@@ -6,9 +9,7 @@ import Data.Semigroup.Foldable
 import Data.List.NonEmpty (NonEmpty(..))
 
 data Heap a b =
-    Heap !a
-         b
-         (HeapList a b)
+    Heap !a b (HeapList a b)
     deriving Show
 
 infixr 5 :-
@@ -59,6 +60,7 @@ merge cmp (Heap i x xs) (Heap j y ys)
 
 instance Ord a => Semigroup (Heap a b) where
     (<>) = merge (<=)
+    {-# INLINE (<>) #-}
     sconcat (ys :| [])        = ys
     sconcat (ys :| [zs])      = ys <> zs
     sconcat (ys :| (z:zz:zs)) = (ys <> z) <> sconcat (zz :| zs)
@@ -90,6 +92,11 @@ minView cmp (Heap i x xs) = (i, x, case xs of
     Nil -> Nothing
     (y :- ys) -> Just (mergeHeaps cmp y ys))
 {-# INLINE minView #-}
+
+pattern MinView :: Ord a => a -> b -> Maybe (Heap a b) -> Heap a b
+pattern MinView i x xs <- (minView (<=) -> (i, x, xs)) where
+  MinView i x Nothing = singleton i x
+  MinView i x (Just xs) = insertHeap (<=) i x xs
 
 -- $setup
 -- >>> import Test.QuickCheck

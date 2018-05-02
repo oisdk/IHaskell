@@ -11,7 +11,6 @@ import           Type.Compose
 import           Control.Applicative
 import           Data.Coerce.Utilities
 import           Control.Lens
--- import qualified Data.Array.IArray as Array
 import qualified Data.Vector       as Vector
 import qualified Data.Vector.Unboxed as UnboxedVector
 import qualified Data.Vector.Unboxed.Mutable as MUnboxedVector
@@ -65,13 +64,14 @@ sortCycles = (map.fmap) fst . sortCyclesInds
 sortCyclesInds
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f (Int, Int)]
-sortCyclesInds xs = getZipList
-             #. flip evalState ts
-              . forwards
-             #. getCompose
-             #. itraverseOf traversed (((Compose . fmap ZipList . Backwards . state) .) #. f)
-              . sequenceA
-              $ xs
+sortCyclesInds xs
+    = getZipList
+   #. flip evalState ts
+    . forwards
+   #. getCompose
+   #. itraverseOf traversed (((Compose . fmap ZipList . Backwards . state) .) #. f)
+    . sequenceA
+    $ xs
   where
     f 0 _ _ = (hs, ts)
     f _ x y = (zs, UnboxedVector.toList bw)
@@ -83,28 +83,6 @@ sortCyclesInds xs = getZipList
     ts = UnboxedVector.toList (uVecArray l hs)
 {-# INLINE sortCycles #-}
 
--- sortCycles
---     :: (Ord a, Traversable f, Applicative f)
---     => [f a] -> [f Int]
--- sortCycles = getZipList
---           #. knot
---            . first (appEndo . getDual)
---           #. getCompose
---           #. forwards
---           #. getCompose
---           #. traverse (Compose #. fmap ZipList #. Backwards #. Compose #. first (Dual . Endo) #. f)
---            . sequenceA
---   where
---     f x = (fw, state go)
---       where
---         fw = sortInds . zip x
---         go y = (map fst zs, Array.elems bw)
---           where
---             (ln,zs) = sortPermuteInds (zip x y)
---             bw :: Array.Array Int Int
---             bw = Array.array (0, ln - 1) zs
---     knot (s,t) = evalState t (s (repeat 0)) -- can speed up by simply sorting once and handing off
--- {-# INLINE sortCycles #-}
 -- |
 -- >>> rotations "abcd"
 -- ["abcd","bcda","cdab","dabc"]
