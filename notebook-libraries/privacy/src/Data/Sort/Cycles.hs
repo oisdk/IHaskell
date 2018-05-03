@@ -66,15 +66,13 @@ sortCyclesInds
     => [f a] -> [f (Int, Int)]
 sortCyclesInds xs
     = getZipList
-   #. flip evalState ts
-    . forwards
-   #. getCompose
-   #. itraverseOf traversed (((Compose . fmap ZipList . Backwards . state) .) #. f)
+   #. traverse ZipList
+    . snd . imapAccumROf traversed f ts
     . sequenceA
     $ xs
   where
-    f 0 _ _ = (hs, ts)
-    f _ x y = (zs, UnboxedVector.toList bw)
+    f 0 _ _ = (ts, hs)
+    f _ y x = (UnboxedVector.toList bw, zs)
       where
         (ln,zs) = sortPermuteInds (zip x y)
         bw = uVecArray ln zs
