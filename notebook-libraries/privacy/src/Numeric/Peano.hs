@@ -1,37 +1,38 @@
-{-# LANGUAGE EmptyCase #-}
-{-# LANGUAGE TypeApplications #-}
+{-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
+
+{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE PolyKinds #-}
 
 module Numeric.Peano where
 
-import Data.Type.Equality
-import qualified GHC.TypeLits as Lits
+import qualified GHC.TypeNats as Lits
 
-data Nat
-    = Z
-    | S Nat
+import Data.Kind
 
-data Dict c where
-    Dict :: c => Dict c
+data Nat = Z | S Nat
 
-witness :: (a ~ b) => a :~: b
-witness = Refl
+type family (t :: k) `OfSize` (n :: Nat) = (val :: Type) | val -> t n k
 
-class Decidable n where
-    ind :: (forall m. f m -> f ('S m)) -> f 'Z -> f n
-    pre :: n ~ 'S m => Dict (Decidable m)
+class ByInductionOn n where
+  induction :: (∀ k. t `OfSize` k -> t `OfSize` S k) -> t `OfSize` Z -> t `OfSize` n
+  deduction :: (∀ k. t `OfSize` S k -> t `OfSize` k) -> t `OfSize` n -> t `OfSize` Z
 
-instance Decidable 'Z where
-    ind _ = id
-    {-# INLINE ind #-}
-    pre = case witness of {}
+instance ByInductionOn Z where
+  induction _ b = b
+  {-# INLINE induction #-}
+  deduction _ b = b
+  {-# INLINE deduction #-}
 
-instance Decidable n => Decidable ('S n) where
-    ind f = f . ind f
-    {-# INLINE ind #-}
-    pre = Dict
+instance ByInductionOn n => ByInductionOn (S n) where
+  induction f b = f (induction f b)
+  {-# INLINE induction #-}
+  deduction f b = deduction f (f b)
+  {-# INLINE deduction #-}
+
+data a :-> b
+
+type instance ((a :: k1) :-> (b :: k2)) `OfSize` n = (a `OfSize` n) -> (b `OfSize` n)
 
 type family N (n :: Lits.Nat) :: Nat where
-    N 0 = 'Z
-    N n = 'S (N (n Lits.- 1))
+    N 0 = Z
+    N n = S (N (n Lits.- 1))

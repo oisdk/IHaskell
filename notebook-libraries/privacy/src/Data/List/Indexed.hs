@@ -7,9 +7,7 @@ module Data.List.Indexed where
 import Numeric.Peano
 import Data.Functor.Apply
 import Data.List.NonEmpty (NonEmpty(..))
-import Type.Flip
-import Data.Foldable
-import Data.Coerce.Utilities
+import Control.Applicative
 
 infixr 5 :-
 data List n a where
@@ -38,10 +36,22 @@ untranspose Nil = []
 untranspose (x :- Nil) = map (:- Nil) x
 untranspose (x :- xs) = zipWith (:-) x (untranspose xs)
 
-instance Decidable n => Applicative (List n) where
-    pure x = unFlip (ind (Flip #. (x:-) .# unFlip) (Flip Nil))
-    (f :- fs) <*> (x :- xs) = case pre @ n of Dict -> f x :- (fs <*> xs)
-    Nil <*> Nil = Nil
+type instance '(List,a) `OfSize` n = List n a
+
+instance ByInductionOn n =>
+         Applicative (List n) where
+    pure x = induction (x :-) Nil
+    {-# INLINE pure #-}
+    (<*>) =
+        induction
+            (\r (f :- fs) (x :- xs) -> f x :- r fs xs)
+            (\Nil Nil -> Nil)
+    {-# INLINE (<*>) #-}
+    liftA2 f =
+        induction
+            (\r (x :- xs) (y :- ys) -> f x y :- r xs ys)
+            (\Nil Nil -> Nil)
+    {-# INLINE liftA2 #-}
 
 -- instance Show a => Show (List n a) where
 --     showsPrec n = showsPrec n . toList
