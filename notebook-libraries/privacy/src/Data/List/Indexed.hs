@@ -26,19 +26,19 @@ instance Apply (List n) where
 
 type instance '(List,a) ∝ n = List n a
 
-instance ByInductionOn n =>
+instance Finite n =>
          Applicative (List n) where
-    pure x = induction (x :-) Nil
+    pure x = induction Nil (x :-)
     {-# INLINE pure #-}
     (<*>) =
         induction
-            (\r (f :- fs) (x :- xs) -> f x :- r fs xs)
             (\Nil Nil -> Nil)
+            (\r (f :- fs) (x :- xs) -> f x :- r fs xs)
     {-# INLINE (<*>) #-}
     liftA2 f =
         induction
-            (\r (x :- xs) (y :- ys) -> f x y :- r xs ys)
             (\Nil Nil -> Nil)
+            (\r (x :- xs) (y :- ys) -> f x y :- r xs ys)
     {-# INLINE liftA2 #-}
 
 head' :: List (S n) a -> a
@@ -49,12 +49,12 @@ tail' :: List (S n) a -> List n a
 tail' (_ :- xs) = xs
 {-# INLINE tail' #-}
 
-instance ByInductionOn n =>
+instance Finite n =>
          Monad (List n) where
     (>>=) xs (f :: a -> List n b) =
         induction
-            (\r (y :- ys) fn -> head' (fn (Const y)) :- r ys (tail' . fn .# Const .# getConst))
             (\Nil _ -> Nil)
+            (\r (y :- ys) fn -> head' (fn (Const y)) :- r ys (tail' . fn .# Const .# getConst))
             xs
             (f .# getConst :: Const a n -> List n b)
     {-# INLINE (>>=) #-}

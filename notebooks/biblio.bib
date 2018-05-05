@@ -1,4 +1,25 @@
 
+@inproceedings{dwork_differential_2006,
+  address = {Venice, Italy},
+  series = {Lecture Notes in Computer Science},
+  title = {Differential {{Privacy}}},
+  volume = {4052},
+  copyright = {\textcopyright{}2006 Springer-Verlag Berlin Heidelberg},
+  isbn = {978-3-540-35907-4 978-3-540-35908-1},
+  doi = {10.1007/11787006_1},
+  abstract = {In 1977 Dalenius articulated a desideratum for statistical databases: nothing about an individual should be learnable from the database that cannot be learned without access to the database. We give a general impossibility result showing that a formalization of Dalenius' goal along the lines of semantic security cannot be achieved. Contrary to intuition, a variant of the result threatens the privacy even of someone not in the database. This state of affairs suggests a new measure, differential privacy, which, intuitively, captures the increased risk to one's privacy incurred by participating in a database. The techniques developed in a sequence of papers [8, 13, 3], culminating in those described in [12], can achieve any desired level of privacy under this measure. In many cases, extremely accurate information about the database can be provided while simultaneously ensuring very high levels of privacy.},
+  language = {en},
+  booktitle = {33rd {{International Colloquium}} on {{Automata}}, {{Languages}} and {{Programming}}, Part {{II}} ({{ICALP}} 2006)},
+  publisher = {{Springer Verlag}},
+  author = {Dwork, Cynthia},
+  editor = {Bugliesi, Michele and Preneel, Bart and Sassone, Vladimiro and Wegener, Ingo},
+  month = jul,
+  year = {2006},
+  keywords = {Data Structures,Programming Techniques,Theory of Computation,Software Engineering/Programming and Operating Systems,Discrete Mathematics in Computer Science,Numeric Computing},
+  pages = {1-12},
+  file = {/Users/doisinkidney/Zotero/storage/EE8TZ2UQ/dwork.pdf;/Users/doisinkidney/Zotero/storage/MRNBSBIZ/10.html}
+}
+
 @article{fredman_pairing_1986,
   title = {The Pairing Heap: {{A}} New Form of Self-Adjusting Heap},
   volume = {1},
@@ -949,7 +970,7 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   booktitle = {[{{Proceedings}}] {{DCC}} `93: {{Data Compression Conference}}},
   author = {Arya, S. and Mount, D. M.},
   year = {1993},
-  keywords = {Application software,Books,Computer science,directed graph,directed graphs,Educational institutions,fast vector quantization,Image coding,Nearest neighbor searches,neighborhood graph search algorithm,performance,Performance loss,running time,search problems,Speech,Tree graphs,tree search algorithms,vector quantisation,Vector quantization},
+  keywords = {Computer science,performance,Tree graphs,search problems,Image coding,Application software,Educational institutions,Books,directed graph,directed graphs,fast vector quantization,Nearest neighbor searches,neighborhood graph search algorithm,Performance loss,running time,Speech,tree search algorithms,vector quantisation,Vector quantization},
   pages = {381-390},
   file = {/Users/doisinkidney/Zotero/storage/472Y935X/Arya and Mount - 1993 - Algorithms for fast vector quantization.pdf;/Users/doisinkidney/Zotero/storage/M7QJJ45P/253111.html;/Users/doisinkidney/Zotero/storage/RRTMGVRH/253111.html}
 }
@@ -1012,15 +1033,6 @@ An algorithm that exchanges messages about the similarity of pairs of data point
   year = {1979},
   pages = {246-256},
   file = {/Users/doisinkidney/Zotero/storage/BACADURA/Hu et al. - 1979 - Binary Trees Optimum Under Various Criteria.pdf}
-}
-
-@article{hu_optimum_,
-  title = {Optimum {{Alphabetic Binary Trees}}},
-  abstract = {We describe a modi cation of the Hu\{Tucker algorithm for constructing an optimal alphabetic tree that runs in O(n) time for several classes of inputs. These classes can be described in simple terms and can be detected in linear time. We also give simple conditions and a linear algorithm for determining, in some cases, if two adjacent nodes will be combined in the optimal alphabetic tree.\vphantom\}},
-  language = {en},
-  author = {Hu, T C and Morgenthaler, J D},
-  pages = {10},
-  file = {/Users/doisinkidney/Zotero/storage/JJBJDKAY/Hu and Morgenthaler - Optimum Alphabetic Binary Trees.pdf}
 }
 
 @article{rastogi_boundary_,
@@ -1320,6 +1332,94 @@ Comment: 14 pages}
   year = {2013},
   pages = {301-312},
   file = {/Users/doisinkidney/Zotero/storage/I5GVXMMU/Kellaris and Papadopoulos - 2013 - Practical differential privacy via grouping and sm.pdf}
+}
+
+@article{hall_random_2011-1,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {1112.2680},
+  primaryClass = {cs, stat},
+  title = {Random {{Differential Privacy}}},
+  abstract = {We propose a relaxed privacy definition called \{$\backslash$em random differential privacy\} (RDP). Differential privacy requires that adding any new observation to a database will have small effect on the output of the data-release procedure. Random differential privacy requires that adding a \{$\backslash$em randomly drawn new observation\} to a database will have small effect on the output. We show an analog of the composition property of differentially private procedures which applies to our new definition. We show how to release an RDP histogram and we show that RDP histograms are much more accurate than histograms obtained using ordinary differential privacy. We finally show an analog of the global sensitivity framework for the release of functions under our privacy definition.},
+  journal = {arXiv:1112.2680 [cs, stat]},
+  author = {Hall, Rob and Rinaldo, Alessandro and Wasserman, Larry},
+  month = dec,
+  year = {2011},
+  keywords = {Computer Science - Learning,Statistics - Methodology,Computer Science - Cryptography and Security},
+  file = {/Users/doisinkidney/Zotero/storage/X9EU9C33/Hall et al. - 2011 - Random Differential Privacy.pdf;/Users/doisinkidney/Zotero/storage/629EB8BE/1112.html}
+}
+
+@article{larmore_fast_1994,
+  title = {A {{Fast Algorithm For Optimum Height}}-{{Limited Alphabetic Binary Trees}}},
+  volume = {23},
+  issn = {0097-5397},
+  doi = {10.1137/S0097539792231167},
+  abstract = {In this paper, an \$O(nL$\backslash$log n)\$-time algorithm is presented for construction of an optimal alphabetic binary tree with height restricted to L. This algorithm is an alphabetic version of the Package Merge algorithm, and yields an \$O(nL$\backslash$log n)\$-time algorithm for the alphabetic Huffman coding problem. The Alphabetic Package Merge algorithm is quite simple to describe, but appears hard to prove correct.Garey [SIAM J Comput., 3 (1974), pp. 101\textendash{}110] gives an \$O(n\^3 $\backslash$log n)\$-time algorithm for the height-limited alphabetic binary tree problem. Itai [SIAM J. Comput., 5 (1976), pp. 9\textendash{}18] and Wessner [Inform. Process. Lett., 4 (1976), pp. 90\textendash{}94] independently reduce this time to \$O(n\^2 L)\$ for the alphabetic problem. In [SIAM J. Comput., 16 (1987), pp. 1115\textendash{}1123], a rather complex \$O(n\^\{\{3 / 2\}\} L$\backslash$log \^\{\{1 / 2\}\} n)\$ -time ``hybrid'' algorithm is given for length-limited Huffman coding. The Package Merge algorithm, discussed in this paper, first appeared in [Tech. Report, 88-01, ICS Dept. Univ. of California, Irvine, CA], but without proof of correctness.},
+  number = {6},
+  journal = {SIAM Journal on Computing},
+  author = {Larmore, L. and Przytycka, T.},
+  month = dec,
+  year = {1994},
+  pages = {1283-1312},
+  file = {/Users/doisinkidney/Zotero/storage/E7ASWJHG/S0097539792231167.html}
+}
+
+@article{larmore_fast_1990,
+  title = {A {{Fast Algorithm}} for {{Optimal Length}}-Limited {{Huffman Codes}}},
+  volume = {37},
+  issn = {0004-5411},
+  doi = {10.1145/79147.79150},
+  abstract = {An O(nL)-time algorithm is introduced for constructing an optimal Huffman code for a weighted alphabet of size n, where each code string must have length no greater than L. The algorithm uses O(n) space.},
+  number = {3},
+  journal = {J. ACM},
+  author = {Larmore, Lawrence L. and Hirschberg, Daniel S.},
+  month = jul,
+  year = {1990},
+  pages = {464--473},
+  file = {/Users/doisinkidney/Zotero/storage/GM633KAK/Larmore and Hirschberg - 1990 - A Fast Algorithm for Optimal Length-limited Huffma.pdf}
+}
+
+@article{baer_twenty_2006,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {cs/0602085},
+  title = {Twenty (or so) {{Questions}}: \${{D}}\$-Ary {{Length}}-{{Bounded Prefix Coding}}},
+  shorttitle = {Twenty (or so) {{Questions}}},
+  abstract = {Efficient optimal prefix coding has long been accomplished via the Huffman algorithm. However, there is still room for improvement and exploration regarding variants of the Huffman problem. Length-limited Huffman coding, useful for many practical applications, is one such variant, for which codes are restricted to the set of codes in which none of the \$n\$ codewords is longer than a given length, \$l\_\{$\backslash$max\}\$. Binary length-limited coding can be done in \$O(n l\_\{$\backslash$max\})\$ time and O(n) space via the widely used Package-Merge algorithm and with even smaller asymptotic complexity using a lesser-known algorithm. In this paper these algorithms are generalized without increasing complexity in order to introduce a minimum codeword length constraint \$l\_\{$\backslash$min\}\$, to allow for objective functions other than the minimization of expected codeword length, and to be applicable to both binary and nonbinary codes; nonbinary codes were previously addressed using a slower dynamic programming approach. These extensions have various applications -- including fast decompression and a modified version of the game ``Twenty Questions'' -- and can be used to solve the problem of finding an optimal code with limited fringe, that is, finding the best code among codes with a maximum difference between the longest and shortest codewords. The previously proposed method for solving this problem was nonpolynomial time, whereas solving this using the novel linear-space algorithm requires only \$O(n (l\_\{$\backslash$max\}- l\_\{$\backslash$min\})\^2)\$ time, or even less if \$l\_\{$\backslash$max\}- l\_\{$\backslash$min\}\$ is not \$O($\backslash$log n)\$.},
+  journal = {arXiv:cs/0602085},
+  author = {Baer, Michael B.},
+  month = feb,
+  year = {2006},
+  keywords = {Computer Science - Data Structures and Algorithms,Computer Science - Information Theory,E.4,F.2,G.2.2,H.1.1},
+  file = {/Users/doisinkidney/Zotero/storage/N7PJ5NQS/Baer - 2006 - Twenty (or so) Questions $D$-ary Length-Bounded P.pdf;/Users/doisinkidney/Zotero/storage/DEMWQQCR/0602085.html},
+  annote = {Comment: 12 pages, 4 figures, extended version of cs/0701012 (accepted to ISIT 2007), formerly "Twenty (or so) Questions: \$D\$-ary Bounded-Length Huffman Coding"}
+}
+
+@incollection{hu_optimum_1996,
+  title = {Optimum Alphabetic Binary Trees},
+  abstract = {We describe a modi cation of the Hu\{Tucker algorithm for constructing an optimal alphabetic tree that runs in O(n) time for several classes of inputs. These classes can be described in simple terms and can be detected in linear time. We also give simple conditions and a linear algorithm for determining, in some cases, if two adjacent nodes will be combined in the optimal alphabetic tree.\vphantom\}},
+  language = {en},
+  booktitle = {Combinatorics and {{Computer Science}}},
+  publisher = {{Springer}},
+  author = {Hu, T. C. and Morgenthaler, J. David},
+  year = {1996},
+  pages = {234--243},
+  file = {/Users/doisinkidney/Zotero/storage/JJBJDKAY/Hu and Morgenthaler - Optimum Alphabetic Binary Trees.pdf;/Users/doisinkidney/Zotero/storage/3B3BS99Z/3-540-61576-8_86.html}
+}
+
+@article{qardaji_differentially_2012,
+  archivePrefix = {arXiv},
+  eprinttype = {arxiv},
+  eprint = {1209.1322},
+  primaryClass = {cs},
+  title = {Differentially {{Private Grids}} for {{Geospatial Data}}},
+  abstract = {In this paper, we tackle the problem of constructing a differentially private synopsis for two-dimensional datasets such as geospatial datasets. The current state-of-the-art methods work by performing recursive binary partitioning of the data domains, and constructing a hierarchy of partitions. We show that the key challenge in partition-based synopsis methods lies in choosing the right partition granularity to balance the noise error and the non-uniformity error. We study the uniform-grid approach, which applies an equi-width grid of a certain size over the data domain and then issues independent count queries on the grid cells. This method has received no attention in the literature, probably due to the fact that no good method for choosing a grid size was known. Based on an analysis of the two kinds of errors, we propose a method for choosing the grid size. Experimental results validate our method, and show that this approach performs as well as, and often times better than, the state-of-the-art methods. We further introduce a novel adaptive-grid method. The adaptive grid method lays a coarse-grained grid over the dataset, and then further partitions each cell according to its noisy count. Both levels of partitions are then used in answering queries over the dataset. This method exploits the need to have finer granularity partitioning over dense regions and, at the same time, coarse partitioning over sparse regions. Through extensive experiments on real-world datasets, we show that this approach consistently and significantly outperforms the uniform-grid method and other state-of-the-art methods.},
+  journal = {arXiv:1209.1322 [cs]},
+  author = {Qardaji, Wahbeh and Yang, Weining and Li, Ninghui},
+  month = sep,
+  year = {2012},
+  keywords = {Computer Science - Cryptography and Security,Computer Science - Databases},
+  file = {/Users/doisinkidney/Zotero/storage/RMKVMT6B/Qardaji et al. - 2012 - Differentially Private Grids for Geospatial Data.pdf;/Users/doisinkidney/Zotero/storage/7VMXACLA/1209.html}
 }
 
 

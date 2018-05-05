@@ -1,10 +1,15 @@
 module Main (main) where
 
-import Criterion.Main
-import System.Random
-import Control.Monad
-import Data.Sort.Cycles
-import Control.Applicative
+import           Control.Applicative
+import           Control.Monad
+import           Criterion.Main
+import           Data.Sort.Cycles                         hiding (rotations)
+import           Data.Sort.Medians
+import           System.Random
+import qualified Data.Vector as Vector
+
+import           Control.Monad.State.Bidirectional
+import qualified Control.Monad.State.Bidirectional.Church as Church
 
 int :: Int -> IO Int
 int n = randomRIO (0,n)
@@ -18,7 +23,16 @@ benchAtSize n =
         (show n)
         [ env (replicateM n (int n)) $
           \xs ->
-               bench "rotations" $ nf rotations xs
+               bgroup
+                   "rotations"
+                   [ bench "tupled" $ nf rotations xs
+                   , bench "church" $ nf Church.rotations xs]
+        , env (Vector.fromList <$> replicateM n (int n)) $
+          \xs ->
+               bgroup
+                   "medians"
+                   [ bench "naive" $ nf naiveMedian xs
+                   , bench "quick" $ nf fastMedian xs]
         , env (replicateM n (listFive n)) $
           \xs ->
                bgroup
@@ -27,4 +41,4 @@ benchAtSize n =
                    , bench "slow" $ nf slowSortCycles xs]]
 
 main :: IO ()
-main = defaultMain (map benchAtSize [1000, 10000])
+main = defaultMain (map benchAtSize [10000])

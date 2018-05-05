@@ -60,6 +60,7 @@ sortCycles
     :: (Ord a, Traversable f, Applicative f)
     => [f a] -> [f Int]
 sortCycles = (map.fmap) fst . sortCyclesInds
+{-# INLINE sortCycles #-}
 
 sortCyclesInds
     :: (Ord a, Traversable f, Applicative f)
@@ -79,7 +80,7 @@ sortCyclesInds xs
     {-# INLINE f #-}
     (l,hs) = sortPermuteInds (map toList xs)
     ts = UnboxedVector.toList (uVecArray l hs)
-{-# INLINE sortCycles #-}
+{-# INLINE sortCyclesInds #-}
 
 -- |
 -- >>> rotations "abcd"

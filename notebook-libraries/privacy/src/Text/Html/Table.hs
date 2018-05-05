@@ -3,6 +3,9 @@
 {-# LANGUAGE TypeApplications       #-}
 {-# LANGUAGE AllowAmbiguousTypes    #-}
 
+{-# options_ghc -fno-warn-unticked-promoted-constructors #-}
+
+
 module Text.Html.Table
   (Table(..)
   ,table)
@@ -18,20 +21,14 @@ import           IHaskell.Display.Blaze ()
 
 import           Data.Foldable (fold)
 
+import           Data.List.Indexed
+import           Numeric.Peano
+
 infixr 5 :*
 data Vect xs where
     Unit :: Vect '[]
     (:*) :: !x -> !(Vect xs) -> Vect (x ': xs)
 
-data Nat = Z | S Nat
-
-infixr 5 :-
-data List n a where
-    Nil :: List 'Z a
-    (:-) :: !a -> !(List n a) -> List ('S n) a
-
-deriving instance Foldable (List n)
-deriving instance Functor (List n)
 
 type family FromTuple tuple = list | list -> tuple where
     FromTuple (a,b) = [a,b]

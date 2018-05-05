@@ -12,6 +12,6 @@ import           Numeric.Peano
 
 type instance '(Gen,a) ∝ n = Gen (a ∝ n)
 
-genList :: ByInductionOn n => Gen a -> Gen (List n a)
-genList gen = induction (liftA2 (:-) gen) (pure Nil)
+genList :: Finite n => Gen a -> Gen (List n a)
+genList gen = induction (pure Nil) (liftA2 (:-) gen)
 {-# INLINE genList #-}
