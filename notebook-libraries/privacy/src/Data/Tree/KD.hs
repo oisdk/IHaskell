@@ -2,27 +2,42 @@
 
 module Data.Tree.KD where
 
-import           Control.Monad.Primitive
 import           Data.Vector.Algorithms.Intro
 import qualified Data.Vector.Generic          as Vector
-import qualified Data.Vector.Generic.Mutable          as MVector
+import qualified Data.Vector.Generic.Mutable  as MVector
 import           Control.Monad.ST
+
+import Data.List.NonEmpty (NonEmpty(..))
+import Data.Stream
+
 
 data Tree v a
   = Tree
-  { accessors :: [a -> a -> Ordering]
+  { accessors :: NonEmpty (a -> a -> Ordering)
   , storage   :: v a
   }
 
-buildTree :: (Vector.Vector v a) => [a -> a -> Ordering] -> v a -> Tree v a
-buildTree (cmps :: [a -> a -> Ordering]) (xs' :: v a) = Tree cmps (Vector.modify f xs')
+buildTree
+    :: (Vector.Vector v a)
+    => NonEmpty (a -> a -> Ordering) -> v a -> Tree v a
+buildTree cmps (xs :: v a) = undefined --Tree cmps (go (toStream cmps) xs)
+  -- where
+  --   go (c :< cs) xs = Vector.parition
+
+member
+    :: Vector.Vector v a
+    => a -> Tree v a -> Bool
+member x (Tree ks xs) = go (toStream ks) 0 (Vector.length xs)
   where
-    f :: Vector.Mutable v s a -> ST s ()
-    f (xs :: Vector.Mutable v s a) = go (cycle cmps) 0 (Vector.length xs')
+    go (c :< cs) l u
+      | l >= u = False
+      | otherwise =
+          case c x (xs Vector.! k) of
+              LT -> go cs l k
+              EQ -> case foldMap (\y -> y x (xs Vector.! k)) ks of
+                EQ -> True
+                _ -> go cs l k || go cs (k + 1) u
+              GT -> go cs (k + 1) u
       where
-        go :: [a -> a -> Ordering] -> Int -> Int -> ST s ()
-        go (c:cs) l u
-          | l + 1 >= u = pure ()
-          | otherwise = selectByBounds c xs k l u *> go cs l k *> go cs (k+1) u
-          where k = (u-l) `div` 2
-        go [] _ _ = error "empty comparison list"
+        k = l + ((u - l) `div` 2)
+
