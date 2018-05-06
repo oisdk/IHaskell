@@ -1,3 +1,5 @@
+{-# options_ghc -fsimpl-tick-factor=200 #-}
+
 module Main (main) where
 
 import           Control.Applicative
@@ -18,13 +20,11 @@ int n = randomRIO (0,n)
 listFive :: Int -> IO (ZipList Int)
 listFive = fmap ZipList . replicateM 5 . int
 
-uncurry5 f (v,w,x,y,z) = f v w x y z
-
 smallSortBench :: Benchmark
 smallSortBench =
     env ((,,,,) <$> int n <*> int n <*> int n <*> int n <*> int n) $
     \xs ->
-         bench "smallSort5" $ nf (uncurry5 (sort5 (<=))) xs
+         bench "smallSort5" $ nf (sort5T (<=)) xs
   where
     n = 10
 
