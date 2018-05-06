@@ -2,7 +2,6 @@ module Data.Sort.Medians where
 
 import qualified Data.Vector.Generic as Vector
 import qualified Data.Vector.Algorithms.Insertion as Insertion
-
 import Data.Sort.Small
 
 naiveMedian :: (Vector.Vector v a, Ord a) => v a -> a
@@ -17,9 +16,11 @@ fastMedian xs = select (Vector.length xs `div` 2) xs
 
 select :: (Vector.Vector v a, Ord a) => Int -> v a -> a
 select = selectBy (<=)
+{-# INLINE select #-}
 
 selectBy :: (Vector.Vector v a) => (a -> a -> Bool) -> Int -> v a -> a
 selectBy cmp !i xs =
+    case ln of
         0 -> error "Empty vector given to select"
         1 ->
             case i of
@@ -123,6 +124,6 @@ selectBy cmp !i xs =
       | otherwise = lnd' + 1
     (lte,gt) = Vector.unstablePartition (`cmp` pivot) xs
     lt = Vector.filter (not . cmp pivot) lte
-    ltel = Vector.length lte
+    ltel = Vector.length xs - Vector.length gt
     ltl = Vector.length lt
-{-# INLINE select #-}
+{-# INLINE selectBy #-}
