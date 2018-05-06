@@ -28,7 +28,6 @@ smallSortBench =
   where
     n = 10
 
-
 benchAtSize :: Int -> Benchmark
 benchAtSize n =
     bgroup

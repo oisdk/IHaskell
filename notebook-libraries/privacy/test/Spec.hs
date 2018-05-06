@@ -13,19 +13,14 @@ import           Numeric.Peano
 
 import           Data.Sort.Cycles
 import           Data.Sort.Medians
-import           Data.Tree.KD
+import           Data.Sort.Small
 
 import           Hedgehog
 import qualified Hedgehog.Gen                 as Gen
 import qualified Hedgehog.Range               as Range
 
 import qualified Data.Vector as Vector
-import qualified Data.Set as Set
-import           Data.Ord
-import           Data.List.NonEmpty (NonEmpty(..))
 import           Data.List (sort)
-import           Control.Monad
-import           Control.Monad.ST
 
 import           Privacy.Test.Generators.List
 import           Privacy.Test.Data
@@ -43,18 +38,23 @@ prop_medians = property $ do
     let ys = Vector.fromList xs
     fastMedian ys === naiveMedian ys
 
--- prop_smallMedians :: Property
--- prop_smallMedians = property $ do
---     xs <- forAll (replicateM 5 $ Gen.int (Range.linear 0 6))
---     footnote "Size 5"
---     let m5 = runST (median5 compare 0 =<< Vector.thaw (Vector.fromList xs))
---     m5 === (sort xs !! 2)
---     footnote "Size 4"
---     let m4 = runST (median4 compare 0 =<< Vector.thaw (Vector.fromList (tail xs)))
---     assert $ m4 == (sort (tail xs) !! 2) || m4 == (sort (tail xs) !! 1)
---     footnote "Size 3"
---     let m3 = runST (median3 compare 0 =<< Vector.thaw (Vector.fromList (tail (tail xs))))
---     assert $ m3 == (sort (tail (tail xs)) !! 1)
+prop_smallSorts :: Property
+prop_smallSorts = property $ do
+    let g = Gen.int (Range.linear 0 6)
+    _0 <- forAll g
+    _1 <- forAll g
+    _2 <- forAll g
+    _3 <- forAll g
+    _4 <- forAll g
+    sort5K (\v w x y z -> [v,w,x,y,z]) (<=) _0 _1 _2 _3 _4 === sort [_0,_1,_2,_3,_4]
+    sort4K (\w x y z -> [w,x,y,z]) (<=) _0 _1 _2 _3 === sort [_0,_1,_2,_3]
+    sort3K (\x y z -> [x,y,z]) (<=) _0 _1 _2 === sort [_0,_1,_2]
+    median5 (<=) _0 _1 _2 _3 _4 === sort [_0,_1,_2,_3,_4] !! 2
+    let m4 = median4 (<=) _0 _1 _2 _3
+    let s4 = sort [_0,_1,_2,_3]
+    assert $ m4 == s4 !! 2 || m4 == s4 !! 1
+    median3 (<=) _0 _1 _2 === sort [_0,_1,_2] !! 1
+
 
 
 -- prop_kdTree :: Property
