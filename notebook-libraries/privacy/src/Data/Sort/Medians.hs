@@ -1,8 +1,7 @@
-module Data.Sort.Medians where
+module Data.Sort.Medians (median,medianBy,select,selectBy) where
 
 import qualified Data.Vector.Generic as Vector
 import qualified Data.Vector.Generic.Mutable as MVector
-import qualified Data.Vector.Algorithms.Insertion as Insertion
 
 import Control.Monad.Primitive
 import Control.Monad.ST
@@ -11,15 +10,13 @@ import Data.Bool
 
 import           Data.Sort.Small
 
-naiveMedian :: (Vector.Vector v a, Ord a) => v a -> a
-naiveMedian xs = ys Vector.! (Vector.length xs `div` 2)
-  where
-    ys = Vector.modify Insertion.sort xs
-{-# INLINE naiveMedian #-}
+median :: (Vector.Vector v a, Ord a) => v a -> a
+median xs = select (Vector.length xs `div` 2) xs
+{-# INLINE median #-}
 
-fastMedian :: (Vector.Vector v a, Ord a) => v a -> a
-fastMedian xs = select (Vector.length xs `div` 2) xs
-{-# INLINE fastMedian #-}
+medianBy :: (Vector.Vector v a) => (a -> a -> Bool) -> v a -> a
+medianBy cmp xs = selectBy cmp (Vector.length xs `div` 2) xs
+{-# INLINE medianBy #-}
 
 select :: (Vector.Vector v a, Ord a) => Int -> v a -> a
 select = selectBy (<=)
@@ -28,22 +25,22 @@ select = selectBy (<=)
 selectBy :: (Vector.Vector v a) => (a -> a -> Bool) -> Int -> v a -> a
 selectBy cmp !i (xs :: v a) =
     case ln of
-        0 -> error "Empty vector given to select"
+        0 -> errorWithoutStackTrace "Empty vector given to select"
         1 ->
             case i of
-                0 -> Vector.head xs
-                _ -> error "Select out of range"
+                0 -> Vector.unsafeHead xs
+                _ -> errorWithoutStackTrace "Select out of range"
         2 ->
-            let (h,l) = (Vector.head xs, Vector.last xs)
+            let (h,l) = (Vector.unsafeHead xs, Vector.unsafeLast xs)
             in if cmp h l
                    then case i of
                             0 -> h
                             1 -> l
-                            _ -> error "select out of range"
+                            _ -> errorWithoutStackTrace "select out of range"
                    else case i of
                             0 -> l
                             1 -> h
-                            _ -> error "select out of range"
+                            _ -> errorWithoutStackTrace "select out of range"
         3 ->
             sort3K
                 (\_0 _1 _2 ->
@@ -51,11 +48,11 @@ selectBy cmp !i (xs :: v a) =
                           0 -> _0
                           1 -> _1
                           2 -> _2
-                          _ -> error "select out of range")
+                          _ -> errorWithoutStackTrace "select out of range")
                 cmp
-                (xs Vector.! 0)
-                (xs Vector.! 1)
-                (xs Vector.! 2)
+                (xs `Vector.unsafeIndex` 0)
+                (xs `Vector.unsafeIndex` 1)
+                (xs `Vector.unsafeIndex` 2)
         4 ->
             sort4K
                 (\_0 _1 _2 _3 ->
@@ -64,12 +61,12 @@ selectBy cmp !i (xs :: v a) =
                           1 -> _1
                           2 -> _2
                           3 -> _3
-                          _ -> error "select out of range")
+                          _ -> errorWithoutStackTrace "select out of range")
                 cmp
-                (xs Vector.! 0)
-                (xs Vector.! 1)
-                (xs Vector.! 2)
-                (xs Vector.! 3)
+                (xs `Vector.unsafeIndex` 0)
+                (xs `Vector.unsafeIndex` 1)
+                (xs `Vector.unsafeIndex` 2)
+                (xs `Vector.unsafeIndex` 3)
         5 ->
             sort5K
                 (\_0 _1 _2 _3 _4 ->
@@ -79,13 +76,13 @@ selectBy cmp !i (xs :: v a) =
                           2 -> _2
                           3 -> _3
                           4 -> _4
-                          _ -> error "select out of range")
+                          _ -> errorWithoutStackTrace "select out of range")
                 cmp
-                (xs Vector.! 0)
-                (xs Vector.! 1)
-                (xs Vector.! 2)
-                (xs Vector.! 3)
-                (xs Vector.! 4)
+                (xs `Vector.unsafeIndex` 0)
+                (xs `Vector.unsafeIndex` 1)
+                (xs `Vector.unsafeIndex` 2)
+                (xs `Vector.unsafeIndex` 3)
+                (xs `Vector.unsafeIndex` 4)
         _ -> case compare i ltl of
           GT -> selectBy cmp (i - ltl - 1) gt
           EQ -> pivot
@@ -102,28 +99,28 @@ selectBy cmp !i (xs :: v a) =
                        in if j /= lnd'
                               then median5
                                        cmp
-                                       (xs Vector.! j')
-                                       (xs Vector.! (j' + 1))
-                                       (xs Vector.! (j' + 2))
-                                       (xs Vector.! (j' + 3))
-                                       (xs Vector.! (j' + 4))
+                                       (xs `Vector.unsafeIndex` j')
+                                       (xs `Vector.unsafeIndex` (j' + 1))
+                                       (xs `Vector.unsafeIndex` (j' + 2))
+                                       (xs `Vector.unsafeIndex` (j' + 3))
+                                       (xs `Vector.unsafeIndex` (j' + 4))
                               else case lnm of
-                                       1 -> xs Vector.! j'
-                                       2 -> xs Vector.! j'
+                                       1 -> xs `Vector.unsafeIndex` j'
+                                       2 -> xs `Vector.unsafeIndex` j'
                                        3 ->
                                            median3
                                                cmp
-                                               (xs Vector.! j')
-                                               (xs Vector.! (j' + 1))
-                                               (xs Vector.! (j' + 2))
+                                               (xs `Vector.unsafeIndex` j')
+                                               (xs `Vector.unsafeIndex` (j' + 1))
+                                               (xs `Vector.unsafeIndex` (j' + 2))
                                        4 ->
                                            median4
                                                cmp
-                                               (xs Vector.! j')
-                                               (xs Vector.! (j' + 1))
-                                               (xs Vector.! (j' + 2))
-                                               (xs Vector.! (j' + 3))
-                                       _ -> error "select: bug!") `asTypeOf`
+                                               (xs `Vector.unsafeIndex` j')
+                                               (xs `Vector.unsafeIndex` (j' + 1))
+                                               (xs `Vector.unsafeIndex` (j' + 2))
+                                               (xs `Vector.unsafeIndex` (j' + 3))
+                                       _ -> errorWithoutStackTrace "select: bug!") `asTypeOf`
              xs)
     ln = Vector.length xs
     (lnd',lnm) = ln `divMod` 5
@@ -135,12 +132,12 @@ selectBy cmp !i (xs :: v a) =
 {-# INLINE selectBy #-}
 
 unstablePartitionM :: forall m v a. (PrimMonad m, MVector.MVector v a)
-                  => (a -> a -> Bool) -> a -> v (PrimState m) a -> m Int
+                  => (a -> a -> Bool) -> a -> Int -> Int ->  v (PrimState m) a -> m Int
 {-# INLINE unstablePartitionM #-}
-unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
+unstablePartitionM cmp e lb ub !v = from_left 0 lb ub
   where
     from_left :: Int -> Int -> Int -> m Int
-    from_left k i j
+    from_left !k i j
       | i == j    = i <$ MVector.unsafeSwap v k (i-1)
       | otherwise = do
                       x <- MVector.unsafeRead v i
@@ -149,7 +146,7 @@ unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
                         else from_right k i (j-1)
 
     from_right :: Int -> Int -> Int -> m Int
-    from_right k i j
+    from_right !k i j
       | i == j    = i <$ MVector.unsafeSwap v k (i-1)
       | otherwise = do
                       x <- MVector.unsafeRead v j
@@ -167,7 +164,7 @@ unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
 unstablePartition1 :: Vector.Vector v a => (a -> a -> Bool) -> a -> v a -> (v a, v a)
 unstablePartition1 cmp e xs = runST $ do
         mv <- Vector.thaw xs
-        i <- unstablePartitionM cmp e mv
+        i <- unstablePartitionM cmp e 0 (Vector.length xs) mv
         v <- Vector.unsafeFreeze mv
         return (Vector.unsafeTake (i-1) v, Vector.unsafeDrop i v)
 {-# INLINE unstablePartition1 #-}
