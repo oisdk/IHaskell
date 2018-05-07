@@ -141,7 +141,7 @@ unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
   where
     from_left :: Int -> Int -> Int -> m Int
     from_left k i j
-      | i == j    = i <$ (MVector.unsafeRead v (i-1) >>= MVector.unsafeWrite v k)
+      | i == j    = i <$ MVector.unsafeSwap v k (i-1)
       | otherwise = do
                       x <- MVector.unsafeRead v i
                       if cmp e x
@@ -150,7 +150,7 @@ unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
 
     from_right :: Int -> Int -> Int -> m Int
     from_right k i j
-      | i == j    = i <$ (MVector.unsafeRead v (i-1) >>= MVector.unsafeWrite v k)
+      | i == j    = i <$ MVector.unsafeSwap v k (i-1)
       | otherwise = do
                       x <- MVector.unsafeRead v j
                       if cmp e x
