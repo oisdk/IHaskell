@@ -37,7 +37,7 @@ prop_medians = property $ do
     xs <- forAll (Gen.list (Range.linear 1 100) (Gen.int (Range.linear 0 5)))
     let ys = Vector.fromList xs
     i <- forAll (Gen.int (Range.linear 0 (Vector.length ys - 1)))
-    selectBy (<=) i ys === (sort xs !! i)
+    selectBy compare i ys === (sort xs !! i)
 
 
 prop_smallSorts :: Property
