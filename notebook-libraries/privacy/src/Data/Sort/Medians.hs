@@ -1,8 +1,15 @@
 module Data.Sort.Medians where
 
 import qualified Data.Vector.Generic as Vector
+import qualified Data.Vector.Generic.Mutable as MVector
 import qualified Data.Vector.Algorithms.Insertion as Insertion
-import Data.Sort.Small
+
+import Control.Monad.Primitive
+import Control.Monad.ST
+
+import Data.Bool
+
+import           Data.Sort.Small
 
 naiveMedian :: (Vector.Vector v a, Ord a) => v a -> a
 naiveMedian xs = ys Vector.! (Vector.length xs `div` 2)
@@ -19,7 +26,7 @@ select = selectBy (<=)
 {-# INLINE select #-}
 
 selectBy :: (Vector.Vector v a) => (a -> a -> Bool) -> Int -> v a -> a
-selectBy cmp !i xs =
+selectBy cmp !i (xs :: v a) =
     case ln of
         0 -> error "Empty vector given to select"
         1 ->
@@ -79,9 +86,10 @@ selectBy cmp !i xs =
                 (xs Vector.! 2)
                 (xs Vector.! 3)
                 (xs Vector.! 4)
-        _ | i >= ltel -> selectBy cmp (i - ltel) gt
-          | i >= ltl -> pivot
-        _ -> selectBy cmp i lt
+        _ -> case compare i ltl of
+          GT -> selectBy cmp (i - ltl - 1) gt
+          EQ -> pivot
+          LT -> selectBy cmp i lt
   where
     pivot =
         selectBy
@@ -122,8 +130,47 @@ selectBy cmp !i xs =
     lnd
       | lnm == 0 = lnd'
       | otherwise = lnd' + 1
-    (lte,gt) = Vector.unstablePartition (`cmp` pivot) xs
-    lt = Vector.filter (not . cmp pivot) lte
-    ltel = Vector.length xs - Vector.length gt
+    (gt,lt) = unstablePartition1 cmp pivot xs
     ltl = Vector.length lt
 {-# INLINE selectBy #-}
+
+unstablePartitionM :: forall m v a. (PrimMonad m, MVector.MVector v a)
+                  => (a -> a -> Bool) -> a -> v (PrimState m) a -> m Int
+{-# INLINE unstablePartitionM #-}
+unstablePartitionM cmp e !v = from_left 0 0 (MVector.length v)
+  where
+    from_left :: Int -> Int -> Int -> m Int
+    from_left k i j
+      | i == j    = i <$ (MVector.unsafeRead v (i-1) >>= MVector.unsafeWrite v k)
+      | otherwise = do
+                      x <- MVector.unsafeRead v i
+                      if cmp e x
+                        then from_left (bool k i (cmp x e)) (i+1) j
+                        else from_right k i (j-1)
+
+    from_right :: Int -> Int -> Int -> m Int
+    from_right k i j
+      | i == j    = i <$ (MVector.unsafeRead v (i-1) >>= MVector.unsafeWrite v k)
+      | otherwise = do
+                      x <- MVector.unsafeRead v j
+                      if cmp e x
+                        then do
+                               y <- MVector.unsafeRead v i
+                               MVector.unsafeWrite v i x
+                               MVector.unsafeWrite v j y
+                               from_left (bool k i (cmp x e)) (i+1) j
+                        else from_right k i (j-1)
+
+-- |
+-- >>> unstablePartition1 (<=) 3 (V.fromList [1,2,3,4,5,6] :: V.Vector Int)
+-- ([6,5,4],[2,1])
+unstablePartition1 :: Vector.Vector v a => (a -> a -> Bool) -> a -> v a -> (v a, v a)
+unstablePartition1 cmp e xs = runST $ do
+        mv <- Vector.thaw xs
+        i <- unstablePartitionM cmp e mv
+        v <- Vector.unsafeFreeze mv
+        return (Vector.unsafeTake (i-1) v, Vector.unsafeDrop i v)
+{-# INLINE unstablePartition1 #-}
+
+-- $setup
+-- >>> import qualified Data.Vector as V
