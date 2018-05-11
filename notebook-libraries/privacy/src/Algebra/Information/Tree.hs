@@ -11,6 +11,7 @@ import           Data.Bool                 (bool)
 import           Data.Coerce.Utilities
 import           Data.Semigroup            (Semigroup ((<>)))
 import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
+import           Data.Bifunctor
 
 import           Data.Map.Strict           (Map)
 import qualified Data.Map.Strict           as Map
@@ -36,7 +37,14 @@ data Tree b a
     | Node { measure :: b
            , lchild  :: Tree b a
            , rchild  :: Tree b a}
-    deriving (Functor, Foldable, Traversable)
+    deriving (Functor, Foldable, Traversable, Eq, Ord)
+
+instance Bifunctor Tree where
+    first f (Leaf x y) = Leaf (f x) y
+    first f (Node x l r) = Node (f x) (first f l) (first f r)
+    second = fmap
+    bimap f g (Leaf x y) = Leaf (f x) (g y)
+    bimap f g (Node x l r) = Node (f x) (bimap f g l) (bimap f g r)
 
 instance Foldable1 (Tree a) where
     foldMap1 f (Leaf _ x)   = f x
@@ -133,3 +141,7 @@ followPath :: Path -> Tree a b -> Either (Tree a b) b
 followPath = foldr f Left .# getPath where
   f _ _ (Leaf _ x)     = Right x
   f d k (Node _ ls rs) = k (bool ls rs d)
+
+rates :: Ord a => Tree a b -> [a]
+rates (Leaf x _) = [x]
+rates (Node x l r) = x : zipWith min (rates l) (rates r)

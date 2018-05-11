@@ -58,6 +58,7 @@ dependencies:
 - constraints
 - vector-algorithms
 - primitive
+- contravariant
 
 default-extensions:
 - TypeOperators
