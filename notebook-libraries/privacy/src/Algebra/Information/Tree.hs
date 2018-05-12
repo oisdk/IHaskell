@@ -4,7 +4,8 @@ module Algebra.Information.Tree
   ,Path(..)
   ,foldMapWithPath
   ,codeBook
-  ,followPath)
+  ,followPath
+  ,rates)
   where
 
 import           Data.Bool                 (bool)
@@ -12,6 +13,7 @@ import           Data.Coerce.Utilities
 import           Data.Semigroup            (Semigroup ((<>)))
 import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
 import           Data.Bifunctor
+import           Data.List.ZipLongest
 
 import           Data.Map.Strict           (Map)
 import qualified Data.Map.Strict           as Map
@@ -144,4 +146,4 @@ followPath = foldr f Left .# getPath where
 
 rates :: Ord a => Tree a b -> [a]
 rates (Leaf x _) = [x]
-rates (Node x l r) = x : zipWith min (rates l) (rates r)
+rates (Node x l r) = x : zipLongest min (rates l) (rates r)
