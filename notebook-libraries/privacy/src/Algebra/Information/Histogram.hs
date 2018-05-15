@@ -13,7 +13,7 @@ import           Algebra.Semirig
 
 import           Data.Strict.Pair
 import           Data.Coerce.Utilities
-import           Control.Lens                            (each, (.~), _1)
+import           Control.Lens                            (each, (.~), _1,Wrapped(..),coerced,Rewrapped,Iso)
 import           GHC.Base                                (oneShot)
 
 import           Data.Colour                             (withOpacity)
@@ -97,3 +97,15 @@ average :: (Integral b, Fractional a) => Histogram b a -> a
 average = uncurry' (/) . fmap fromIntegral . Map.foldlWithKey' f (0 :!: 0) .# getHistogram
   where
     f (n :!: d) k v = (n Prelude.+ k Prelude.* fromIntegral v) :!: (d Prelude.+ v)
+
+mapHist :: (Semigroup m, Ord b) => (a -> b) -> Histogram m a -> Histogram m b
+mapHist f (Histogram xs) = Histogram (Map.mapKeysWith (<>) f xs)
+
+instance Wrapped (Histogram a b) where
+    type Unwrapped (Histogram a b) = Map b a
+    _Wrapped' = coerced
+
+instance Rewrapped (Histogram a b) (Map b a)
+
+histIso :: Iso (Histogram a b) (Histogram c d) (Map b a) (Map d c)
+histIso = coerced

@@ -5,8 +5,11 @@ import Data.Semigroup
 import Data.Semigroup.Foldable
 import Algebra.Information.Tree
 import Data.List (sortOn)
-import Data.Foldable.Safe
+import Data.Foldable.Safe hiding (head)
 import Data.Maybe
+import Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
+import Control.Monad.State
 
 data PathLength = PathLength
     { totLength :: {-# UNPACK #-} !Int
@@ -26,8 +29,8 @@ treeFirst = getFirst . foldMap1 First
 treeLast :: Tree b a -> a
 treeLast = getLast . foldMap1 Last
 
-alphHuffman :: Ord a => [(a, Int)] -> Tree Int a
-alphHuffman =
+optAlphHuffman :: Ord a => [(a, Int)] -> Tree Int a
+optAlphHuffman =
     snd .
     fromJust .
     minimumOn (totLength . fst) .
@@ -48,3 +51,21 @@ alphHuffman =
         xl = treeLast x
         yf = treeFirst y
         yl = treeLast y
+
+alphHuffman :: Map a Int -> Tree Int a
+alphHuffman xs = evalState (go c) (Map.toList xs)
+  where
+    c = sum xs
+    go n = do
+      (x,i) <- gets head
+      if i >= n
+        then do
+          modify tail
+          pure (Leaf i x)
+        else do
+          let m = n `div` 2
+          ls <- go m
+          let nxt = n - measure ls
+          if nxt <= 0 then pure ls else do
+            rs <- go nxt
+            pure (Node (measure ls + measure rs) ls rs)

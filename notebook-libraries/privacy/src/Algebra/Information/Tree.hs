@@ -5,33 +5,38 @@ module Algebra.Information.Tree
   ,foldMapWithPath
   ,codeBook
   ,followPath
-  ,rates,kdistortion)
+  ,foldMapWithMeasure
+  ,truncateTree
+  ,histogramDistortion
+  ,mse)
   where
 
-import           Data.Bool                 (bool)
-import           Data.Coerce.Utilities
-import           Data.Semigroup            (Semigroup ((<>)))
-import           Data.Semigroup.Foldable   (Foldable1 (foldMap1))
 import           Data.Bifunctor
-import           Data.List.ZipLongest
+import           Data.Bool                     (bool)
+import           Data.Coerce.Utilities
+import           Data.Semigroup                (Semigroup ((<>)), Sum (..))
+import           Data.Semigroup.Foldable       (Foldable1 (foldMap1))
+import           Control.Lens hiding ((#))
 
-import           Data.Map.Strict           (Map)
-import qualified Data.Map.Strict           as Map
+import           Data.Map.Strict               (Map)
+import qualified Data.Map.Strict               as Map
 
-import qualified Data.Tree                 as Rose
+import qualified Data.Tree                     as Rose
 
-import           Diagrams.Backend.Cairo    (Cairo)
-import           Diagrams.Prelude          (Diagram, bg, centerXY, circle,
-                                            dashingG, fc, fontSizeL, lc,
-                                            opacity, pad, text, white, ( # ),
-                                            (~~))
-import           Diagrams.TwoD.Layout.Tree (renderTree', symmLayout)
+import           Diagrams.Backend.Cairo        (Cairo)
+import           Diagrams.Prelude              (Diagram, bg, centerXY, circle,
+                                                dashingG, fc, fontSizeL, lc,
+                                                opacity, pad, text, white,
+                                                ( # ), (~~))
+import           Diagrams.TwoD.Layout.Tree     (renderTree', symmLayout)
 
-import qualified Text.Blaze.Html5          as Blaze
+import qualified Text.Blaze.Html5              as Blaze
 
-import           IHaskell.Display          (IHaskellDisplay (display))
-import           IHaskell.Display.Blaze    ()
-import           IHaskell.Display.Diagrams (diagram)
+import           IHaskell.Display              (IHaskellDisplay (display))
+import           IHaskell.Display.Blaze        ()
+import           IHaskell.Display.Diagrams     (diagram)
+
+import           Algebra.Information.Histogram
 
 data Tree b a
     = Leaf { measure :: b
@@ -42,10 +47,10 @@ data Tree b a
     deriving (Functor, Foldable, Traversable, Eq, Ord)
 
 instance Bifunctor Tree where
-    first f (Leaf x y) = Leaf (f x) y
+    first f (Leaf x y)   = Leaf (f x) y
     first f (Node x l r) = Node (f x) (first f l) (first f r)
     second = fmap
-    bimap f g (Leaf x y) = Leaf (f x) (g y)
+    bimap f g (Leaf x y)   = Leaf (f x) (g y)
     bimap f g (Node x l r) = Node (f x) (bimap f g l) (bimap f g r)
 
 instance Foldable1 (Tree a) where
@@ -73,9 +78,9 @@ instance (Show a, Show b) => IHaskellDisplay (Tree a b) where
 
 data ShowNode a
     = ShowNode { revealed :: Bool
-               , _count :: a}
+               , _count   :: a}
     | Terminal { revealed :: Bool
-               , _val :: String}
+               , _val     :: String}
 
 showVal :: Show a => ShowNode a -> String
 showVal (ShowNode _ c) = show c
@@ -106,7 +111,7 @@ privateTree reveal generalize tree =
         Rose.Node (ShowNode False i) [Rose.Node (Terminal False (show x)) []]
     drawTree =
         pad 1.1 . centerXY . renderTree' renderNode renderBranch . symmLayout
-    maybeOp True = id
+    maybeOp True  = id
     maybeOp False = opacity 0.5
     renderNode nd =
         text (showVal nd) # fontSizeL 0.2 # maybeOp (revealed nd) <> circle 0.2 #
@@ -136,6 +141,11 @@ foldMapWithPath = go .# (. Path)
     go f (Node _ xs ys) =
         go (f . (:) False) xs <> go (f . (:) True) ys
 
+foldMapWithMeasure :: Semigroup m => (a -> b -> m) -> Tree a b -> m
+foldMapWithMeasure f = go where
+  go (Leaf x y)   = f x y
+  go (Node _ l r) = go l <> go r
+
 codeBook :: Ord b => Tree a b -> Map b Path
 codeBook = foldMapWithPath (flip Map.singleton)
 
@@ -144,39 +154,26 @@ followPath = foldr f Left .# getPath where
   f _ _ (Leaf _ x)     = Right x
   f d k (Node _ ls rs) = k (bool ls rs d)
 
-rates :: Ord a => Tree a b -> [a]
-rates (Leaf x _) = [x]
-rates (Node x l r) = x : zipLongest min (rates l) (rates r)
+truncateTree
+    :: Semigroup m
+    => (a -> Bool) -> (a -> b -> m) -> Tree a b -> Tree a m
+truncateTree reveal summarize = go
+  where
+    go nd@(Node n l r)
+      | reveal (measure l) && reveal (measure r) = Node n (go l) (go r)
+      | otherwise = Leaf n (foldMapWithMeasure summarize nd)
+    go (Leaf n x) = Leaf n (summarize n x)
+
+histogramDistortion :: (Integral a, Fractional b, Ord b) => Tree a (Histogram a b) -> b
+histogramDistortion =
+    average . auf (histIso . mapping (_Unwrapping Sum) . from histIso) foldMap dist
+  where
+    dist xs = mapHistNum (\x -> average (mapHistNum (mse x) xs)) xs
 
 mse :: Num a => a -> a -> a
-mse x y = let z = x - y in z * z
+mse x y =
+    let z = x Prelude.- y
+    in z Prelude.* z
 
-weightedAvg :: Fractional a => [(a,a)] -> a
-weightedAvg xs = n / d
-  where
-    d = sum (map snd xs)
-    n = sum (map (uncurry (*)) xs)
-
-khide :: Ord b => Int -> Tree Int b -> Tree Int (Map b Int)
-khide k nd@(Node n l r)
-    | measure l < k || measure r < k = Leaf n (hists nd)
-    | otherwise = Node n (khide k l) (khide k r)
-khide _ (Leaf n x) = Leaf n (Map.singleton x n)
-
-hists (Leaf m x) = Map.singleton x m
-hists (Node _ l r) = Map.union (hists l) (hists r)
-
-distortion :: Fractional b => Tree Int (Map b Int) -> b
-distortion ys = weightedAvg ((foldr (:) [] ys) >>= f)
-  where
-    f mp =
-        [ ( weightedAvg
-                [ ((mse x y), fromIntegral m)
-                | (y,m) <- xs ]
-          , fromIntegral n)
-        | (x,n) <- xs ]
-      where
-        xs = Map.toList mp
-
-kdistortion :: (Fractional b, Ord b) => Int -> Tree Int b -> b
-kdistortion k = distortion . khide k
+mapHistNum :: (Num n, Ord b) => (a -> b) -> Histogram n a -> Histogram n b
+mapHistNum = over (histIso . mapping (_Unwrapping Sum) . from histIso) . mapHist
