@@ -1,6 +1,7 @@
 module Algebra.Information.Histogram where
 
-import           Prelude                                 hiding (Num (..))
+import           Prelude                                 hiding ((+),(*))
+import qualified Prelude
 
 import           Data.Map.Strict                         (Map)
 import qualified Data.Map.Strict                         as Map
@@ -10,8 +11,10 @@ import           Data.Semigroup
 import           Algebra.Rig
 import           Algebra.Semirig
 
+import           Data.Strict.Pair
 import           Data.Coerce.Utilities
 import           Control.Lens                            (each, (.~), _1)
+import           GHC.Base                                (oneShot)
 
 import           Data.Colour                             (withOpacity)
 import           Data.Colour.Names                       (cornflowerblue)
@@ -41,8 +44,8 @@ newtype Histogram a b = Histogram
 instance (Semigroup a, Ord b) => Semigroup (Histogram a b) where
     (<>) = Map.unionWith (<>) `ala` getHistogram
 
-instance (Monoid a, Ord b) => Monoid (Histogram a b) where
-    mappend = Map.unionWith mappend `ala` getHistogram
+instance (Semigroup a, Ord b) => Monoid (Histogram a b) where
+    mappend = Map.unionWith (<>) `ala` getHistogram
     mempty = Histogram Map.empty
 
 instance (Semirig a, Ord b) => Semirig (Histogram a b) where
@@ -70,3 +73,27 @@ instance (Show b, BarsPlotValue a)
 
 histogramOf :: (a -> b) -> a -> Histogram b a
 histogramOf f x = Histogram (Map.singleton x (f x))
+
+median :: (Integral b, Fractional a) => Histogram b a -> a
+median (Histogram xs) =
+    Map.foldrWithKey
+        f
+        (error "Algebra.Information.Histogram.median: empty histogram")
+        xs
+        m
+  where
+    s = sum xs
+    m = s `div` 2
+    f k v a =
+        oneShot
+            (\ !n ->
+                  let nv = n - v
+                  in case compare nv 0 of
+                         LT -> k
+                         EQ | even s -> (k Prelude.+ a (-1)) / 2
+                         _ -> a nv)
+
+average :: (Integral b, Fractional a) => Histogram b a -> a
+average = uncurry' (/) . fmap fromIntegral . Map.foldlWithKey' f (0 :!: 0) .# getHistogram
+  where
+    f (n :!: d) k v = (n Prelude.+ k Prelude.* fromIntegral v) :!: (d Prelude.+ v)

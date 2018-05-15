@@ -5,7 +5,7 @@ module Algebra.Information.Tree
   ,foldMapWithPath
   ,codeBook
   ,followPath
-  ,rates)
+  ,rates,kdistortion)
   where
 
 import           Data.Bool                 (bool)
@@ -147,3 +147,36 @@ followPath = foldr f Left .# getPath where
 rates :: Ord a => Tree a b -> [a]
 rates (Leaf x _) = [x]
 rates (Node x l r) = x : zipLongest min (rates l) (rates r)
+
+mse :: Num a => a -> a -> a
+mse x y = let z = x - y in z * z
+
+weightedAvg :: Fractional a => [(a,a)] -> a
+weightedAvg xs = n / d
+  where
+    d = sum (map snd xs)
+    n = sum (map (uncurry (*)) xs)
+
+khide :: Ord b => Int -> Tree Int b -> Tree Int (Map b Int)
+khide k nd@(Node n l r)
+    | measure l < k || measure r < k = Leaf n (hists nd)
+    | otherwise = Node n (khide k l) (khide k r)
+khide _ (Leaf n x) = Leaf n (Map.singleton x n)
+
+hists (Leaf m x) = Map.singleton x m
+hists (Node _ l r) = Map.union (hists l) (hists r)
+
+distortion :: Fractional b => Tree Int (Map b Int) -> b
+distortion ys = weightedAvg ((foldr (:) [] ys) >>= f)
+  where
+    f mp =
+        [ ( weightedAvg
+                [ ((mse x y), fromIntegral m)
+                | (y,m) <- xs ]
+          , fromIntegral n)
+        | (x,n) <- xs ]
+      where
+        xs = Map.toList mp
+
+kdistortion :: (Fractional b, Ord b) => Int -> Tree Int b -> b
+kdistortion k = distortion . khide k
