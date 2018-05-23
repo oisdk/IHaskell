@@ -59,6 +59,8 @@ dependencies:
 - vector-algorithms
 - primitive
 - contravariant
+- mwc-random
+- pretty
 
 default-extensions:
 - TypeOperators

@@ -9,10 +9,13 @@ data a :!: b = !a :!: !b deriving (Eq, Ord, Show, Functor, Foldable, Traversable
 
 instance (Semigroup a, Semigroup b) => Semigroup (a :!: b) where
     (lx :!: ly) <> (rx :!: ry) = (lx <> rx) :!: (ly <> ry)
+    {-# INLINE (<>) #-}
 
 instance (Monoid a, Monoid b) => Monoid (a :!: b) where
     (lx :!: ly) `mappend` (rx :!: ry) = (lx `mappend` rx) :!: (ly `mappend` ry)
+    {-# INLINE mappend #-}
     mempty = mempty :!: mempty
+    {-# INLINE mempty #-}
 
 curry' :: ((a :!: b) -> c) -> a -> b -> c
 curry' f x y = f (x :!: y)

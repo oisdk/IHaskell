@@ -9,6 +9,8 @@ import           Diagrams.TwoD.Layout.Tree (renderTree', symmLayout)
 import           IHaskell.Display          (IHaskellDisplay (display))
 import           IHaskell.Display.Diagrams (diagram)
 
+import           Text.PrettyPrint hiding ((<>),text)
+
 data Perfect a
     = Perfect !a
     | Nest !(Perfect (Branch a))
@@ -92,3 +94,8 @@ subTree k' i tr = foldPerfect go (const Span) tr 0 k
       | sl < k || sr < k = Span l p
       | testBit i (pred (fromEnum p)) = rt (shiftL l 1 .|. 1) (pred p)
       | otherwise = lt (shiftL l 1) (pred p)
+
+prettyPerfectTree :: (a -> Doc) -> Perfect a -> Doc
+prettyPerfectTree ptr = foldPerfect f (brackets . ptr)
+  where
+    f x l y r = brackets $ hang (int (fromEnum (x + y))) 2 (l $+$ r)

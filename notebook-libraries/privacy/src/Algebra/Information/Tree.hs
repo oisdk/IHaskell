@@ -8,7 +8,8 @@ module Algebra.Information.Tree
   ,foldMapWithMeasure
   ,truncateTree
   ,histogramDistortion
-  ,mse)
+  ,mse
+  ,prettyTree)
   where
 
 import           Data.Bifunctor
@@ -20,6 +21,9 @@ import           Control.Lens hiding ((#))
 
 import           Data.Map.Strict               (Map)
 import qualified Data.Map.Strict               as Map
+
+import           Data.Strict.Pair
+
 
 import qualified Data.Tree                     as Rose
 
@@ -37,6 +41,7 @@ import           IHaskell.Display.Blaze        ()
 import           IHaskell.Display.Diagrams     (diagram)
 
 import           Algebra.Information.Histogram
+import           Text.PrettyPrint hiding ((<>), text)
 
 data Tree b a
     = Leaf { measure :: b
@@ -154,6 +159,7 @@ followPath = foldr f Left .# getPath where
   f _ _ (Leaf _ x)     = Right x
   f d k (Node _ ls rs) = k (bool ls rs d)
 
+
 truncateTree
     :: Semigroup m
     => (a -> Bool) -> (a -> b -> m) -> Tree a b -> Tree a m
@@ -164,11 +170,15 @@ truncateTree reveal summarize = go
       | otherwise = Leaf n (foldMapWithMeasure summarize nd)
     go (Leaf n x) = Leaf n (summarize n x)
 
-histogramDistortion :: (Integral a, Fractional b, Ord b) => Tree a (Histogram a b) -> b
-histogramDistortion =
-    average . auf (histIso . mapping (_Unwrapping Sum) . from histIso) foldMap dist
+
+histogramDistortion :: Fractional b => Tree b (Histogram b b) -> b
+histogramDistortion = g . foldMap f
   where
-    dist xs = mapHistNum (\x -> average (mapHistNum (mse x) xs)) xs
+    g (Sum x :!: Sum y) = x / y
+    f hist = Sum ((sm*ln) / (ln - 1)) :!: Sum ln
+      where
+        avg = average hist
+        Sum sm :!: Sum ln = Map.foldMapWithKey (\k v -> Sum (v * mse k avg) :!: Sum v) (getHistogram hist)
 
 mse :: Num a => a -> a -> a
 mse x y =
@@ -177,3 +187,8 @@ mse x y =
 
 mapHistNum :: (Num n, Ord b) => (a -> b) -> Histogram n a -> Histogram n b
 mapHistNum = over (histIso . mapping (_Unwrapping Sum) . from histIso) . mapHist
+
+prettyTree :: (a -> Doc) -> (b -> Doc) -> Tree a b -> Doc
+prettyTree fs gs = go where
+  go (Leaf x y) = brackets (fs x <+> brackets (gs y))
+  go (Node n l r) = brackets $ hang (fs n) 2 (go l $$ go r)

@@ -14,7 +14,6 @@ import           Algebra.Semirig
 import           Data.Strict.Pair
 import           Data.Coerce.Utilities
 import           Control.Lens hiding (ala)
-import           Data.Map.Lens
 import           GHC.Base                                (oneShot)
 
 import           Data.Colour                             (withOpacity)
@@ -72,8 +71,8 @@ instance (Show b, BarsPlotValue a)
       where
         (keys,vals) = unzip [ (show k, [v]) | (k,v) <- Map.toList freqs ]
 
-histogramOf :: IndexedGetting b (Map b a) s a -> s -> Histogram a b
-histogramOf x y = Histogram (toMapOf x y)
+histogramOf :: (a -> b) -> a -> Histogram b a
+histogramOf f x = Histogram (Map.singleton x (f x))
 
 median :: (Integral b, Fractional a) => Histogram b a -> a
 median (Histogram xs) =
@@ -105,8 +104,8 @@ averageOf ln x =
               Sum (n Prelude.* d) :!: Sum d)
         x
 
-average :: (Integral b, Fractional a) => Histogram b a -> a
-average = averageOf (ifolded.withIndex.to (fmap fromIntegral)) .# getHistogram
+average :: (Fractional a) => Histogram a a -> a
+average = averageOf (ifolded.withIndex) .# getHistogram
 
 mapHist :: (Semigroup m, Ord b) => (a -> b) -> Histogram m a -> Histogram m b
 mapHist f (Histogram xs) = Histogram (Map.mapKeysWith (<>) f xs)
