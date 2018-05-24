@@ -1,12 +1,18 @@
+{-# LANGUAGE TypeApplications #-}
+
 module Data.Statistics.Lens where
+
+import Prelude hiding (Num(..))
+import Algebra.Rig
+import Algebra.Wrappers
 
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
-import Data.Coerce
+import Data.Coerce.Utilities
 import Control.Lens
 import Data.Strict.Pair
 import GHC.Base (oneShot)
-import Data.Monoid (Sum(..))
+import Data.Semigroup
 
 import Statistics.Distribution.Normal (normalDistr)
 import Statistics.Distribution (genContVar)
@@ -17,12 +23,15 @@ newtype MonoidMap a b = MonoidMap
     }
 
 instance (Ord a, Monoid b) =>
+         Semigroup (MonoidMap a b) where
+    (<>) = Map.unionWith mappend `upon` getMonoidMap
+    {-# INLINE (<>) #-}
+
+instance (Ord a, Monoid b) =>
          Monoid (MonoidMap a b) where
     mempty = MonoidMap Map.empty
     {-# INLINE mempty #-}
-    mappend =
-        (coerce :: (Map a b -> Map a b -> Map a b) -> MonoidMap a b -> MonoidMap a b -> MonoidMap a b)
-            (Map.unionWith mappend)
+    mappend = (<>)
     {-# INLINE mappend #-}
 
 type Median a = Maybe (Either a (a,a))
@@ -56,20 +65,25 @@ weightedMedianOf l xs = Map.foldrWithKey f (const Nothing) mp mempty
                   MonoidMap (Map.singleton x y) :!: y)
             xs
 
-countedMedianOf :: Getting (MonoidMap a (Sum Int) :!: Sum Int) s (a, Int) -> s -> Median a
-countedMedianOf ln = weightedMedianOf (ln . seconding (_Unwrapping Sum))
+
+countedMedianOf
+    :: (RigZ i, Ord i)
+    => Getting (MonoidMap a (Generalization i) :!: Generalization i) s (a, i)
+    -> s
+    -> Median a
+countedMedianOf ln = weightedMedianOf (ln . seconding (_Unwrapping Generalization))
 
 weightedMedian :: (Ord a, Monoid b, Ord b, Foldable f) => f (a,b) -> Median a
 weightedMedian = weightedMedianOf folded
 
-countedMedian :: (Ord a, Foldable f) => f (a,Int) -> Median a
+countedMedian :: (Ord a, Foldable f, RigZ i, Ord i) => f (a,i) -> Median a
 countedMedian = countedMedianOf folded
 
-medianOf :: Getting (MonoidMap a (Sum Int) :!: Sum Int) s a -> s -> Median a
-medianOf ln = countedMedianOf (ln . to (flip (,) 1))
+medianOf :: (Ord i, Rig i) => Getting (MonoidMap a (Generalization i) :!: Generalization i) s a -> s -> Median a
+medianOf ln = countedMedianOf (ln . to (flip (,) one))
 
 median :: (Foldable f, Ord a) => f a -> Median a
-median = medianOf folded
+median = medianOf @ Int folded
 
 normalDist :: Double -> Double -> IO Double
 normalDist mean stddev =

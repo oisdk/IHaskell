@@ -1,7 +1,6 @@
-module Algebra.Information.Histogram where
+module Data.Histogram where
 
 import           Prelude                                 hiding ((+),(*))
-import qualified Prelude
 
 import           Data.Map.Strict                         (Map)
 import qualified Data.Map.Strict                         as Map
@@ -11,10 +10,8 @@ import           Data.Semigroup
 import           Algebra.Rig
 import           Algebra.Semirig
 
-import           Data.Strict.Pair
 import           Data.Coerce.Utilities
-import           Control.Lens hiding (ala)
-import           GHC.Base                                (oneShot)
+import           Control.Lens
 
 import           Data.Colour                             (withOpacity)
 import           Data.Colour.Names                       (cornflowerblue)
@@ -42,15 +39,15 @@ newtype Histogram a b = Histogram
     } deriving (Eq, Ord)
 
 instance (Semigroup a, Ord b) => Semigroup (Histogram a b) where
-    (<>) = Map.unionWith (<>) `ala` getHistogram
+    (<>) = Map.unionWith (<>) `upon` getHistogram
 
 instance (Semigroup a, Ord b) => Monoid (Histogram a b) where
-    mappend = Map.unionWith (<>) `ala` getHistogram
+    mappend = Map.unionWith (<>) `upon` getHistogram
     mempty = Histogram Map.empty
 
 instance (Semirig a, Ord b) => Semirig (Histogram a b) where
-    (+) = Map.unionWith (+) `ala` getHistogram
-    (*) = Map.intersectionWith (*) `ala` getHistogram
+    (+) = Map.unionWith (+) `upon` getHistogram
+    (*) = Map.intersectionWith (*) `upon` getHistogram
 
 instance (Semirig a, Ord b) => RigZ (Histogram a b) where
     zer = Histogram Map.empty
@@ -71,50 +68,11 @@ instance (Show b, BarsPlotValue a)
       where
         (keys,vals) = unzip [ (show k, [v]) | (k,v) <- Map.toList freqs ]
 
-histogramOf :: (a -> b) -> a -> Histogram b a
-histogramOf f x = Histogram (Map.singleton x (f x))
-
-median :: (Integral b, Fractional a) => Histogram b a -> a
-median (Histogram xs) =
-    Map.foldrWithKey
-        f
-        (error "Algebra.Information.Histogram.median: empty histogram")
-        xs
-        m
-  where
-    s = sum xs
-    m = s `div` 2
-    f k v a =
-        oneShot
-            (\ !n ->
-                  let nv = n - v
-                  in case compare nv 0 of
-                         LT -> k
-                         EQ | even s -> (k Prelude.+ a (-1)) / 2
-                         _ -> a nv)
-
-averageOf :: (Fractional a) => Getting (Sum a :!: Sum a) s (a,a) -> s -> a
-averageOf ln x =
-    uncurry'
-        (\(Sum n) (Sum d) ->
-              n / d) $
-    foldMapOf
-        ln
-        (\(n,d) ->
-              Sum (n Prelude.* d) :!: Sum d)
-        x
-
-average :: (Fractional a) => Histogram a a -> a
-average = averageOf (ifolded.withIndex) .# getHistogram
-
-mapHist :: (Semigroup m, Ord b) => (a -> b) -> Histogram m a -> Histogram m b
-mapHist f (Histogram xs) = Histogram (Map.mapKeysWith (<>) f xs)
-
 instance Wrapped (Histogram a b) where
     type Unwrapped (Histogram a b) = Map b a
     _Wrapped' = coerced
 
-instance Rewrapped (Histogram a b) (Map b a)
+instance (t ~ Map c d) => Rewrapped (Histogram a b) t
 
 histIso :: Iso (Histogram a b) (Histogram c d) (Map b a) (Map d c)
 histIso = coerced

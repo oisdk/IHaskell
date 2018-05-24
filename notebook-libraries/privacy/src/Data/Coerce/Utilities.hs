@@ -1,5 +1,5 @@
 module Data.Coerce.Utilities
-  (ala
+  (upon
   ,(<#$>)
   ,(#.)
   ,(.#))
@@ -8,10 +8,10 @@ module Data.Coerce.Utilities
 import Data.Coerce
 import Data.Profunctor.Unsafe
 
-infixr 1 `ala`
-ala :: Coercible a b => (b -> b -> b) -> (a -> b) -> a -> a -> a
-ala f _ = coerce f
-{-# INLINE ala #-}
+infixr 1 `upon`
+upon :: Coercible a b => (b -> b -> b) -> (a -> b) -> a -> a -> a
+upon f _ = coerce f
+{-# INLINE upon #-}
 
 infixl 4 <#$>
 (<#$>) :: Coercible (f a) (f b) => (a -> b) -> f a -> f b

@@ -3,7 +3,7 @@ module Algebra.Information.Huffman.Alphabetic where
 import Data.Nexus.Commutative
 import Data.Semigroup
 import Data.Semigroup.Foldable
-import Algebra.Information.Tree
+import Data.Tree.Labelled
 import Data.List (sortOn)
 import Data.Foldable.Safe hiding (head)
 import Data.Maybe

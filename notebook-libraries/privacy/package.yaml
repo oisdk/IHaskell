@@ -61,6 +61,8 @@ dependencies:
 - contravariant
 - mwc-random
 - pretty
+- HaTeX
+- text
 
 default-extensions:
 - TypeOperators

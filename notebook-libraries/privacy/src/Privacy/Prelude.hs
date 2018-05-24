@@ -4,7 +4,6 @@ module Privacy.Prelude
   where
 
 import           Algebra.Bounded                         as PrivacyPrelude
-import           Algebra.Ordering                        as PrivacyPrelude
 import           Algebra.Rig                             as PrivacyPrelude
 import           Algebra.Ring                            as PrivacyPrelude
 import           Algebra.Semirig                         as PrivacyPrelude
@@ -16,12 +15,10 @@ import           Data.Coerce.Utilities                   as PrivacyPrelude
 import           Data.Foldable                           as PrivacyPrelude
 import           Data.Function                           as PrivacyPrelude
 import           Data.List.NonEmpty                      as PrivacyPrelude (NonEmpty (..))
-import           Data.List.NonEmpty.Static               as PrivacyPrelude
 import           Data.Ord                                as PrivacyPrelude
 import           Data.Ratio                              as PrivacyPrelude
 import           Data.Semigroup                          as PrivacyPrelude
 import           Data.Semigroup.Foldable                 as PrivacyPrelude
-import           Data.String.NonEmpty                    as PrivacyPrelude
 import           Data.Traversable                        as PrivacyPrelude
 import           Graphics.Rendering.Chart.Plot.Instances as PrivacyPrelude ()
 import           Numeric.Literals                        as PrivacyPrelude

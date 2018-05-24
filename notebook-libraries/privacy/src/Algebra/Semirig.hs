@@ -13,10 +13,7 @@ import           Data.Functor.Identity
 import           Data.Ord
 import           GHC.Generics
 
-import           Data.Semigroup.Foldable
 import           Data.Semigroup
-
-import           Data.Coerce.Utilities
 
 import qualified Data.Set as Set
 import           Data.Set (Set)
@@ -134,36 +131,9 @@ instance (Ord a, Semirig b) => Semirig (Map a b) where
     (+) = Map.unionWith (+)
     (*) = Map.intersectionWith (*)
 
-newtype Generalization a = Generalization
-    { getGeneralization :: a
-    } deriving (Eq, Ord, Show)
-
-instance Semirig a => Semigroup (Generalization a) where
-    (<>) = (+) `ala` getGeneralization
-
-generalize :: (Foldable1 f, Semigroup a) => f a -> a
-generalize = fold1
-
-generalizeTo :: (Foldable1 f, Semigroup b) => (a -> b) -> f a -> b
-generalizeTo = foldMap1
-
-newtype Refinement a = Refinement
-    { getRefinement :: a
-    }
-
-instance Semirig a => Semigroup (Refinement a) where
-    (<>) = (*) `ala` getRefinement
-
-refine :: (Foldable1 f, Semirig a) => f a -> a
-refine = getRefinement #. foldMap1 Refinement
-
-refineTo :: (Foldable1 f, Semirig b) => (a -> b) -> f a -> b
-refineTo f = getRefinement #. foldMap1 (Refinement #. f)
-
 instance Semirig a => Semirig (Maybe a) where
     Nothing + ys = ys
-    xs + Nothing = xs
-    Just x + Just y = Just (x + y)
+    Just x  + ys = Just (maybe x (x+) ys)
     Nothing * _ = Nothing
     _ * Nothing = Nothing
     Just x * Just y = Just (x * y)
